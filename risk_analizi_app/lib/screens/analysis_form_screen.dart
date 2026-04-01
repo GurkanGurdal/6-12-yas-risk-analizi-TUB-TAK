@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/child_profile.dart';
 import '../services/api_service.dart';
+import 'result_screen.dart';
 
 class AnalysisFormScreen extends StatefulWidget {
   final ChildProfile profile;
@@ -37,12 +38,9 @@ class _AnalysisFormScreenState extends State<AnalysisFormScreen> {
 
     if (sonuc != null) {
       if (!mounted) return;
-      // Sonuç sayfasına geçilecek (Gelecek adım)
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Risk: ${sonuc['genel_risk_puani']}. \n(Tasarım 1 dk'ya hazır olacak)"),
-          backgroundColor: AppTheme.primaryBlue,
-        ),
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => ResultScreen(resultData: sonuc)),
       );
     } else {
       if (!mounted) return;
@@ -70,10 +68,6 @@ class _AnalysisFormScreenState extends State<AnalysisFormScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Günlük Yaşam Formu'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: AppTheme.textDark,
-        centerTitle: true,
       ),
       body: _isLoading 
       ? const Center(child: CircularProgressIndicator(color: AppTheme.primaryBlue))
@@ -82,6 +76,31 @@ class _AnalysisFormScreenState extends State<AnalysisFormScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [AppTheme.primaryBlue, AppTheme.secondaryBlue],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(22),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.auto_graph, color: Colors.white, size: 28),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Bu form, bugün için hızlı risk tahmini üretir.',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18),
               Text(
                 'Çocuğunuzun son dönemdeki alışkanlıklarını seçiniz:',
                 style: Theme.of(context).textTheme.bodyLarge,
@@ -136,7 +155,7 @@ class _AnalysisFormScreenState extends State<AnalysisFormScreen> {
                 ),
               ),
 
-              _buildSectionTitle('Haraket', Icons.directions_run),
+              _buildSectionTitle('Hareket', Icons.directions_run),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),

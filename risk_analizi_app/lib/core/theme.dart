@@ -17,6 +17,7 @@ class AppTheme {
 
   static ThemeData get lightTheme {
     return ThemeData(
+      useMaterial3: true,
       scaffoldBackgroundColor: backgroundLight,
       primaryColor: primaryBlue,
       colorScheme: const ColorScheme.light(
@@ -44,6 +45,17 @@ class AppTheme {
           fontSize: 14,
         ),
       ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: textDark,
+        centerTitle: true,
+        titleTextStyle: GoogleFonts.poppins(
+          color: textDark,
+          fontWeight: FontWeight.w700,
+          fontSize: 20,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryBlue,
@@ -64,9 +76,44 @@ class AppTheme {
         color: cardColor,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Color(0xFFE2E8F0), width: 1),
         ),
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: primaryBlue,
+        inactiveTrackColor: const Color(0xFFDCE3ED),
+        thumbColor: primaryBlue,
+        overlayColor: primaryBlue.withOpacity(0.12),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: Colors.white,
+        selectedColor: primaryBlue.withOpacity(0.16),
+        secondarySelectedColor: primaryBlue.withOpacity(0.16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: Color(0xFFE2E8F0)),
+        ),
+        labelStyle: const TextStyle(color: textDark, fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          side: WidgetStateProperty.all(const BorderSide(color: Color(0xFFD7DFEA))),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected) ? Colors.white : textDark,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected) ? primaryBlue : Colors.white,
+          ),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,

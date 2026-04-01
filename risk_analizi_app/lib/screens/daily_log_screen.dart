@@ -82,15 +82,33 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Günlük Veri Girişi'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: AppTheme.textDark,
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.timeline, color: AppTheme.primaryBlue, size: 28),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Son 7 gün verisi analiz kalitesini artırır. Bugüne veya geçmiş güne veri girebilirsiniz.',
+                      style: TextStyle(color: AppTheme.textGray, height: 1.35),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
             // Takvim Seçici
             Card(
               child: ListTile(
@@ -102,11 +120,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Bugün veya geçmiş bir güne ait verileri seçerek 7 günlük takvimi tamamlayabilirsiniz.',
-              style: TextStyle(color: AppTheme.textGray),
-            ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 4),
             
             _buildSectionTitle('Televizyon / Telefon', Icons.smartphone),
             Card(
@@ -156,7 +170,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
               ),
             ),
 
-            _buildSectionTitle('Haraket', Icons.directions_run),
+            _buildSectionTitle('Hareket', Icons.directions_run),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),

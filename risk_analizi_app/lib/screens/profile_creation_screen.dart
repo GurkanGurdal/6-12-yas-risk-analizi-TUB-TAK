@@ -46,10 +46,6 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
       backgroundColor: AppTheme.backgroundLight,
       appBar: AppBar(
         title: const Text('Profil Oluştur'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: AppTheme.textDark,
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -58,6 +54,33 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+               Container(
+                 width: double.infinity,
+                 padding: const EdgeInsets.all(20),
+                 decoration: BoxDecoration(
+                   gradient: const LinearGradient(
+                     colors: [AppTheme.primaryBlue, AppTheme.secondaryBlue],
+                     begin: Alignment.topLeft,
+                     end: Alignment.bottomRight,
+                   ),
+                   borderRadius: BorderRadius.circular(24),
+                 ),
+                 child: const Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Text(
+                       'Çocuk Profili',
+                       style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
+                     ),
+                     SizedBox(height: 8),
+                     Text(
+                       'Temel bilgileri girerek kişiselleştirilmiş risk analizi başlatın.',
+                       style: TextStyle(color: Colors.white70, fontSize: 14),
+                     ),
+                   ],
+                 ),
+               ),
+               const SizedBox(height: 24),
                Center(
                  child: CircleAvatar(
                    radius: 50,

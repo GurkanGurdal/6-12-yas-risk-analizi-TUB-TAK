@@ -5,6 +5,7 @@ import '../models/daily_log.dart';
 import '../services/storage_service.dart';
 import '../services/api_service.dart';
 import 'daily_log_screen.dart'; // Eski analiz formunun yerini alacak
+import 'result_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   final ChildProfile profile;
@@ -277,7 +278,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () {
-                            // Geliştirilecek Detay Sayfasına Geçiş
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ResultScreen(resultData: _riskResult!),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppTheme.primaryBlue),
                           child: const Text('Detaylı Raporu Gör'),
