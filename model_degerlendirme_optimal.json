@@ -1,0 +1,142 @@
+{
+  "anksiyete": {
+    "test_satir": 21736,
+    "pozitif_oran": 0.1208,
+    "varsayilan_threshold": 0.5,
+    "optimal_threshold": 0.1901,
+    "varsayilan_f1": 0.0091,
+    "varsayilan_recall": 0.0046,
+    "optimal": {
+      "accuracy": 0.7752,
+      "precision": 0.2793,
+      "recall": 0.5446,
+      "f1_score": 0.3692,
+      "roc_auc": 0.7803,
+      "specificity": 0.8069,
+      "confusion_matrix": {
+        "true_negative": 15420,
+        "false_positive": 3690,
+        "false_negative": 1196,
+        "true_positive": 1430
+      }
+    }
+  },
+  "depresyon": {
+    "test_satir": 21754,
+    "pozitif_oran": 0.0551,
+    "varsayilan_threshold": 0.5,
+    "optimal_threshold": 0.168,
+    "varsayilan_f1": 0.0,
+    "varsayilan_recall": 0.0,
+    "optimal": {
+      "accuracy": 0.8912,
+      "precision": 0.2571,
+      "recall": 0.5154,
+      "f1_score": 0.343,
+      "roc_auc": 0.8617,
+      "specificity": 0.9131,
+      "confusion_matrix": {
+        "true_negative": 18769,
+        "false_positive": 1786,
+        "false_negative": 581,
+        "true_positive": 618
+      }
+    }
+  },
+  "dehb": {
+    "test_satir": 21698,
+    "pozitif_oran": 0.1029,
+    "varsayilan_threshold": 0.5,
+    "optimal_threshold": 0.1744,
+    "varsayilan_f1": 0.0,
+    "varsayilan_recall": 0.0,
+    "optimal": {
+      "accuracy": 0.7773,
+      "precision": 0.2337,
+      "recall": 0.511,
+      "f1_score": 0.3207,
+      "roc_auc": 0.7661,
+      "specificity": 0.8078,
+      "confusion_matrix": {
+        "true_negative": 15724,
+        "false_positive": 3741,
+        "false_negative": 1092,
+        "true_positive": 1141
+      }
+    }
+  },
+  "davranis": {
+    "test_satir": 21803,
+    "pozitif_oran": 0.0813,
+    "varsayilan_threshold": 0.5,
+    "optimal_threshold": 0.1258,
+    "varsayilan_f1": 0.0,
+    "varsayilan_recall": 0.0,
+    "optimal": {
+      "accuracy": 0.7766,
+      "precision": 0.1805,
+      "recall": 0.4935,
+      "f1_score": 0.2644,
+      "roc_auc": 0.7369,
+      "specificity": 0.8017,
+      "confusion_matrix": {
+        "true_negative": 16058,
+        "false_positive": 3972,
+        "false_negative": 898,
+        "true_positive": 875
+      }
+    }
+  },
+  "gelisim_gecikmesi": {
+    "test_satir": 21751,
+    "pozitif_oran": 0.0765,
+    "varsayilan_threshold": 0.5,
+    "optimal_threshold": 0.1138,
+    "varsayilan_f1": 0.0,
+    "varsayilan_recall": 0.0,
+    "optimal": {
+      "accuracy": 0.8145,
+      "precision": 0.1587,
+      "recall": 0.3309,
+      "f1_score": 0.2145,
+      "roc_auc": 0.6532,
+      "specificity": 0.8546,
+      "confusion_matrix": {
+        "true_negative": 17165,
+        "false_positive": 2921,
+        "false_negative": 1114,
+        "true_positive": 551
+      }
+    }
+  },
+  "genel_risk": {
+    "test_satir": 21853,
+    "pozitif_oran": 0.2355,
+    "varsayilan_threshold": 0.5,
+    "optimal_threshold": 0.2526,
+    "varsayilan_f1": 0.2063,
+    "varsayilan_recall": 0.1248,
+    "optimal": {
+      "accuracy": 0.6569,
+      "precision": 0.3765,
+      "recall": 0.6967,
+      "f1_score": 0.4888,
+      "roc_auc": 0.7323,
+      "specificity": 0.6446,
+      "confusion_matrix": {
+        "true_negative": 10770,
+        "false_positive": 5937,
+        "false_negative": 1561,
+        "true_positive": 3585
+      }
+    }
+  },
+  "optimal_thresholds": {
+    "anksiyete": 0.1901,
+    "depresyon": 0.168,
+    "dehb": 0.1744,
+    "davranis": 0.1258,
+    "gelisim_gecikmesi": 0.1138,
+    "genel_risk": 0.2526
+  }
+}

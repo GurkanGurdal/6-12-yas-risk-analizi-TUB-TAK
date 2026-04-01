@@ -1,0 +1,266 @@
+{
+  "test1": {
+    "genel_risk_puani": 50,
+    "analiz_sonucu": "Yüksek Risk / Kırmızı Bölge",
+    "grafik_rengi": "#FF4444",
+    "dikkat_gerektiren_alanlar": [
+      "Fiziksel Gelişim (Yüksek)"
+    ],
+    "katmanlar": {
+      "genel_risk_ml": {
+        "ek_risk": 0.99,
+        "mutlak_risk": 15.26,
+        "temel_risk": 14.41,
+        "agirlik": "30%",
+        "kaynak": "NSCH bileşik klinik model (göreli risk)"
+      },
+      "psikolojik": {
+        "anksiyete": {
+          "ek_risk": 0,
+          "mutlak_risk": 6.31,
+          "temel_risk": 9.96
+        },
+        "depresyon": {
+          "ek_risk": 0.66,
+          "mutlak_risk": 1.31,
+          "temel_risk": 0.66
+        },
+        "dehb": {
+          "ek_risk": 0,
+          "mutlak_risk": 4.32,
+          "temel_risk": 7.11
+        },
+        "ek_risk_ortalama": 0.22,
+        "agirlik": "20%"
+      },
+      "yasam_tarzi": {
+        "risk_puani": 0.0,
+        "ekran_risk": 0,
+        "uyku_risk": 0,
+        "aktivite_risk": 0,
+        "agirlik": "30%",
+        "kaynak": "AAP/CDC kılavuzları",
+        "detaylar": "Ekran süresi uygun (≤2h); Uyku süresi uygun (9-12h); Fiziksel aktivite yeterli"
+      },
+      "gelisimsel": {
+        "davranis_bozuklugu": {
+          "ek_risk": 1.87,
+          "mutlak_risk": 5.87,
+          "temel_risk": 4.08
+        },
+        "gelisim_gecikmesi": {
+          "ek_risk": 0.65,
+          "mutlak_risk": 2.93,
+          "temel_risk": 2.3
+        }
+      },
+      "fiziksel_gelisim": {
+        "risk_puani": 100,
+        "agirlik": "20%",
+        "boy_zscore": 8.31,
+        "kilo_zscore": 7.31,
+        "bmi_zscore": 1.12,
+        "hesaplanan_bmi": 19.39,
+        "detaylar": "Boy yaşına göre çok uzun (Z=8.3); Kilo yaşına göre çok kilolu (Z=7.3)"
+      }
+    }
+  },
+  "test2": {
+    "genel_risk_puani": 50,
+    "analiz_sonucu": "Yüksek Risk / Kırmızı Bölge",
+    "grafik_rengi": "#FF4444",
+    "dikkat_gerektiren_alanlar": [
+      "Yaşam Tarzı (Yüksek)"
+    ],
+    "katmanlar": {
+      "genel_risk_ml": {
+        "ek_risk": 11.79,
+        "mutlak_risk": 29.2,
+        "temel_risk": 19.74,
+        "agirlik": "30%",
+        "kaynak": "NSCH bileşik klinik model (göreli risk)"
+      },
+      "psikolojik": {
+        "anksiyete": {
+          "ek_risk": 0,
+          "mutlak_risk": 2.46,
+          "temel_risk": 17.11
+        },
+        "depresyon": {
+          "ek_risk": 0.11,
+          "mutlak_risk": 0.76,
+          "temel_risk": 0.65
+        },
+        "dehb": {
+          "ek_risk": 8.94,
+          "mutlak_risk": 11.21,
+          "temel_risk": 2.5
+        },
+        "ek_risk_ortalama": 3.02,
+        "agirlik": "20%"
+      },
+      "yasam_tarzi": {
+        "risk_puani": 83.8,
+        "ekran_risk": 72.0,
+        "uyku_risk": 100,
+        "aktivite_risk": 80,
+        "agirlik": "30%",
+        "kaynak": "AAP/CDC kılavuzları",
+        "detaylar": "Ekran 3h fazla (max 2h); Uyku 4h eksik (min 9h); Fiziksel aktivite çok düşük"
+      },
+      "gelisimsel": {
+        "davranis_bozuklugu": {
+          "ek_risk": 12.58,
+          "mutlak_risk": 15.36,
+          "temel_risk": 3.18
+        },
+        "gelisim_gecikmesi": {
+          "ek_risk": 10.16,
+          "mutlak_risk": 12.25,
+          "temel_risk": 2.32
+        }
+      },
+      "fiziksel_gelisim": {
+        "risk_puani": 4.02,
+        "agirlik": "20%",
+        "boy_zscore": 0.27,
+        "kilo_zscore": 0.12,
+        "bmi_zscore": 0.03,
+        "hesaplanan_bmi": 15.87,
+        "detaylar": "Fiziksel gelişim yaşına uygun"
+      }
+    }
+  },
+  "test3": {
+    "genel_risk_puani": 4.09,
+    "analiz_sonucu": "Çok Düşük Risk / Yeşil Bölge",
+    "grafik_rengi": "#00CC00",
+    "dikkat_gerektiren_alanlar": [],
+    "katmanlar": {
+      "genel_risk_ml": {
+        "ek_risk": 10.49,
+        "mutlak_risk": 35.96,
+        "temel_risk": 28.45,
+        "agirlik": "30%",
+        "kaynak": "NSCH bileşik klinik model (göreli risk)"
+      },
+      "psikolojik": {
+        "anksiyete": {
+          "ek_risk": 0,
+          "mutlak_risk": 5.56,
+          "temel_risk": 12.49
+        },
+        "depresyon": {
+          "ek_risk": 0,
+          "mutlak_risk": 0.68,
+          "temel_risk": 0.69
+        },
+        "dehb": {
+          "ek_risk": 3.33,
+          "mutlak_risk": 13.93,
+          "temel_risk": 10.97
+        },
+        "ek_risk_ortalama": 1.11,
+        "agirlik": "20%"
+      },
+      "yasam_tarzi": {
+        "risk_puani": 0.0,
+        "ekran_risk": 0,
+        "uyku_risk": 0,
+        "aktivite_risk": 0,
+        "agirlik": "30%",
+        "kaynak": "AAP/CDC kılavuzları",
+        "detaylar": "Ekran süresi uygun (≤2h); Uyku süresi uygun (9-12h); Fiziksel aktivite yeterli"
+      },
+      "gelisimsel": {
+        "davranis_bozuklugu": {
+          "ek_risk": 8.41,
+          "mutlak_risk": 13.5,
+          "temel_risk": 5.56
+        },
+        "gelisim_gecikmesi": {
+          "ek_risk": 3.95,
+          "mutlak_risk": 6.34,
+          "temel_risk": 2.48
+        }
+      },
+      "fiziksel_gelisim": {
+        "risk_puani": 3.63,
+        "agirlik": "20%",
+        "boy_zscore": 0.24,
+        "kilo_zscore": 0.19,
+        "bmi_zscore": 0.09,
+        "hesaplanan_bmi": 16.84,
+        "detaylar": "Fiziksel gelişim yaşına uygun"
+      }
+    }
+  },
+  "test4": {
+    "genel_risk_puani": 61.99,
+    "analiz_sonucu": "Yüksek Risk / Kırmızı Bölge",
+    "grafik_rengi": "#FF4444",
+    "dikkat_gerektiren_alanlar": [
+      "Yaşam Tarzı (Yüksek)",
+      "DEHB Riski (Orta)",
+      "Fiziksel Gelişim (Yüksek)"
+    ],
+    "katmanlar": {
+      "genel_risk_ml": {
+        "ek_risk": 35.63,
+        "mutlak_risk": 51.96,
+        "temel_risk": 25.36,
+        "agirlik": "30%",
+        "kaynak": "NSCH bileşik klinik model (göreli risk)"
+      },
+      "psikolojik": {
+        "anksiyete": {
+          "ek_risk": 16.28,
+          "mutlak_risk": 29.9,
+          "temel_risk": 16.27
+        },
+        "depresyon": {
+          "ek_risk": 5.43,
+          "mutlak_risk": 6.16,
+          "temel_risk": 0.77
+        },
+        "dehb": {
+          "ek_risk": 29.48,
+          "mutlak_risk": 33.28,
+          "temel_risk": 5.39
+        },
+        "ek_risk_ortalama": 17.06,
+        "agirlik": "20%"
+      },
+      "yasam_tarzi": {
+        "risk_puani": 95.0,
+        "ekran_risk": 100,
+        "uyku_risk": 100,
+        "aktivite_risk": 80,
+        "agirlik": "30%",
+        "kaynak": "AAP/CDC kılavuzları",
+        "detaylar": "Ekran 5h fazla (max 3h); Uyku 4h eksik (min 8h); Fiziksel aktivite çok düşük"
+      },
+      "gelisimsel": {
+        "davranis_bozuklugu": {
+          "ek_risk": 16.13,
+          "mutlak_risk": 20.01,
+          "temel_risk": 4.62
+        },
+        "gelisim_gecikmesi": {
+          "ek_risk": 13.93,
+          "mutlak_risk": 16.4,
+          "temel_risk": 2.86
+        }
+      },
+      "fiziksel_gelisim": {
+        "risk_puani": 96.95,
+        "agirlik": "20%",
+        "boy_zscore": 0.0,
+        "kilo_zscore": 4.7,
+        "bmi_zscore": 4.05,
+        "hesaplanan_bmi": 32.87,
+        "detaylar": "Kilo yaşına göre çok kilolu (Z=4.7); BMI yaşına göre obez (Z=4.1)"
+      }
+    }
+  }
+}

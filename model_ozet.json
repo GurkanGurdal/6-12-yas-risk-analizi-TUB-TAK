@@ -1,0 +1,61 @@
+{
+  "versiyon": "v2 - Sadece Flutter özellikleri",
+  "hedef": "k2q01",
+  "sinif_isimleri": {
+    "0": "Excellent",
+    "1": "Very Good",
+    "2": "Good",
+    "3": "Fair",
+    "4": "Poor"
+  },
+  "risk_agirliklari": [
+    0,
+    25,
+    50,
+    75,
+    100
+  ],
+  "egitim_satir": 87198,
+  "test_satir": 21800,
+  "ozellik_sayisi": 18,
+  "ozellikler": [
+    "sc_age_years",
+    "sc_sex",
+    "screentime",
+    "physactiv",
+    "bedtime",
+    "bmiclass",
+    "height",
+    "weight",
+    "outdoorswkday",
+    "outdoorswkend",
+    "uyku",
+    "bmi",
+    "ekran_yas_orani",
+    "ekran_uyku_orani",
+    "ekran_siddeti",
+    "hareketsizlik",
+    "dis_mekan_ort",
+    "ekran_dismekan_orani"
+  ],
+  "feature_importance": {
+    "physactiv": 0.192608043551445,
+    "bmiclass": 0.10169269144535065,
+    "hareketsizlik": 0.08821595460176468,
+    "bedtime": 0.08043204993009567,
+    "bmi": 0.05982797220349312,
+    "uyku": 0.04700952768325806,
+    "ekran_uyku_orani": 0.0416950024664402,
+    "outdoorswkend": 0.04116952419281006,
+    "weight": 0.04006689786911011,
+    "height": 0.0390496626496315,
+    "dis_mekan_ort": 0.03839823603630066,
+    "ekran_siddeti": 0.037282880395650864,
+    "ekran_yas_orani": 0.03554561361670494,
+    "sc_age_years": 0.034665852785110474,
+    "sc_sex": 0.0339423343539238,
+    "screentime": 0.031942687928676605,
+    "ekran_dismekan_orani": 0.029654137790203094,
+    "outdoorswkday": 0.026801010593771935
+  }
+}

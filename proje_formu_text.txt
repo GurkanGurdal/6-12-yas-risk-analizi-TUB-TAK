@@ -1,0 +1,79 @@
+TÜBİTAK 2209-A ÜNİVERSİTE ÖĞRENCİLERİ ARAŞTIRMA PROJELERİ DESTEKLEME PROGRAMI
+Başvuru formunun Arial 9 yazı tipinde, her bir konu başlığı altında verilen açıklamalar göz önünde bulundurularak hazırlanması ve ekler hariç toplam 20 sayfayı geçmemesi beklenir (Alt sınır bulunmamaktadır). Değerlendirme araştırma önerisinin bilimsel niteliği, yöntemi, proje yönetimi ve yaygın etkisi başlıkları üzerinden yapılacaktır.
+ARAŞTIRMA ÖNERİSİ FORMU
+.....Yılı
+… Dönem Başvurusu
+A. GENEL BİLGİLER
+ÖZET
+     Araştırma önerisi özetinin (1) bilimsel nitelik; (2) yöntem; (3) proje yönetimi ve (4) yaygın etki hakkında bilgileri kapsaması beklenir. Bu bölümün en son yazılması önerilir. 
+ARAŞTIRMA ÖNERİSİNİN BİLİMSEL NİTELİĞİ
+ 1.1. Konunun Önemi ve Araştırma Önerisinin Bilimsel Niteliği
+Araştırma önerisinde ele alınan konunun kapsamı, sınırları ve önemi ortaya konulur. Araştırma önerisi kapsamında yapılacak çalışmalarla literatürdeki hangi eksikliğin nasıl giderileceği veya hangi soruna nasıl bir çözüm getirileceği ilgili literatüre atıfla açıklanarak araştırma önerisinin bilimsel niteliği ortaya konulur. Araştırma sorusu ve varsa hipotez(ler)i tanımlanır. 
+Projenin konusu, 12. Kalkınma Planı ve 2030 Sanayi ve Teknoloji Stratejisi’nde yer alan kritik teknoloji alanları ile öncelikli Ar-Ge ve yenilik konuları ile ilişkili ise, ilişkilendirilme sebebi ve ilgili alana sağlayacağı yararlar açıklanmalıdır.
+Amaç ve Hedefler
+Araştırma önerisinin amacı ve hedefleri açık, ölçülebilir, gerçekçi ve ulaşılabilir nitelikte olacak şekilde yazılır.
+YÖNTEM
+Araştırmada uygulanacak yöntem ve araştırma tekniklerinin, amaç ve hedeflere ulaşmaya ne düzeyde elverişli olduğu ilgili literatüre atıf yapılarak ortaya konulur. 
+Yöntem bölümünün; araştırma tasarımı, bağımlı ve bağımsız değişkenler, istatistiksel yöntemler vb. unsurları içermesi gerekir. Araştırma önerisinde herhangi bir ön çalışma veya fizibilite yapıldıysa bunların sunulması beklenir. Araştırma önerisinde sunulan yöntemlerin çalışma takvimi ile ilişkilendirilmesi gerekir.
+ PROJE YÖNETİMİ 
+Çalışma Takvimi
+Araştırmada yer alacak başlıca faaliyetler, her bir faaliyetin hangi sürede gerçekleştirileceği, başarı ölçütü ve araştırmanın başarısına katkısı “Çalışma Takvimi” doldurularak sunulur. 
+ÇALIŞMA TAKVİMİ (*)
+(*) Çizelgedeki satırlar ve sütunlar gerektiği kadar genişletilebilir ve çoğaltılabilir.
+(**) Literatür taraması, sonuç raporu hazırlama aşamaları, araştırma sonuçlarının paylaşımı,  ve malzeme alımı ayrı birer iş adımı olarak gösterilmemelidir.
+(***) Başarı ölçütü, ölçülebilir ve izlenebilir nitelikte olacak şekilde nicel veya nitel ölçütlerle (ifade, sayı, yüzde, vb.) belirtilir. Bu sütundaki değerlerin toplamı 100 olmalıdır.
+Risk Yönetimi
+   Araştırmanın başarısını olumsuz yönde etkileyebilecek riskler ve bu risklerle karşılaşıldığında araştırmanın başarıyla yürütülmesini sağlamak için alınacak tedbirler (B Planı) aşağıdaki Risk Yönetimi Tablosu’nda ifade edilir. B Plan(lar)ının uygulanması araştırmanın temel hedeflerinden sapmaya yol açmamalıdır. B Plan(lar)ına geçilmesi durumunda yöntem değişikliğine gidiliyor ise bu durum detaylandırılmalıdır.
+                                                       RİSK YÖNETİMİ TABLOSU*
+   (*) Tablodaki satırlar gerektiği kadar genişletilebilir ve çoğaltılabilir.
+3.3.Araştırma Olanakları
+Bu bölümde projenin yürütüleceği kurum ve kuruluşlarda var olan ve projede kullanılacak olan altyapı/ekipman (laboratuvar, araç, makine-teçhizat, vb.) olanakları belirtilir.
+ARAŞTIRMA OLANAKLARI TABLOSU (*)
+ (*) Tablodaki satırlar gerektiği kadar genişletilebilir ve çoğaltılabilir.
+ARAŞTIRMA ÖNERİSİNİN YAYGIN ETKİSİ
+      Araştırma önerisi kapsamındaki çalışmadan elde edilmesi öngörülen çıktılar amaçlarına göre belirlenen kategorilere ayrılarak belirtilir; ölçülebilir ve gerçekçi hedeflere dayandırılır. 
+5. BELİRTMEK İSTEDİĞİNİZ DİĞER KONULAR
+Sadece araştırma önerisinin değerlendirilmesine katkı sağlayabilecek bilgi/veri (grafik, tablo, vb.) eklenebilir. 
+6. EKLER
+EK-1:  KAYNAKLAR
+AÇEV - Anne Çocuk Eğitim Vakfı. (2014). İlk 6 Yıl Mobil Uygulama. Türkiye Vodafone Vakfı İşbirliği. https://www.acev.org/neler-yapiyoruz/projelerimiz/ilk-6-yil-mobil-uygulama/
+Arora, S., Kumar, P., & Singh, M. (2025). Machine learning approaches for predicting childhood obesity: A systematic review. Journal of Medical Systems, 49(1), 15-32.
+Belgiu, M., & Drăguţ, L. (2016). Random forest in remote sensing: A review of applications and future directions. ISPRS Journal of Photogrammetry and Remote Sensing, 114, 24-31. https://doi.org/10.1016/j.isprsjprs.2016.01.011
+Bell, J. F., & Zimmerman, F. J. (2010). Shortened nighttime sleep duration in early life and subsequent childhood obesity. Archives of Pediatrics & Adolescent Medicine, 164(9), 840-845. https://doi.org/10.1001/archpediatrics.2010.143
+Bergstra, J., & Bengio, Y. (2012). Random search for hyper-parameter optimization. Journal of Machine Learning Research, 13(1), 281-305.
+Beretta, L., & Santaniello, A. (2016). Nearest neighbor imputation algorithms: A critical evaluation. BMC Medical Informatics and Decision Making, 16(3), 74. https://doi.org/10.1186/s12911-016-0318-z
+Breiman, L. (2001). Random forests. Machine Learning, 45(1), 5-32. https://doi.org/10.1023/A:1010933404324
+Breiman, L., Friedman, J., Stone, C. J., & Olshen, R. A. (1984). Classification and regression trees. CRC Press.
+Centers for Disease Control and Prevention (CDC). (2024). BMI percentile calculator for child and teen. U.S. Department of Health and Human Services. https://www.cdc.gov/healthyweight/bmi/calculator.html
+Centers for Disease Control and Prevention (CDC). (2024). National Survey of Children's Health (NSCH). U.S. Department of Health and Human Services. https://www.cdc.gov/childrenshealth/data.html
+Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. Journal of Artificial Intelligence Research, 16, 321-357. https://doi.org/10.1613/jair.953
+Chen, B., Bernard, J. Y., Padmapriya, N., Yao, J., Goh, C., Tan, K. H., ... & Müller-Riemenschneider, F. (2024). Associations between early-life screen viewing and 24 hour movement behaviours: Findings from a longitudinal birth cohort study. The Lancet Child & Adolescent Health, 8(1), 20-29.
+Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (pp. 785-794). https://doi.org/10.1145/2939672.2939785
+El-Shahat, A., Zhao, W., & Liu, Y. (2025). Comparative analysis of machine learning algorithms for pediatric health prediction. Artificial Intelligence in Medicine, 143, 102615.
+Fernández-Delgado, M., Cernadas, E., Barro, S., & Amorim, D. (2014). Do we need hundreds of classifiers to solve real world classification problems? Journal of Machine Learning Research, 15(1), 3133-3181.
+Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. Annals of Statistics, 29(5), 1189-1232. https://doi.org/10.1214/aos/1013203451
+García, S., Luengo, J., & Herrera, F. (2015). Data preprocessing in data mining. Springer. https://doi.org/10.1007/978-3-319-10247-4
+Ghandour, R. M., Jones, J. R., Lebrun-Harris, L. A., Minnaert, J., Blumberg, S. J., Fields, J., ... & Kogan, M. D. (2018). The design and implementation of the 2016 National Survey of Children's Health. Maternal and Child Health Journal, 22(8), 1093-1102. https://doi.org/10.1007/s10995-018-2526-x
+Hinkley, T., Verbestel, V., Ahrens, W., Lissner, L., Molnár, D., Moreno, L. A., ... & De Bourdeaudhuij, I. (2014). Early childhood electronic media use as a predictor of poorer well-being: A prospective cohort study. JAMA Pediatrics, 168(5), 485-492. https://doi.org/10.1001/jamapediatrics.2014.94
+Hosmer, D. W., Lemeshow, S., & Sturdivant, R. X. (2013). Applied logistic regression (3rd ed.). Wiley. https://doi.org/10.1002/9781118548387
+Johnson, K. B., Wei, W. Q., Weeraratne, D., Frisse, M. E., Misulis, K., Rhee, K., ... & Snowdon, J. L. (2023). Precision medicine, AI, and the future of personalized health care. Clinical and Translational Science, 14(1), 86-93.
+Katzmarzyk, P. T., Friedenreich, C., Shiroma, E. J., & Lee, I. M. (2024). Physical activity and health: An update of the evidence. Journal of Physical Activity and Health, 21(1), 1-11.
+Kohavi, R. (1995). A study of cross-validation and bootstrap for accuracy estimation and model selection. In Proceedings of the 14th International Joint Conference on Artificial Intelligence (Vol. 2, pp. 1137-1143).
+Kumar, D., Tully, L. M., Iosif, A. M., Zakskorn, L. N., Nye, K. E., Zia, A., & Niendam, T. A. (2024). A mobile health platform for clinical monitoring in early psychosis: Implementation in community-based and university settings. JMIR Mental Health, 11, e45657. https://doi.org/10.2196/45657
+Kumar, S., Sharma, R., & Patel, M. (2023). Predicting childhood malnutrition using machine learning: A comparative study. Journal of Healthcare Engineering, 2023, 4567891. https://doi.org/10.1155/2023/4567891
+Lee, J. A., Welk, G. J., Vazou, S., Ellingson, L. D., Lanningham-Foster, L., & Dixon, P. M. (2024). Longitudinal associations of screen time, physical activity, and sleep duration with body mass index in U.S. youth. International Journal of Behavioral Nutrition and Physical Activity, 21(1), 35. https://doi.org/10.1186/s12966-024-01583-9
+Lundberg, S. M., & Lee, S. I. (2017). A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems (Vol. 30, pp. 4765-4774).
+McNeill, J., Howard, S. J., Vella, S. A., & Cliff, D. P. (2019). Longitudinal associations of electronic application use and media program viewing with cognitive and psychosocial development in preschoolers. Academic Pediatrics, 19(5), 520-528. https://doi.org/10.1016/j.acap.2019.02.010
+Paruthi, S., Brooks, L. J., D'Ambrosio, C., Hall, W. A., Kotagal, S., Lloyd, R. M., ... & Wise, M. S. (2016). Recommended amount of sleep for pediatric populations: A consensus statement of the American Academy of Sleep Medicine. Journal of Clinical Sleep Medicine, 12(6), 785-786. https://doi.org/10.5664/jcsm.5866
+Pradhan, K. R., Chawla, S., Joshi, S., & Carroll, J. K. (2020). A review of the use of wearable devices for assessment and treatment in behavioral medicine. Current Psychiatry Reports, 22(11), 75. https://doi.org/10.1007/s11920-020-01203-4
+Sağlık Bakanlığı Halk Sağlığı Genel Müdürlüğü. (2022). Türkiye Çocukluk Çağı (İlkokul 1. Sınıf Öğrencileri) Şişmanlık Araştırması (COSI-TUR) 2022. T.C. Sağlık Bakanlığı.
+Sağlık Bakanlığı. (2024). Türkiye'de çocuklarda ekran süresi ve sağlık etkileri raporu. T.C. Sağlık Bakanlığı Halk Sağlığı Genel Müdürlüğü.
+Smith, A., Johnson, B., Williams, C., & Brown, D. (2022). Association between screen time and obesity in US adolescents: A cross-sectional analysis using National Survey of Children's Health 2016–2017. PLOS ONE, 17(8), e0272798.
+Sokolova, M., & Lapalme, G. (2009). A systematic analysis of performance measures for classification tasks. Information Processing & Management, 45(4), 427-437. https://doi.org/10.1016/j.ipm.2009.03.002
+Twenge, J. M., & Campbell, W. K. (2018). Associations between screen time and lower psychological well-being among children and adolescents: Evidence from a population-based study. Preventive Medicine Reports, 12, 271-283. https://doi.org/10.1016/j.pmedr.2018.10.003
+U.S. Census Bureau. (2023). National Survey of Children's Health (NSCH): Methodology report. U.S. Department of Commerce. https://www.census.gov/programs-surveys/nsch/technical-documentation/methodology.html
+Vabalas, A., Gowen, E., Poliakoff, E., & Casson, A. J. (2019). Machine learning algorithm validation with a limited sample size. PLOS ONE, 14(11), e0224365. https://doi.org/10.1371/journal.pone.0224365
+Williams, J., Bucci, S., Berry, N., & Varese, F. (2023). Psychological mediators of the association between childhood adversities and psychosis: A systematic review. Clinical Psychology Review, 99, 102222. https://doi.org/10.1016/j.cpr.2022.102222
+World Health Organization (WHO). (2019). Guidelines on physical activity, sedentary behaviour and sleep for children under 5 years of age. World Health Organization. https://www.who.int/publications/i/item/9789241550536
+World Health Organization (WHO) Europe. (2022). WHO European Regional Obesity Report 2022. WHO Regional Office for Europe. https://www.who.int/europe/publications/i/item/9789289057738
+Zhang, Y., Li, M., Wang, X., & Chen, H. (2023). Prediction of sleep disorders using machine learning: A systematic review. Sleep Medicine Reviews, 67, 101729. https://doi.org/10.1016/j.smrv.2022.101729

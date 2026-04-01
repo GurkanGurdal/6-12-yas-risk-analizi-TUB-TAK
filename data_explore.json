@@ -1,0 +1,264 @@
+{
+  "sc_age_years": {
+    "dtype": "int64",
+    "non_null": 55162,
+    "null_count": 0,
+    "unique": 18,
+    "value_counts": {
+      "2": 4677,
+      "5": 4071,
+      "3": 4005,
+      "4": 3979,
+      "16": 3545,
+      "17": 3448,
+      "15": 3201,
+      "1": 2847,
+      "14": 2824,
+      "13": 2819
+    },
+    "label": "SC_AGE_YEARS"
+  },
+  "sc_sex": {
+    "dtype": "int64",
+    "non_null": 55162,
+    "null_count": 0,
+    "unique": 2,
+    "value_counts": {
+      "1": 28330,
+      "2": 26832
+    },
+    "label": "SC_SEX"
+  },
+  "bmiclass": {
+    "dtype": "object",
+    "non_null": 32065,
+    "null_count": 23097,
+    "unique": 4,
+    "value_counts": {
+      "2": 20211,
+      "3": 4589,
+      "4": 4558,
+      "1": 2707
+    },
+    "label": "BMICLASS"
+  },
+  "height": {
+    "dtype": "float64",
+    "non_null": 32319,
+    "null_count": 22843,
+    "unique": 69,
+    "value_counts": {
+      "121.92": 2023,
+      "152.4": 1843,
+      "162.56": 1830,
+      "157.47": 1787,
+      "167.63": 1672,
+      "160.02": 1584,
+      "165.1": 1558,
+      "170.18": 1373,
+      "172.72": 1207,
+      "154.94": 1163
+    },
+    "label": "HEIGHT"
+  },
+  "weight": {
+    "dtype": "float64",
+    "non_null": 32900,
+    "null_count": 22262,
+    "unique": 217,
+    "value_counts": {
+      "54.43": 1427,
+      "49.9": 1246,
+      "45.36": 1176,
+      "58.97": 1169,
+      "63.5": 936,
+      "56.7": 930,
+      "22.68": 916,
+      "68.04": 906,
+      "27.22": 898,
+      "36.29": 844
+    },
+    "label": "WEIGHT"
+  },
+  "hoursleep": {
+    "dtype": "object",
+    "non_null": 33220,
+    "null_count": 21942,
+    "unique": 7,
+    "value_counts": {
+      "4": 11507,
+      "5": 9279,
+      "6": 5819,
+      "3": 4089,
+      "2": 1235,
+      "7": 934,
+      "1": 357
+    },
+    "label": "HOURSLEEP"
+  },
+  "hoursleep05": {
+    "dtype": "object",
+    "non_null": 21305,
+    "null_count": 33857,
+    "unique": 7,
+    "value_counts": {
+      "7": 6612,
+      "5": 5435,
+      "6": 4660,
+      "4": 2592,
+      "3": 1569,
+      "2": 319,
+      "1": 118
+    },
+    "label": "HOURSLEEP05"
+  },
+  "screentime": {
+    "dtype": "object",
+    "non_null": 54196,
+    "null_count": 966,
+    "unique": 5,
+    "value_counts": {
+      "3": 15547,
+      "5": 10172,
+      "2": 9872,
+      "4": 9663,
+      "1": 8942
+    },
+    "label": "SCREENTIME"
+  },
+  "physactiv": {
+    "dtype": "object",
+    "non_null": 33234,
+    "null_count": 21928,
+    "unique": 4,
+    "value_counts": {
+      "2": 13147,
+      "3": 10469,
+      "4": 6641,
+      "1": 2977
+    },
+    "label": "PHYSACTIV"
+  },
+  "k2q01": {
+    "dtype": "object",
+    "non_null": 55031,
+    "null_count": 131,
+    "unique": 5,
+    "value_counts": {
+      "1": 36320,
+      "2": 14142,
+      "3": 3892,
+      "4": 609,
+      "5": 68
+    },
+    "label": "K2Q01"
+  },
+  "k2q33a": {
+    "dtype": "object",
+    "non_null": 54851,
+    "null_count": 311,
+    "unique": 2,
+    "value_counts": {
+      "2": 48205,
+      "1": 6646
+    },
+    "label": "K2Q33A"
+  },
+  "k2q33b": {
+    "dtype": "object",
+    "non_null": 6487,
+    "null_count": 48675,
+    "unique": 2,
+    "value_counts": {
+      "1": 5902,
+      "2": 585
+    },
+    "label": "K2Q33B"
+  },
+  "k2q32a": {
+    "dtype": "object",
+    "non_null": 54921,
+    "null_count": 241,
+    "unique": 2,
+    "value_counts": {
+      "2": 52029,
+      "1": 2892
+    },
+    "label": "K2Q32A"
+  },
+  "k2q32b": {
+    "dtype": "object",
+    "non_null": 2849,
+    "null_count": 52313,
+    "unique": 2,
+    "value_counts": {
+      "1": 2291,
+      "2": 558
+    },
+    "label": "K2Q32B"
+  },
+  "k2q31a": {
+    "dtype": "object",
+    "non_null": 54749,
+    "null_count": 413,
+    "unique": 2,
+    "value_counts": {
+      "2": 49101,
+      "1": 5648
+    },
+    "label": "K2Q31A"
+  },
+  "k2q31b": {
+    "dtype": "object",
+    "non_null": 5580,
+    "null_count": 49582,
+    "unique": 2,
+    "value_counts": {
+      "1": 5259,
+      "2": 321
+    },
+    "label": "K2Q31B"
+  },
+  "outdoorswkday": {
+    "dtype": "object",
+    "non_null": 11796,
+    "null_count": 43366,
+    "unique": 5,
+    "value_counts": {
+      "3": 4230,
+      "2": 2912,
+      "4": 2409,
+      "5": 1501,
+      "1": 744
+    },
+    "label": "OUTDOORSWKDAY"
+  },
+  "outdoorswkend": {
+    "dtype": "object",
+    "non_null": 11802,
+    "null_count": 43360,
+    "unique": 5,
+    "value_counts": {
+      "5": 3388,
+      "3": 3154,
+      "4": 3116,
+      "2": 1628,
+      "1": 516
+    },
+    "label": "OUTDOORSWKEND"
+  },
+  "bedtime": {
+    "dtype": "object",
+    "non_null": 54500,
+    "null_count": 662,
+    "unique": 5,
+    "value_counts": {
+      "2": 30937,
+      "1": 17725,
+      "3": 4244,
+      "4": 1264,
+      "5": 330
+    },
+    "label": "BEDTIME"
+  }
+}
