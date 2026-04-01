@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/responsive.dart';
 import '../core/theme.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class ResultScreen extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		final r = Responsive(context);
 		final genelRisk = _num(resultData['genel_risk_puani']);
 		final analizSonucu = _text(resultData['analiz_sonucu'], fallback: 'Sonuc hazir degil');
 		final renk = _riskColor(_text(resultData['grafik_rengi']));
@@ -16,15 +18,9 @@ class ResultScreen extends StatelessWidget {
 		final dikkatAlanlari = _toStringList(resultData['dikkat_gerektiren_alanlar']);
 
 		return Scaffold(
-			appBar: AppBar(
-				title: const Text('Detayli Rapor'),
-				backgroundColor: Colors.transparent,
-				elevation: 0,
-				foregroundColor: AppTheme.textDark,
-				centerTitle: true,
-			),
-			body: SingleChildScrollView(
-				padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+			body: SafeArea(
+				child: SingleChildScrollView(
+				padding: r.pagePadding(horizontal: 20, top: 8, bottom: 24),
 				child: Column(
 					crossAxisAlignment: CrossAxisAlignment.stretch,
 					children: [
@@ -33,10 +29,10 @@ class ResultScreen extends StatelessWidget {
 							resultText: analizSonucu,
 							riskColor: renk,
 						),
-						const SizedBox(height: 16),
+						SizedBox(height: r.scale(16)),
 						if (dikkatAlanlari.isNotEmpty)
 							_AlertCard(items: dikkatAlanlari),
-						const SizedBox(height: 16),
+						SizedBox(height: r.scale(16)),
 						_LayerCard(
 							title: 'Genel Risk ML',
 							icon: Icons.analytics_outlined,
@@ -48,7 +44,7 @@ class ResultScreen extends StatelessWidget {
 								'Agirlik: ${_text(_map(katmanlar['genel_risk_ml'])['agirlik'], fallback: '-')}',
 							],
 						),
-						const SizedBox(height: 12),
+						SizedBox(height: r.scale(12)),
 						_LayerCard(
 							title: 'Psikolojik Katman',
 							icon: Icons.psychology_alt_outlined,
@@ -60,7 +56,7 @@ class ResultScreen extends StatelessWidget {
 								'Ortalama ek risk: %${_num(_map(katmanlar['psikolojik'])['ek_risk_ortalama']).toStringAsFixed(1)}',
 							],
 						),
-						const SizedBox(height: 12),
+						SizedBox(height: r.scale(12)),
 						_LayerCard(
 							title: 'Yasam Tarzi Katmani',
 							icon: Icons.favorite_outline,
@@ -73,7 +69,7 @@ class ResultScreen extends StatelessWidget {
 								..._splitDetails(_text(_map(katmanlar['yasam_tarzi'])['detaylar'])).map((d) => '- $d'),
 							],
 						),
-						const SizedBox(height: 12),
+						SizedBox(height: r.scale(12)),
 						_LayerCard(
 							title: 'Fiziksel Gelisim',
 							icon: Icons.accessibility_new,
@@ -89,6 +85,7 @@ class ResultScreen extends StatelessWidget {
 						),
 					],
 				),
+			),
 			),
 		);
 	}
@@ -107,32 +104,33 @@ class _RiskHeroCard extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		final r = Responsive(context);
 		return Container(
-			padding: const EdgeInsets.all(20),
+			padding: EdgeInsets.all(r.scale(20)),
 			decoration: BoxDecoration(
 				gradient: LinearGradient(
 					colors: [AppTheme.primaryBlue, AppTheme.secondaryBlue],
 					begin: Alignment.topLeft,
 					end: Alignment.bottomRight,
 				),
-				borderRadius: BorderRadius.circular(24),
+				borderRadius: BorderRadius.circular(r.scale(24)),
 				boxShadow: [
 					BoxShadow(
 						color: AppTheme.primaryBlue.withOpacity(0.25),
-						blurRadius: 24,
-						offset: const Offset(0, 10),
+						blurRadius: r.scale(24),
+						offset: Offset(0, r.scale(10)),
 					),
 				],
 			),
 			child: Column(
 				children: [
-					const Text(
+					Text(
 						'Genel Risk Puani',
-						style: TextStyle(color: Colors.white70, fontSize: 15, fontWeight: FontWeight.w600),
+						style: TextStyle(color: Colors.white70, fontSize: r.scale(15), fontWeight: FontWeight.w600),
 					),
-					const SizedBox(height: 10),
+					SizedBox(height: r.scale(10)),
 					Container(
-						padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+						padding: EdgeInsets.symmetric(horizontal: r.scale(16), vertical: r.scale(10)),
 						decoration: BoxDecoration(
 							color: Colors.white,
 							borderRadius: BorderRadius.circular(999),
@@ -141,16 +139,16 @@ class _RiskHeroCard extends StatelessWidget {
 							'%${risk.toStringAsFixed(1)}',
 							style: TextStyle(
 								color: riskColor,
-								fontSize: 34,
+								fontSize: r.scale(34),
 								fontWeight: FontWeight.w800,
 							),
 						),
 					),
-					const SizedBox(height: 12),
+					SizedBox(height: r.scale(12)),
 					Text(
 						resultText,
 						textAlign: TextAlign.center,
-						style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+						style: TextStyle(color: Colors.white, fontSize: r.scale(18), fontWeight: FontWeight.w700),
 					),
 				],
 			),
@@ -165,39 +163,40 @@ class _AlertCard extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		final r = Responsive(context);
 		return Container(
-			padding: const EdgeInsets.all(16),
+			padding: EdgeInsets.all(r.scale(16)),
 			decoration: BoxDecoration(
 				color: const Color(0xFFFFFBEB),
-				borderRadius: BorderRadius.circular(20),
+				borderRadius: BorderRadius.circular(r.scale(20)),
 				border: Border.all(color: const Color(0xFFFDE68A)),
 			),
 			child: Column(
 				crossAxisAlignment: CrossAxisAlignment.start,
 				children: [
-					const Row(
+					Row(
 						children: [
-							Icon(Icons.warning_amber_rounded, color: AppTheme.riskYellow),
-							SizedBox(width: 8),
+							Icon(Icons.warning_amber_rounded, color: AppTheme.riskYellow, size: r.scale(22)),
+							SizedBox(width: r.scale(8)),
 							Text(
 								'Dikkat Gerektiren Alanlar',
-								style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppTheme.textDark),
+								style: TextStyle(fontSize: r.scale(16), fontWeight: FontWeight.w700, color: AppTheme.textDark),
 							),
 						],
 					),
-					const SizedBox(height: 10),
+					SizedBox(height: r.scale(10)),
 					...items.map(
 						(e) => Padding(
-							padding: const EdgeInsets.only(bottom: 6),
+							padding: EdgeInsets.only(bottom: r.scale(6)),
 							child: Row(
 								crossAxisAlignment: CrossAxisAlignment.start,
 								children: [
-									const Padding(
-										padding: EdgeInsets.only(top: 4),
-										child: Icon(Icons.circle, size: 8, color: AppTheme.textGray),
+									Padding(
+										padding: EdgeInsets.only(top: r.scale(4)),
+										child: Icon(Icons.circle, size: r.scale(8), color: AppTheme.textGray),
 									),
-									const SizedBox(width: 8),
-									Expanded(child: Text(e, style: const TextStyle(color: AppTheme.textDark))),
+									SizedBox(width: r.scale(8)),
+									Expanded(child: Text(e, style: TextStyle(color: AppTheme.textDark, fontSize: r.scale(14)))),
 								],
 							),
 						),
@@ -223,29 +222,30 @@ class _LayerCard extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		final r = Responsive(context);
 		return Card(
 			child: ExpansionTile(
-				tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+				tilePadding: EdgeInsets.symmetric(horizontal: r.scale(16), vertical: r.scale(4)),
 				leading: Container(
-					width: 36,
-					height: 36,
+					width: r.scale(36),
+					height: r.scale(36),
 					decoration: BoxDecoration(
 						color: accent.withOpacity(0.12),
-						borderRadius: BorderRadius.circular(12),
+						borderRadius: BorderRadius.circular(r.scale(12)),
 					),
 					child: Icon(icon, color: accent),
 				),
-				title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700, color: AppTheme.textDark)),
-				childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+				title: Text(title, style: TextStyle(fontWeight: FontWeight.w700, color: AppTheme.textDark, fontSize: r.scale(15))),
+				childrenPadding: EdgeInsets.fromLTRB(r.scale(16), 0, r.scale(16), r.scale(14)),
 				children: [
 					...lines.map(
 						(line) => Padding(
-							padding: const EdgeInsets.only(bottom: 8),
+							padding: EdgeInsets.only(bottom: r.scale(8)),
 							child: Row(
 								crossAxisAlignment: CrossAxisAlignment.start,
 								children: [
-									const Text('• ', style: TextStyle(color: AppTheme.textGray)),
-									Expanded(child: Text(line, style: const TextStyle(color: AppTheme.textDark))),
+									Text('• ', style: TextStyle(color: AppTheme.textGray, fontSize: r.scale(14))),
+									Expanded(child: Text(line, style: TextStyle(color: AppTheme.textDark, fontSize: r.scale(14)))),
 								],
 							),
 						),

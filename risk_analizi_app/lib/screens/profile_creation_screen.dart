@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../core/responsive.dart';
 import '../core/theme.dart';
 import '../models/child_profile.dart';
 import '../services/storage_service.dart';
-import 'dashboard_screen.dart';
+import 'app_navigation_shell.dart';
 
 class ProfileCreationScreen extends StatefulWidget {
   const ProfileCreationScreen({super.key});
@@ -35,20 +36,19 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => DashboardScreen(profile: profile)),
+        MaterialPageRoute(builder: (_) => AppNavigationShell(profile: profile)),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final r = Responsive(context);
     return Scaffold(
-      backgroundColor: AppTheme.backgroundLight,
-      appBar: AppBar(
-        title: const Text('Profil Oluştur'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: SingleChildScrollView(
+        padding: r.pagePadding(horizontal: 24, top: 12, bottom: 28),
         child: Form(
           key: _formKey,
           child: Column(
@@ -56,39 +56,39 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
             children: [
                Container(
                  width: double.infinity,
-                 padding: const EdgeInsets.all(20),
+                 padding: EdgeInsets.all(r.scale(20)),
                  decoration: BoxDecoration(
                    gradient: const LinearGradient(
                      colors: [AppTheme.primaryBlue, AppTheme.secondaryBlue],
                      begin: Alignment.topLeft,
                      end: Alignment.bottomRight,
                    ),
-                   borderRadius: BorderRadius.circular(24),
+                   borderRadius: BorderRadius.circular(r.scale(24)),
                  ),
-                 child: const Column(
+                 child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
                      Text(
                        'Çocuk Profili',
-                       style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
+                       style: TextStyle(color: Colors.white, fontSize: r.scale(22), fontWeight: FontWeight.w700),
                      ),
-                     SizedBox(height: 8),
+                     SizedBox(height: r.scale(8)),
                      Text(
                        'Temel bilgileri girerek kişiselleştirilmiş risk analizi başlatın.',
-                       style: TextStyle(color: Colors.white70, fontSize: 14),
+                       style: TextStyle(color: Colors.white70, fontSize: r.scale(14)),
                      ),
                    ],
                  ),
                ),
-               const SizedBox(height: 24),
+               SizedBox(height: r.scale(24)),
                Center(
                  child: CircleAvatar(
-                   radius: 50,
+                   radius: r.scale(50),
                    backgroundColor: AppTheme.primaryBlue.withOpacity(0.1),
-                   child: const Icon(Icons.child_care, size: 50, color: AppTheme.primaryBlue),
+                   child: Icon(Icons.child_care, size: r.scale(50), color: AppTheme.primaryBlue),
                  ),
                ),
-               const SizedBox(height: 32),
+               SizedBox(height: r.scale(32)),
                
                // İsim
                TextFormField(
@@ -99,11 +99,11 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                  ),
                  validator: (val) => val == null || val.isEmpty ? 'İsim gerekli' : null,
                ),
-               const SizedBox(height: 24),
+               SizedBox(height: r.scale(24)),
 
                // Cinsiyet
                const Text('Cinsiyet', style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textDark)),
-               const SizedBox(height: 8),
+               SizedBox(height: r.scale(8)),
                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -127,7 +127,7 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                     ),
                   ],
                ),
-               const SizedBox(height: 24),
+               SizedBox(height: r.scale(24)),
 
                // Yaş
                Row(
@@ -143,7 +143,7 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                   activeColor: AppTheme.primaryBlue,
                   onChanged: (val) => setState(() => _yas = val),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: r.scale(16)),
 
                 // Boy
                 Row(
@@ -159,7 +159,7 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                   activeColor: AppTheme.secondaryBlue,
                   onChanged: (val) => setState(() => _boy = val),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: r.scale(16)),
 
                 // Kilo
                 Row(
@@ -175,11 +175,11 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
                   activeColor: AppTheme.secondaryBlue,
                   onChanged: (val) => setState(() => _kilo = val),
                 ),
-                const SizedBox(height: 48),
+                SizedBox(height: r.scale(48)),
 
                 SizedBox(
                   width: double.infinity,
-                  height: 60,
+                  height: r.scale(60),
                   child: ElevatedButton(
                     onPressed: _saveProfile,
                     child: const Text('Profili Kaydet ve Başla'),
@@ -188,6 +188,7 @@ class _ProfileCreationScreenState extends State<ProfileCreationScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

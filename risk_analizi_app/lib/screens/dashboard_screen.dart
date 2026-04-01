@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
+import 'dart:ui';
+import '../core/responsive.dart';
 import '../core/theme.dart';
 import '../models/child_profile.dart';
 import '../models/daily_log.dart';
 import '../services/storage_service.dart';
 import '../services/api_service.dart';
 import 'daily_log_screen.dart'; // Eski analiz formunun yerini alacak
-import 'result_screen.dart';
+import 'analysis_report_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   final ChildProfile profile;
+  final VoidCallback? onOpenAnalysisTab;
   
-  const DashboardScreen({super.key, required this.profile});
+  const DashboardScreen({
+    super.key,
+    required this.profile,
+    this.onOpenAnalysisTab,
+  });
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -32,7 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _loadData() async {
     setState(() => _isLoadingLogs = true);
-    final logs = await StorageService.getDailyLogs();
+    final logs = await StorageService.getDailyLogsForProfile(_profile);
     setState(() {
       _logs = logs;
       _isLoadingLogs = false;
@@ -72,6 +80,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       fizikselAktivite: avgActivity,
     );
 
+    if (result != null) {
+      await StorageService.saveLatestRiskReportForProfile(_profile, result);
+    }
+
     if (mounted) {
       setState(() {
         _riskResult = result;
@@ -80,169 +92,95 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  void _showUpdateDialog() {
-    double tempBoy = _profile.heightCm;
-    double tempKilo = _profile.weightKg;
-
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (context, setStateDialog) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              title: const Text('Gelişim Güncelle'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Boy (cm)', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Slider(
-                    value: tempBoy,
-                    min: 100, max: 200,
-                    activeColor: AppTheme.secondaryBlue,
-                    onChanged: (val) => setStateDialog(() => tempBoy = val),
-                  ),
-                  Text('${tempBoy.toInt()} cm', style: const TextStyle(color: AppTheme.secondaryBlue)),
-                  const SizedBox(height: 16),
-                  
-                  const Text('Kilo (kg)', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Slider(
-                    value: tempKilo,
-                    min: 15, max: 120,
-                    activeColor: AppTheme.secondaryBlue,
-                    onChanged: (val) => setStateDialog(() => tempKilo = val),
-                  ),
-                  Text('${tempKilo.toInt()} kg', style: const TextStyle(color: AppTheme.secondaryBlue)),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  child: const Text('İptal'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    final updatedProfile = ChildProfile(
-                      name: _profile.name,
-                      gender: _profile.gender,
-                      age: _profile.age,
-                      heightCm: tempBoy,
-                      weightKg: tempKilo,
-                    );
-                    await StorageService.saveProfile(updatedProfile);
-                    setState(() => _profile = updatedProfile);
-                    if (context.mounted) {
-                      Navigator.pop(ctx);
-                      _loadData(); // Risk değişmiş olabilir
-                    }
-                  },
-                  child: const Text('Kaydet'),
-                ),
-              ],
-            );
-          }
-        );
-      }
-    );
+  double _riskPercentValue() {
+    final raw = _riskResult?['genel_risk_puani'];
+    if (raw is num) return raw.toDouble().clamp(0, 100).toDouble();
+    if (raw is String) {
+      final parsed = double.tryParse(raw.replaceAll(',', '.'));
+      if (parsed != null) return parsed.clamp(0, 100).toDouble();
+    }
+    return 0;
   }
 
   @override
   Widget build(BuildContext context) {
+    final r = Responsive(context);
     int loggedDays = _logs.length;
     double progress = (loggedDays / 7.0).clamp(0.0, 1.0);
 
     return Scaffold(
-      backgroundColor: AppTheme.backgroundLight,
-      appBar: AppBar(
-        title: const Text('Kontrol Paneli'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: AppTheme.textDark,
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.transparent,
       body: _isLoadingLogs ? const Center(child: CircularProgressIndicator()) : SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: r.pagePadding(horizontal: 24, top: 12, bottom: 28),
         child: Column(
           children: [
-            // Üst Profil Kartı
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppTheme.primaryBlue,
-                borderRadius: BorderRadius.circular(32),
-                boxShadow: [
-                  BoxShadow(color: AppTheme.primaryBlue.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 10))
-                ],
-              ),
-              child: Column(
+            // Üst Profil Header (kartsiz)
+            Column(
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        radius: 35,
-                        backgroundColor: Colors.white.withOpacity(0.2),
-                        child: Text(
-                          _profile.initial,
-                          style: const TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Merhaba,',
-                              style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 16),
+                              style: TextStyle(color: AppTheme.mutedOnDark, fontSize: r.scale(14)),
                             ),
                             Text(
                               _profile.name,
-                              style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                              style: TextStyle(color: AppTheme.accentGold, fontSize: r.scale(24), fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.white),
-                        onPressed: _showUpdateDialog,
-                        tooltip: 'Boy/Kilo Güncelle',
-                      )
+                      SizedBox(width: r.scale(12)),
+                      CircleAvatar(
+                        radius: r.scale(28),
+                        backgroundColor: Colors.white.withOpacity(0.16),
+                        child: Text(
+                          _profile.initial,
+                          style: TextStyle(fontSize: r.scale(24), color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildInfoStat('Yaş', '${_profile.age.toInt()}'),
-                      _buildInfoStat('Boy', '${_profile.heightCm.toInt()} cm'),
-                      _buildInfoStat('Kilo', '${_profile.weightKg.toInt()} kg'),
-                    ],
+                  SizedBox(height: r.scale(10)),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Yaş: ${_profile.age.toInt()}   •   Boy: ${_profile.heightCm.toInt()} cm   •   Kilo: ${_profile.weightKg.toInt()} kg',
+                      style: TextStyle(
+                        color: AppTheme.mutedOnDark,
+                        fontSize: r.scale(14, minScale: 0.9, maxScale: 1.15),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
             
-            const SizedBox(height: 32),
+            SizedBox(height: r.scale(32)),
 
             // Durum ve İlerleme veya Sonuç
             if (loggedDays < 7) ...[
-              const Text('Haftalık Analiz Bekleniyor', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
-              const SizedBox(height: 16),
+              Text('Haftalık Analiz Bekleniyor', style: TextStyle(fontSize: r.scale(18), fontWeight: FontWeight.bold, color: AppTheme.textOnDark)),
+              SizedBox(height: r.scale(16)),
               LinearProgressIndicator(
                 value: progress,
-                minHeight: 12,
-                backgroundColor: Colors.grey[300],
-                valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.riskYellow),
-                borderRadius: BorderRadius.circular(10),
+                minHeight: r.scale(12),
+                backgroundColor: Colors.white24,
+                valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accentGold),
+                borderRadius: BorderRadius.circular(r.scale(10)),
               ),
-              const SizedBox(height: 8),
-              Text('$loggedDays/7 Gün Tamamlandı', style: const TextStyle(color: AppTheme.textGray)),
-              const SizedBox(height: 16),
-              const Text(
+              SizedBox(height: r.scale(8)),
+              Text('$loggedDays/7 Gün Tamamlandı', style: TextStyle(color: AppTheme.mutedOnDark, fontSize: r.scale(14))),
+              SizedBox(height: r.scale(16)),
+              Text(
                 'Yapay Zeka analizinin hesaplanabilmesi için 7 günlük uyku, ekran ve aktivite verisi girilmelidir. Eksik günleri + butonundan ekleyebilirsiniz.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppTheme.textGray, fontSize: 13),
+                style: TextStyle(color: AppTheme.mutedOnDark, fontSize: r.scale(13)),
               ),
             ] else ...[
               if (_isAnalyzing)
@@ -254,41 +192,103 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 )
               else if (_riskResult != null)
-                Card(
-                  elevation: 4,
-                  shadowColor: AppTheme.primaryBlue.withOpacity(0.2),
-                  color: AppTheme.primaryBlue,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      children: [
-                        const Icon(Icons.psychology, size: 48, color: Colors.white),
-                        const SizedBox(height: 16),
-                        const Text('Haftalık Risk Durumu', style: TextStyle(color: Colors.white70, fontSize: 16)),
-                        const SizedBox(height: 8),
-                        Text(
-                          '%${_riskResult!['genel_risk_puani']}',
-                          style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(r.scale(24)),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.14),
+                        borderRadius: BorderRadius.circular(r.scale(24)),
+                        border: Border.all(color: Colors.white.withOpacity(0.30)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.18),
+                            blurRadius: r.scale(18),
+                            offset: Offset(0, r.scale(8)),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(r.scale(16), r.scale(14), r.scale(16), r.scale(16)),
+                        child: Column(
+                          children: [
+                            Icon(Icons.psychology, size: r.scale(30), color: Colors.white),
+                            SizedBox(height: r.scale(6)),
+                            Text('Haftalık Risk Durumu', style: TextStyle(color: Colors.white70, fontSize: r.scale(16))),
+                            SizedBox(height: r.scale(6)),
+                            LayoutBuilder(
+                              builder: (context, constraints) {
+                                final size = (constraints.maxWidth * 0.72).clamp(205.0, 235.0);
+                                return SizedBox(
+                                  height: r.scale(260),
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: size,
+                                      height: size,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Positioned.fill(
+                                            child: Transform.rotate(
+                                              angle: math.pi,
+                                              child: CircularProgressIndicator(
+                                                value: _riskPercentValue() / 100,
+                                                strokeWidth: r.scale(16, minScale: 0.9, maxScale: 1.2),
+                                                backgroundColor: Colors.white24,
+                                                valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accentGold),
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                '%${_riskPercentValue().toStringAsFixed(0)}',
+                                                style: TextStyle(
+                                                  fontSize: (size * 0.18).clamp(r.scale(36), r.scale(52)),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Risk',
+                                                style: TextStyle(color: Colors.white70, fontSize: r.scale(14)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(height: r.scale(8)),
+                            Text(
+                              _riskResult!['analiz_sonucu'],
+                              style: TextStyle(color: Colors.white, fontSize: r.scale(18), fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(height: r.scale(16)),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (widget.onOpenAnalysisTab != null) {
+                                  widget.onOpenAnalysisTab!();
+                                  return;
+                                }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => AnalysisReportScreen(profile: _profile),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppTheme.primaryBlue),
+                              child: const Text('Detaylı Raporu Gör'),
+                            )
+                          ],
                         ),
-                        Text(
-                          _riskResult!['analiz_sonucu'],
-                          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ResultScreen(resultData: _riskResult!),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: AppTheme.primaryBlue),
-                          child: const Text('Detaylı Raporu Gör'),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 )
@@ -296,16 +296,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const Text('Sonuç alınamadı, API bağlantısını kontrol edin.', style: TextStyle(color: AppTheme.riskRed)),
             ],
 
-            const SizedBox(height: 32),
+            SizedBox(height: r.scale(32)),
             // Günlük Ekle Butonu
             SizedBox(
               width: double.infinity,
-              height: 60,
+              height: r.scale(60),
               child: ElevatedButton.icon(
                 onPressed: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const DailyLogScreen()),
+                    MaterialPageRoute(builder: (_) => DailyLogScreen(profile: _profile)),
                   );
                   // Veri eklenince tekrar yükle
                   _loadData();
@@ -313,7 +313,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 icon: const Icon(Icons.calendar_month),
                 label: const Text('Günlük İstatistik Gir (+)'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.riskGreen,
+                  backgroundColor: AppTheme.accentPeach,
+                  foregroundColor: AppTheme.primaryBlue,
                 ),
               ),
             ),
@@ -323,13 +324,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildInfoStat(String label, String value) {
-    return Column(
-      children: [
-        Text(value, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 4),
-        Text(label, style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14)),
-      ],
-    );
-  }
 }

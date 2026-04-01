@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import '../core/responsive.dart';
 import '../core/theme.dart';
+import '../models/child_profile.dart';
 import '../models/daily_log.dart';
 import '../services/storage_service.dart';
 
 class DailyLogScreen extends StatefulWidget {
-  const DailyLogScreen({super.key});
+  final ChildProfile profile;
+
+  const DailyLogScreen({super.key, required this.profile});
 
   @override
   State<DailyLogScreen> createState() => _DailyLogScreenState();
@@ -52,7 +56,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
       activityLevel: _fizikselAktivite,
     );
 
-    await StorageService.saveDailyLog(log);
+    await StorageService.saveDailyLogForProfile(widget.profile, log);
 
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -65,12 +69,13 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
   }
 
   Widget _buildSectionTitle(String title, IconData icon) {
+    final r = Responsive(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: r.scale(16.0)),
       child: Row(
         children: [
-          Icon(icon, color: AppTheme.secondaryBlue, size: 24),
-          const SizedBox(width: 8),
+          Icon(icon, color: AppTheme.secondaryBlue, size: r.scale(24)),
+          SizedBox(width: r.scale(8)),
           Text(title, style: Theme.of(context).textTheme.titleLarge),
         ],
       ),
@@ -79,53 +84,51 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final r = Responsive(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Günlük Veri Girişi'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+      body: SafeArea(
+        child: SingleChildScrollView(
+        padding: r.pagePadding(horizontal: 24, top: 12, bottom: 28),
         child: Column(
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(18),
+              padding: EdgeInsets.all(r.scale(18)),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(r.scale(20)),
                 border: Border.all(color: const Color(0xFFE2E8F0)),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.timeline, color: AppTheme.primaryBlue, size: 28),
-                  SizedBox(width: 10),
+                  Icon(Icons.timeline, color: AppTheme.primaryBlue, size: r.scale(28)),
+                  SizedBox(width: r.scale(10)),
                   Expanded(
                     child: Text(
                       'Son 7 gün verisi analiz kalitesini artırır. Bugüne veya geçmiş güne veri girebilirsiniz.',
-                      style: TextStyle(color: AppTheme.textGray, height: 1.35),
+                      style: TextStyle(color: AppTheme.textGray, height: 1.35, fontSize: r.scale(14)),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: r.scale(16)),
             // Takvim Seçici
             Card(
               child: ListTile(
-                leading: const Icon(Icons.calendar_month, color: AppTheme.primaryBlue, size: 32),
+                leading: Icon(Icons.calendar_month, color: AppTheme.primaryBlue, size: r.scale(32)),
                 title: const Text('Tarih Seçin'),
                 subtitle: Text("${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}"),
                 trailing: const Icon(Icons.edit),
                 onTap: _pickDate,
               ),
             ),
-            const SizedBox(height: 16),
-            const SizedBox(height: 4),
+            SizedBox(height: r.scale(20)),
             
             _buildSectionTitle('Televizyon / Telefon', Icons.smartphone),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(r.scale(16)),
                 child: Column(
                   children: [
                     Row(
@@ -149,7 +152,7 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
             _buildSectionTitle('Uyku Düzeni', Icons.bed_outlined),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(r.scale(16)),
                 child: Column(
                   children: [
                     Row(
@@ -173,12 +176,12 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
             _buildSectionTitle('Hareket', Icons.directions_run),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(r.scale(16)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Aktivite Seviyesi', style: TextStyle(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 16),
+                    SizedBox(height: r.scale(16)),
                     SizedBox(
                       width: double.infinity,
                       child: SegmentedButton<int>(
@@ -198,20 +201,21 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
               ),
             ),
 
-            const SizedBox(height: 48),
+            SizedBox(height: r.scale(48)),
             
             SizedBox(
               width: double.infinity,
-              height: 60,
+              height: r.scale(60),
               child: ElevatedButton.icon(
                 onPressed: _saveLog,
                 icon: const Icon(Icons.save),
                 label: const Text('Bu Günü Kaydet'),
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: r.scale(32)),
           ],
         ),
+      ),
       ),
     );
   }

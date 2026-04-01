@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'core/responsive.dart';
 import 'core/theme.dart';
+import 'screens/app_navigation_shell.dart';
 import 'screens/profile_creation_screen.dart';
-import 'screens/dashboard_screen.dart';
 import 'services/storage_service.dart';
 
 void main() {
@@ -18,6 +19,17 @@ class RiskAnaliziApp extends StatelessWidget {
       title: 'Zeka Katmanları',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      builder: (context, child) {
+        return DecoratedBox(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/background.jpeg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -52,9 +64,9 @@ class _AppInitializerState extends State<AppInitializer> {
     
     if (!mounted) return;
     
-    // Eğer profil varsa Ana Ekrana (Dashboard), yoksa Kayıt Ekranına (ProfileCreationScreen) geç
+    // Eğer profil varsa sekmeli ana iskelete, yoksa kayıt ekranına geç
     if (profile != null) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardScreen(profile: profile)));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AppNavigationShell(profile: profile)));
     } else {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ProfileCreationScreen()));
     }
@@ -62,6 +74,7 @@ class _AppInitializerState extends State<AppInitializer> {
 
   @override
   Widget build(BuildContext context) {
+    final r = Responsive(context);
     // Splash ekranı gibi görünecek basit yükleme durumu
     return Scaffold(
       backgroundColor: AppTheme.primaryBlue,
@@ -69,16 +82,17 @@ class _AppInitializerState extends State<AppInitializer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.health_and_safety, size: 80, color: Colors.white),
-            const SizedBox(height: 24),
+            Icon(Icons.health_and_safety, size: r.scale(80), color: Colors.white),
+            SizedBox(height: r.scale(24)),
             Text(
               'Zeka Katmanları',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: r.scale(28),
                   ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: r.scale(40)),
             const CircularProgressIndicator(color: Colors.white),
           ],
         ),
