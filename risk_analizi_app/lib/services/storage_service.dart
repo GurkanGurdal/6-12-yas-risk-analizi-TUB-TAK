@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/child_profile.dart';
 import '../models/daily_log.dart';
+import '../models/growth_record.dart';
 
 class StorageService {
   static const String _profileKey = 'child_profile';
@@ -89,6 +90,13 @@ class StorageService {
     await saveProfile(profile);
   }
 
+  static Future<void> updateProfileAt(int index, ChildProfile updated) async {
+    final profiles = await getProfiles();
+    if (index < 0 || index >= profiles.length) return;
+    profiles[index] = updated;
+    await saveProfiles(profiles);
+  }
+
   static Future<void> deleteProfileAt(int index) async {
     final profiles = await getProfiles();
     if (index < 0 || index >= profiles.length) return;
@@ -143,9 +151,6 @@ class StorageService {
     final raw = [
       profile.name.trim().toLowerCase(),
       profile.gender,
-      profile.age.toStringAsFixed(2),
-      profile.heightCm.toStringAsFixed(2),
-      profile.weightKg.toStringAsFixed(2),
     ].join('|');
     final encoded = base64UrlEncode(utf8.encode(raw)).replaceAll('=', '');
     return '${_logsKey}_$encoded';
@@ -155,9 +160,6 @@ class StorageService {
     final raw = [
       profile.name.trim().toLowerCase(),
       profile.gender,
-      profile.age.toStringAsFixed(2),
-      profile.heightCm.toStringAsFixed(2),
-      profile.weightKg.toStringAsFixed(2),
     ].join('|');
     final encoded = base64UrlEncode(utf8.encode(raw)).replaceAll('=', '');
     return '${_riskReportKey}_$encoded';
@@ -212,6 +214,13 @@ class StorageService {
     await prefs.setString(_logsKey, jsonEncode(listMap));
   }
 
+  /// Belirli bir profil ve tarih için log döner (yoksa null)
+  static Future<DailyLog?> getDailyLogForDate(ChildProfile profile, String dateStr) async {
+    final logs = await getDailyLogsForProfile(profile);
+    final idx = logs.indexWhere((l) => l.date == dateStr);
+    return idx >= 0 ? logs[idx] : null;
+  }
+
   static Future<void> saveDailyLogForProfile(ChildProfile profile, DailyLog log) async {
     final prefs = await SharedPreferences.getInstance();
     final key = _profileLogsKey(profile);
@@ -264,5 +273,42 @@ class StorageService {
     } catch (_) {}
 
     return null;
+  }
+
+  // ==== BÜYÜME KAYITLARI ====
+  static const String _growthKey = 'growth_records';
+
+  static String _profileGrowthKey(ChildProfile profile) {
+    final raw = profile.name.trim().toLowerCase();
+    final encoded = base64UrlEncode(utf8.encode(raw)).replaceAll('=', '');
+    return '${_growthKey}_$encoded';
+  }
+
+  static Future<List<GrowthRecord>> getGrowthRecords(ChildProfile profile) async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonStr = prefs.getString(_profileGrowthKey(profile));
+    if (jsonStr == null) return [];
+    try {
+      final List<dynamic> list = jsonDecode(jsonStr);
+      return list.map((m) => GrowthRecord.fromJson(m)).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  static Future<void> saveGrowthRecord(ChildProfile profile, GrowthRecord record) async {
+    final records = await getGrowthRecords(profile);
+    final idx = records.indexWhere((r) => r.date == record.date);
+    if (idx >= 0) {
+      records[idx] = record;
+    } else {
+      records.add(record);
+    }
+    records.sort((a, b) => a.date.compareTo(b.date));
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _profileGrowthKey(profile),
+      jsonEncode(records.map((r) => r.toJson()).toList()),
+    );
   }
 }

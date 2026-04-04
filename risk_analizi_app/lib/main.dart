@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'core/responsive.dart';
 import 'core/theme.dart';
 import 'screens/app_navigation_shell.dart';
@@ -16,20 +17,9 @@ class RiskAnaliziApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Zeka Katmanları',
+      title: 'Zeka Katmanlari',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      builder: (context, child) {
-        return DecoratedBox(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('lib/assets/background.jpeg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: child ?? const SizedBox.shrink(),
-        );
-      },
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -38,6 +28,12 @@ class RiskAnaliziApp extends StatelessWidget {
       supportedLocales: const [
         Locale('tr', 'TR'),
       ],
+      builder: (context, child) {
+        return NeumorphicTheme(
+          theme: AppTheme.neumorphicTheme,
+          child: child!,
+        );
+      },
       home: const AppInitializer(),
     );
   }
@@ -49,52 +45,133 @@ class AppInitializer extends StatefulWidget {
   State<AppInitializer> createState() => _AppInitializerState();
 }
 
-class _AppInitializerState extends State<AppInitializer> {
+class _AppInitializerState extends State<AppInitializer>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animCtrl;
+  late Animation<double> _fadeAnim;
+  late Animation<double> _scaleAnim;
+
   @override
   void initState() {
     super.initState();
+    _animCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _animCtrl, curve: const Interval(0, 0.6, curve: Curves.easeOut)),
+    );
+    _scaleAnim = Tween<double>(begin: 0.8, end: 1).animate(
+      CurvedAnimation(parent: _animCtrl, curve: const Interval(0, 0.6, curve: Curves.easeOutBack)),
+    );
+    _animCtrl.forward();
     _checkProfile();
   }
 
+  @override
+  void dispose() {
+    _animCtrl.dispose();
+    super.dispose();
+  }
+
   Future<void> _checkProfile() async {
-    // Hafızadan profili oku
     final profile = await StorageService.getProfile();
-    // 1 sn splash efekti için minik bir bekleme (Opsiyonel)
-    await Future.delayed(const Duration(milliseconds: 500));
-    
+    await Future.delayed(const Duration(milliseconds: 1400));
+
     if (!mounted) return;
-    
-    // Eğer profil varsa sekmeli ana iskelete, yoksa kayıt ekranına geç
+
     if (profile != null) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AppNavigationShell(profile: profile)));
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => AppNavigationShell(profile: profile),
+          transitionsBuilder: (_, a, __, child) =>
+              FadeTransition(opacity: a, child: child),
+          transitionDuration: const Duration(milliseconds: 500),
+        ),
+      );
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ProfileCreationScreen()));
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const ProfileCreationScreen(),
+          transitionsBuilder: (_, a, __, child) =>
+              FadeTransition(opacity: a, child: child),
+          transitionDuration: const Duration(milliseconds: 500),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final r = Responsive(context);
-    // Splash ekranı gibi görünecek basit yükleme durumu
     return Scaffold(
-      backgroundColor: AppTheme.primaryBlue,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.health_and_safety, size: r.scale(80), color: Colors.white),
-            SizedBox(height: r.scale(24)),
-            Text(
-              'Zeka Katmanları',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: r.scale(28),
-                  ),
-            ),
-            SizedBox(height: r.scale(40)),
-            const CircularProgressIndicator(color: Colors.white),
-          ],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: AppTheme.primaryGradient,
+        ),
+        child: AnimatedBuilder(
+          animation: _animCtrl,
+          builder: (context, child) {
+            return Opacity(
+              opacity: _fadeAnim.value,
+              child: Transform.scale(
+                scale: _scaleAnim.value,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: r.scale(100),
+                      height: r.scale(100),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(r.scale(28)),
+                      ),
+                      child: Icon(
+                        Icons.health_and_safety_rounded,
+                        size: r.scale(52),
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: r.scale(28)),
+                    Text(
+                      'Zeka Katmanlari',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: r.scale(30),
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    SizedBox(height: r.scale(8)),
+                    Text(
+                      'Cocuk Gelisim Analizi',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: r.scale(15),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: r.scale(48)),
+                    SizedBox(
+                      width: r.scale(160),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(r.scale(4)),
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.white.withOpacity(0.2),
+                          valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                          minHeight: r.scale(3),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

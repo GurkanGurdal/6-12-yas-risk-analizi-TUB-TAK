@@ -1,31 +1,31 @@
 class DailyLog {
   final String date; // YYYY-MM-DD formatında, örn: "2024-04-01"
-  final double sleepHours;
-  final double screenHours;
-  final int activityLevel; // 0=Düşük, 1=Orta, 2=Yüksek
+  final double? sleepHours;
+  final double? screenHours;
+  final int? activityLevel; // 0=Düşük, 1=Orta, 2=Yüksek
 
   DailyLog({
     required this.date,
-    required this.sleepHours,
-    required this.screenHours,
-    required this.activityLevel,
+    this.sleepHours,
+    this.screenHours,
+    this.activityLevel,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'date': date,
-      'sleepHours': sleepHours,
-      'screenHours': screenHours,
-      'activityLevel': activityLevel,
+      if (sleepHours != null) 'sleepHours': sleepHours,
+      if (screenHours != null) 'screenHours': screenHours,
+      if (activityLevel != null) 'activityLevel': activityLevel,
     };
   }
 
   factory DailyLog.fromJson(Map<String, dynamic> map) {
     return DailyLog(
       date: map['date'],
-      sleepHours: map['sleepHours'],
-      screenHours: map['screenHours'],
-      activityLevel: map['activityLevel'] ?? 1,
+      sleepHours: (map['sleepHours'] as num?)?.toDouble(),
+      screenHours: (map['screenHours'] as num?)?.toDouble(),
+      activityLevel: map['activityLevel'] as int?,
     );
   }
 }
