@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Canlı sunucu URL'si (Railway)
-  static const String _productionUrl = 'https://RAILWAY_URL_BURAYA'; // Railway deploy sonrası güncellenecek
+  static const String _productionUrl = 'https://cocuk-gelisim-risk-api-production.up.railway.app';
   // Lokal geliştirme URL'si
   static const String _localUrl = 'http://10.0.2.2:8000';
 
