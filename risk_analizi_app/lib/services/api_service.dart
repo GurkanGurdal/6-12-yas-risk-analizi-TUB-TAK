@@ -1,10 +1,26 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // Android Emülatöründen bilgisayardaki localhost'a erişmek için 10.0.2.2 kullanılır.
-  // Gerçek bir cihaza kuracaksanız veya sunucu kurduğunuzda burayı değiştirmelisiniz.
-  static const String baseUrl = 'http://10.0.2.2:8000';
+  // Canlı sunucu URL'si (Render)
+  static const String _productionUrl = 'https://cocuk-gelisim-risk-api.onrender.com';
+  // Lokal geliştirme URL'si
+  static const String _localUrl = 'http://10.0.2.2:8000';
+
+  static String get baseUrl {
+    if (kDebugMode) {
+      // Debug modda: Web ise localhost, Android emülatör ise 10.0.2.2
+      if (kIsWeb) return 'http://localhost:8000';
+      try {
+        if (Platform.isAndroid) return 'http://10.0.2.2:8000';
+        if (Platform.isIOS) return 'http://localhost:8000';
+      } catch (_) {}
+      return _localUrl;
+    }
+    return _productionUrl;
+  }
 
   Future<Map<String, dynamic>?> analizYap({
     required double yas,
