@@ -341,10 +341,13 @@ def birlesik_risk_hesapla(
     """
     Tüm riskleri birleştirip final skoru üretir.
     
-    Yapı (3 katman — çift sayma düzeltildi):
-    - Psikolojik (anksiyete, depresyon, DEHB, davranış):  %35
-    - Yaşam Tarzı (AAP/CDC kılavuzları):                  %35
-    - Fiziksel Gelişim (WHO Z-score + gelişim gecikmesi):  %30
+    Yapı (3 katman):
+    - Psikolojik (anksiyete, depresyon, DEHB, davranış)
+    - Yaşam Tarzı (AAP/CDC kılavuzları)
+    - Fiziksel Gelişim (WHO Z-score + gelişim gecikmesi)
+    
+    Yöntem: En yüksek katman %60, diğer ikisinin ortalaması %40.
+    Böylece tek alanda yüksek risk baskılanmaz, ölçek 0-100 kalır.
     """
     def ek(ad):
         return ml_skorlar.get(ad, {}).get('ek_risk', 0)
@@ -362,24 +365,13 @@ def birlesik_risk_hesapla(
     gelisim_gec = ek('gelisim_gecikmesi')
     fiziksel_birlesik = fiziksel_risk * 0.6 + gelisim_gec * 0.4
 
-    agirlikli = (
-        psikolojik_ort * 0.35 +
-        yasam_tarzi_risk * 0.35 +
-        fiziksel_birlesik * 0.30
-    )
+    # Baskın katman formülü: en yüksek × 0.6 + diğer ikisinin ort × 0.4
+    katmanlar = [psikolojik_ort, yasam_tarzi_risk, fiziksel_birlesik]
+    en_yuksek = max(katmanlar)
+    diger_toplam = sum(katmanlar) - en_yuksek
+    diger_ort = diger_toplam / 2
 
-    # Güvenlik filtresi
-    tum_max = max(psikolojik_ort, fiziksel_birlesik, yasam_tarzi_risk,
-                  *psi_skorlar.values(),
-                  gelisim_gec)
-
-    if tum_max >= 80:
-        final = max(agirlikli, 50)
-    elif tum_max >= 60:
-        final = max(agirlikli, 30)
-    else:
-        final = agirlikli
-
+    final = en_yuksek * 0.6 + diger_ort * 0.4
     final = max(0, min(100, final))
 
     if final >= 50:
@@ -421,7 +413,6 @@ def birlesik_risk_hesapla(
 
     return {
         "genel_risk_puani": round(final, 2),
-        "agirlikli_ortalama": round(agirlikli, 2),
         "analiz_sonucu": durum,
         "grafik_rengi": renk,
         "dikkat_gerektiren_alanlar": dikkat,
