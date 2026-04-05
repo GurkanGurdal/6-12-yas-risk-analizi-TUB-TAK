@@ -138,15 +138,18 @@ class NSCHRiskMotoru:
 
     def _ideal_girdi_olustur(self, yas: int, cinsiyet: int, boy_cm: float, kilo_kg: float) -> pd.DataFrame:
         """
-        Aynı yaş/cinsiyet/boy/kilo ama İDEAL yaşam alışkanlıkları olan çocuğun
-        model girdisini oluşturur. Bu 'temel risk' (baseline) hesabı için kullanılır.
+        Aynı yaş/cinsiyet/boy/kilo ama KILAVUZA UYGUN yaşam alışkanlıkları
+        olan çocuğun model girdisini oluşturur (baseline).
         
-        İdeal değerler:
-        - Ekran: <1 saat (NSCH=1)
-        - Uyku: 10 saat (yaşa uygun ideal)
-        - Fiziksel aktivite: Yüksek (NSCH=4, her gün 60dk+)
-        - Düzenli uyku: Always (NSCH=1)
-        - Dış mekan: Yüksek (NSCH=5)
+        Kılavuz-uyumlu (normal) değerler:
+        - Ekran: ~2 saat (NSCH=3) — AAP 6-12 yaş sınırı
+        - Uyku: 9 saat — CDC alt sınırı (6-12 yaş)
+        - Fiziksel aktivite: Orta (NSCH=2, haftada 1-3 gün)
+        - Düzenli uyku: Çoğunlukla düzenli (NSCH=2)
+        - Dış mekan: Orta (NSCH=3)
+        
+        Bu sayede kılavuza uygun bir çocuk ~0 ek risk alır,
+        gerçekten riskli olanlar fark gösterir.
         """
         nsch_cinsiyet = cinsiyet + 1
         bmi = kilo_kg / ((boy_cm / 100) ** 2) if boy_cm > 0 else np.nan
@@ -162,12 +165,12 @@ class NSCHRiskMotoru:
             elif bmi < 30:   bmi_class = 3
             else:            bmi_class = 4
 
-        # İdeal değerler
-        ideal_ekran = 1       # <1 saat
-        ideal_uyku = 10       # İdeal uyku
-        ideal_aktivite = 4    # Her gün 60dk+
-        ideal_bedtime = 1     # Always düzenli
-        ideal_outdoor = 5     # En yüksek dış mekan
+        # Kılavuz-uyumlu (normal) değerler
+        ideal_ekran = 3       # ~2 saat (AAP kılavuz sınırı)
+        ideal_uyku = 9        # CDC alt sınır (6-12 yaş)
+        ideal_aktivite = 2    # Haftada 1-3 gün (orta düzey)
+        ideal_bedtime = 2     # Çoğunlukla düzenli
+        ideal_outdoor = 3     # Orta düzey dış mekan
 
         veri = {
             'sc_age_years': yas,
@@ -206,9 +209,9 @@ class NSCHRiskMotoru:
         
         Yöntem:
         1. Gerçek girdilerle → mutlak risk
-        2. Aynı yaş/cinsiyet/boy/kilo ama İDEAL alışkanlıklarla → temel risk
-        3. Ek risk = (gerçek - temel) / (100 - temel) * 100
-           → 0 = ideal alışkanlıklar, 100 = en kötü durum
+        2. Aynı yaş/cinsiyet/boy/kilo ama KILAVUZA UYGUN alışkanlıklarla → temel risk
+        3. Ek risk = (gerçek - temel) farkı (yüzde puan)
+           → 0 = kılavuza uygun, pozitif = riskli, negatif = idealden iyi
         """
         # İdeal (baseline) girdi oluştur
         df_ideal = self._ideal_girdi_olustur(yas, cinsiyet, boy_cm, kilo_kg)
@@ -220,14 +223,9 @@ class NSCHRiskMotoru:
             # İdeal (baseline) risk
             ideal_proba = float(model.predict_proba(df_ideal)[0][1])
 
-            # Ek risk hesabı: normalleştirilmiş fark
-            if gercek_proba > ideal_proba:
-                # Kullanıcının alışkanlıkları riski artırıyor
-                ek_risk = ((gercek_proba - ideal_proba) / (1.0 - ideal_proba)) * 100
-            else:
-                # İdealden bile iyi (nadir) → 0
-                ek_risk = 0
-
+            # Ek risk hesabı: basit fark (kılavuz baseline ile)
+            ek_risk = (gercek_proba - ideal_proba) * 100
+            # Negatif = baseline'dan daha iyi → 0 say
             ek_risk = max(0, min(100, ek_risk))
 
             sonuclar[ad] = {
