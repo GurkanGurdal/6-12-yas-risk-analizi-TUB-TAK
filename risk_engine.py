@@ -396,17 +396,24 @@ def birlesik_risk_hesapla(
         dikkat.append("Yaşam Tarzı (Yüksek)")
     elif yasam_tarzi_risk >= 25:
         dikkat.append("Yaşam Tarzı (Orta)")
+
+    # Psikolojik modeller: ek_risk ile kontrol (yeni skala: basit fark)
+    # ek_risk ≥10 → Yüksek, ≥3 → Orta (eski normalize skaladan farklı)
     for ad in ['anksiyete', 'depresyon', 'dehb', 'davranis']:
-        skor = ek(ad)
+        e_risk = ek(ad)
         isim = NSCHRiskMotoru.MODEL_ISIMLERI.get(ad, ad)
-        if skor >= 50:
+        if e_risk >= 10:
             dikkat.append(f"{isim} (Yüksek)")
-        elif skor >= 25:
+        elif e_risk >= 3:
             dikkat.append(f"{isim} (Orta)")
-    if gelisim_gec >= 50:
+
+    # Gelişim gecikmesi
+    gelisim_mutlak = ml_skorlar.get('gelisim_gecikmesi', {}).get('mutlak_risk', 0)
+    if gelisim_gec >= 10 or gelisim_mutlak >= 30:
         dikkat.append("Gelişim Gecikmesi (Yüksek)")
-    elif gelisim_gec >= 25:
+    elif gelisim_gec >= 3 or gelisim_mutlak >= 15:
         dikkat.append("Gelişim Gecikmesi (Orta)")
+
     if fiziksel_risk >= 50:
         dikkat.append("Fiziksel Gelişim (Yüksek)")
     elif fiziksel_risk >= 25:
