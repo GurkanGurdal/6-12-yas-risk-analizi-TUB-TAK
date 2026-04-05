@@ -343,37 +343,37 @@ def birlesik_risk_hesapla(
     """
     Tüm riskleri birleştirip final skoru üretir.
     
-    Yapı (4 katman):
-    - ML Bileşik Klinik Ek Risk:   %30  (NSCH — yaşıtlarına göre ek risk)
-    - Psikolojik Alt Dallar Ort:    %20  (NSCH — yaşıtlarına göre ek risk)
-    - Yaşam Tarzı Risk:             %30  (AAP/CDC kılavuzları)
-    - Fiziksel Gelişim:             %20  (WHO Z-score)
+    Yapı (3 katman — çift sayma düzeltildi):
+    - Psikolojik (anksiyete, depresyon, DEHB, davranış):  %35
+    - Yaşam Tarzı (AAP/CDC kılavuzları):                  %35
+    - Fiziksel Gelişim (WHO Z-score + gelişim gecikmesi):  %30
     """
-    # ml_skorlar artık dict of dicts: {model_ad: {ek_risk, mutlak_risk, temel_risk}}
     def ek(ad):
         return ml_skorlar.get(ad, {}).get('ek_risk', 0)
 
+    # Psikolojik katman: 4 model (davranış dahil)
     psi_skorlar = {
         'anksiyete': ek('anksiyete'),
         'depresyon': ek('depresyon'),
         'dehb': ek('dehb'),
+        'davranis': ek('davranis'),
     }
-    psikolojik_ort = sum(psi_skorlar.values()) / 3
+    psikolojik_ort = sum(psi_skorlar.values()) / len(psi_skorlar)
 
-    ml_genel = ek('genel_risk')
+    # Fiziksel katman: WHO Z-score + gelişim gecikmesi
+    gelisim_gec = ek('gelisim_gecikmesi')
+    fiziksel_birlesik = fiziksel_risk * 0.6 + gelisim_gec * 0.4
 
     agirlikli = (
-        ml_genel * 0.30 +
-        psikolojik_ort * 0.20 +
-        yasam_tarzi_risk * 0.30 +
-        fiziksel_risk * 0.20
+        psikolojik_ort * 0.35 +
+        yasam_tarzi_risk * 0.35 +
+        fiziksel_birlesik * 0.30
     )
 
     # Güvenlik filtresi
-    tum_max = max(ml_genel, psikolojik_ort, fiziksel_risk, yasam_tarzi_risk,
+    tum_max = max(psikolojik_ort, fiziksel_birlesik, yasam_tarzi_risk,
                   *psi_skorlar.values(),
-                  ek('davranis'),
-                  ek('gelisim_gecikmesi'))
+                  gelisim_gec)
 
     if tum_max >= 80:
         final = max(agirlikli, 50)
@@ -398,13 +398,17 @@ def birlesik_risk_hesapla(
         dikkat.append("Yaşam Tarzı (Yüksek)")
     elif yasam_tarzi_risk >= 25:
         dikkat.append("Yaşam Tarzı (Orta)")
-    for ad in ['anksiyete', 'depresyon', 'dehb', 'davranis', 'gelisim_gecikmesi']:
+    for ad in ['anksiyete', 'depresyon', 'dehb', 'davranis']:
         skor = ek(ad)
         isim = NSCHRiskMotoru.MODEL_ISIMLERI.get(ad, ad)
         if skor >= 50:
             dikkat.append(f"{isim} (Yüksek)")
         elif skor >= 25:
             dikkat.append(f"{isim} (Orta)")
+    if gelisim_gec >= 50:
+        dikkat.append("Gelişim Gecikmesi (Yüksek)")
+    elif gelisim_gec >= 25:
+        dikkat.append("Gelişim Gecikmesi (Orta)")
     if fiziksel_risk >= 50:
         dikkat.append("Fiziksel Gelişim (Yüksek)")
     elif fiziksel_risk >= 25:

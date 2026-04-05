@@ -36,28 +36,31 @@ class ResultScreen extends StatelessWidget {
                 _AlertCard(items: dikkatAlanlari),
               SizedBox(height: r.scale(16)),
               _LayerCard(
-                title: 'Yapay Zeka Risk Analizi',
-                subtitle: 'Makine öğrenmesi modelinin çocuğunuzun genel durumunu değerlendirmesidir. Yüksek değerler daha fazla dikkat gerektirir.',
-                icon: Icons.analytics_outlined,
-                accent: AppTheme.primaryBlue,
-                lines: [
-                  'Ek risk faktörü: %${_num(_map(katmanlar['genel_risk_ml'])['ek_risk']).toStringAsFixed(1)}  —  Yaşam koşullarından kaynaklanan ek risk',
-                  'Toplam risk: %${_num(_map(katmanlar['genel_risk_ml'])['mutlak_risk']).toStringAsFixed(1)}  —  Tüm faktörler birlikte değerlendirildiğinde',
-                  'Temel risk: %${_num(_map(katmanlar['genel_risk_ml'])['temel_risk']).toStringAsFixed(1)}  —  Yaş ve cinsiyete göre başlangıç riski',
-                  'Model güveni: ${_text(_map(katmanlar['genel_risk_ml'])['agirlik'], fallback: '-')}',
-                ],
-              ),
-              SizedBox(height: r.scale(12)),
-              _LayerCard(
                 title: 'Duygusal ve Davranışsal Sağlık',
                 subtitle: 'Çocuğunuzun ruhsal durumunu gösteren değerlendirmedir. Yüksek puanlar profesyonel destek almanız gerektiğine işaret edebilir.',
                 icon: Icons.psychology_alt_outlined,
                 accent: AppTheme.secondaryBlue,
                 lines: [
-                  'Kaygı (Anksiyete): %${_num(_map(_map(katmanlar['psikolojik'])['anksiyete'])['ek_risk']).toStringAsFixed(1)}  —  Endişe ve korku belirtileri',
-                  'Düşük ruh hali (Depresyon): %${_num(_map(_map(katmanlar['psikolojik'])['depresyon'])['ek_risk']).toStringAsFixed(1)}  —  Mutsuzluk ve ilgi kaybı belirtileri',
-                  'Dikkat eksikliği (DEHB): %${_num(_map(_map(katmanlar['psikolojik'])['dehb'])['ek_risk']).toStringAsFixed(1)}  —  Odaklanma ve dürtü kontrolü',
-                  'Genel psikolojik risk: %${_num(_map(katmanlar['psikolojik'])['ek_risk_ortalama']).toStringAsFixed(1)}  —  Üç alanın ortalaması',
+                  _akranKarsilastir(
+                    'Kaygı (Anksiyete)',
+                    _num(_map(_map(katmanlar['psikolojik'])['anksiyete'])['mutlak_risk']),
+                    _num(_map(_map(katmanlar['psikolojik'])['anksiyete'])['temel_risk']),
+                  ),
+                  _akranKarsilastir(
+                    'Depresyon',
+                    _num(_map(_map(katmanlar['psikolojik'])['depresyon'])['mutlak_risk']),
+                    _num(_map(_map(katmanlar['psikolojik'])['depresyon'])['temel_risk']),
+                  ),
+                  _akranKarsilastir(
+                    'Dikkat eksikliği (DEHB)',
+                    _num(_map(_map(katmanlar['psikolojik'])['dehb'])['mutlak_risk']),
+                    _num(_map(_map(katmanlar['psikolojik'])['dehb'])['temel_risk']),
+                  ),
+                  _akranKarsilastir(
+                    'Davranış bozukluğu',
+                    _num(_map(_map(katmanlar['psikolojik'])['davranis'])['mutlak_risk']),
+                    _num(_map(_map(katmanlar['psikolojik'])['davranis'])['temel_risk']),
+                  ),
                 ],
               ),
               SizedBox(height: r.scale(12)),
@@ -67,10 +70,10 @@ class ResultScreen extends StatelessWidget {
                 icon: Icons.favorite_outline,
                 accent: AppTheme.riskYellow,
                 lines: [
-                  'Toplam alışkanlık riski: %${_num(_map(katmanlar['yasam_tarzi'])['risk_puani']).toStringAsFixed(1)}  —  Üç alanın birleşik değeri',
-                  'Ekran süresi riski: %${_num(_map(katmanlar['yasam_tarzi'])['ekran_risk']).toStringAsFixed(1)}  —  Günlük ekran kullanım süresi',
-                  'Uyku düzeni riski: %${_num(_map(katmanlar['yasam_tarzi'])['uyku_risk']).toStringAsFixed(1)}  —  Uyku süresi ve kalitesi',
-                  'Fiziksel aktivite riski: %${_num(_map(katmanlar['yasam_tarzi'])['aktivite_risk']).toStringAsFixed(1)}  —  Hareket ve egzersiz düzeyi',
+                  _akranRiskOzet('Toplam alışkanlık', _num(_map(katmanlar['yasam_tarzi'])['risk_puani'])),
+                  _akranRiskOzet('Ekran süresi', _num(_map(katmanlar['yasam_tarzi'])['ekran_risk'])),
+                  _akranRiskOzet('Uyku düzeni', _num(_map(katmanlar['yasam_tarzi'])['uyku_risk'])),
+                  _akranRiskOzet('Fiziksel aktivite', _num(_map(katmanlar['yasam_tarzi'])['aktivite_risk'])),
                   ..._splitDetails(_text(_map(katmanlar['yasam_tarzi'])['detaylar'])).map((d) => '• $d'),
                 ],
               ),
@@ -81,11 +84,16 @@ class ResultScreen extends StatelessWidget {
                 icon: Icons.accessibility_new,
                 accent: AppTheme.riskGreen,
                 lines: [
-                  'Fiziksel gelişim riski: %${_num(_map(katmanlar['fiziksel_gelisim'])['risk_puani']).toStringAsFixed(1)}  —  Genel büyüme uyumu',
-                  'Vücut kitle indeksi: ${_num(_map(katmanlar['fiziksel_gelisim'])['hesaplanan_bmi']).toStringAsFixed(2)}  —  Boy–kilo oranı',
-                  'Boy durumu (Z-skoru): ${_num(_map(katmanlar['fiziksel_gelisim'])['boy_zscore']).toStringAsFixed(2)}  —  Yaşıtlarıyla boy karşılaştırması',
-                  'Kilo durumu (Z-skoru): ${_num(_map(katmanlar['fiziksel_gelisim'])['kilo_zscore']).toStringAsFixed(2)}  —  Yaşıtlarıyla kilo karşılaştırması',
-                  'BMI durumu (Z-skoru): ${_num(_map(katmanlar['fiziksel_gelisim'])['bmi_zscore']).toStringAsFixed(2)}  —  Yaşıtlarıyla BMI karşılaştırması',
+                  _akranRiskOzet('Fiziksel gelişim', _num(_map(katmanlar['fiziksel_gelisim'])['risk_puani'])),
+                  _akranKarsilastir(
+                    'Gelişim gecikmesi',
+                    _num(_map(_map(katmanlar['fiziksel_gelisim'])['gelisim_gecikmesi'])['mutlak_risk']),
+                    _num(_map(_map(katmanlar['fiziksel_gelisim'])['gelisim_gecikmesi'])['temel_risk']),
+                  ),
+                  'BMI: ${_num(_map(katmanlar['fiziksel_gelisim'])['hesaplanan_bmi']).toStringAsFixed(1)}  —  Vücut kitle indeksi',
+                  _zSkorYorum('Boy', _num(_map(katmanlar['fiziksel_gelisim'])['boy_zscore'])),
+                  _zSkorYorum('Kilo', _num(_map(katmanlar['fiziksel_gelisim'])['kilo_zscore'])),
+                  _zSkorYorum('BMI', _num(_map(katmanlar['fiziksel_gelisim'])['bmi_zscore'])),
                   ..._splitDetails(_text(_map(katmanlar['fiziksel_gelisim'])['detaylar'])).map((d) => '• $d'),
                 ],
               ),
@@ -333,6 +341,43 @@ double _num(dynamic v) {
   if (v is num) return v.toDouble();
   if (v is String) return double.tryParse(v) ?? 0;
   return 0;
+}
+
+String _akranKarsilastir(String baslik, double mutlak, double temel) {
+  final fark = mutlak - temel;
+  if (fark.abs() < 1) {
+    return '$baslik  —  Akranlarıyla benzer seviyede (%${mutlak.toStringAsFixed(1)}) ✓';
+  } else if (fark > 0) {
+    return '$baslik  —  Akranlarına göre %${fark.toStringAsFixed(1)} daha fazla risk (%${mutlak.toStringAsFixed(1)} vs %${temel.toStringAsFixed(1)})';
+  } else {
+    return '$baslik  —  Akranlarına göre %${fark.abs().toStringAsFixed(1)} daha az risk (%${mutlak.toStringAsFixed(1)} vs %${temel.toStringAsFixed(1)}) ✓';
+  }
+}
+
+String _akranRiskOzet(String baslik, double risk) {
+  if (risk <= 5) {
+    return '$baslik  —  Akranlarına göre risk yok ✓';
+  } else if (risk <= 25) {
+    return '$baslik  —  Akranlarına göre %${risk.toStringAsFixed(0)} daha riskli (düşük)';
+  } else if (risk <= 50) {
+    return '$baslik  —  Akranlarına göre %${risk.toStringAsFixed(0)} daha riskli (orta)';
+  } else {
+    return '$baslik  —  Akranlarına göre %${risk.toStringAsFixed(0)} daha riskli (yüksek)';
+  }
+}
+
+String _zSkorYorum(String baslik, double z) {
+  final abs = z.abs();
+  final yon = z >= 0 ? 'üstünde' : 'altında';
+  if (abs < 0.5) {
+    return '$baslik (${z.toStringAsFixed(2)})  —  Akranlarıyla uyumlu ✓';
+  } else if (abs < 1.5) {
+    return '$baslik (${z.toStringAsFixed(2)})  —  Akranlarının hafif $yon';
+  } else if (abs < 2) {
+    return '$baslik (${z.toStringAsFixed(2)})  —  Akranlarının belirgin $yon';
+  } else {
+    return '$baslik (${z.toStringAsFixed(2)})  —  Akranlarından çok $yon ⚠';
+  }
 }
 
 String _text(dynamic v, {String fallback = ''}) {

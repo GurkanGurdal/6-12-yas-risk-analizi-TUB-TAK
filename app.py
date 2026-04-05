@@ -93,40 +93,32 @@ def tahmin_et(veriler: KullaniciVerisi):
         "dikkat_gerektiren_alanlar": genel["dikkat_gerektiren_alanlar"],
 
         "katmanlar": {
-            "genel_risk_ml": {
-                "ek_risk": ml_skorlar["genel_risk"]["ek_risk"],
-                "mutlak_risk": ml_skorlar["genel_risk"]["mutlak_risk"],
-                "temel_risk": ml_skorlar["genel_risk"]["temel_risk"],
-                "agirlik": "30%",
-                "kaynak": "NSCH bileşik klinik model (göreli risk)",
-            },
             "psikolojik": {
                 "anksiyete": ml_skorlar["anksiyete"],
                 "depresyon": ml_skorlar["depresyon"],
                 "dehb": ml_skorlar["dehb"],
+                "davranis": ml_skorlar["davranis"],
                 "ek_risk_ortalama": round(
                     (ml_skorlar["anksiyete"]["ek_risk"] +
                      ml_skorlar["depresyon"]["ek_risk"] +
-                     ml_skorlar["dehb"]["ek_risk"]) / 3, 2
+                     ml_skorlar["dehb"]["ek_risk"] +
+                     ml_skorlar["davranis"]["ek_risk"]) / 4, 2
                 ),
-                "agirlik": "20%",
+                "agirlik": "35%",
             },
             "yasam_tarzi": {
                 "risk_puani": yasam["risk_puani"],
                 "ekran_risk": yasam["ekran_risk"],
                 "uyku_risk": yasam["uyku_risk"],
                 "aktivite_risk": yasam["aktivite_risk"],
-                "agirlik": "30%",
+                "agirlik": "35%",
                 "kaynak": "AAP/CDC kılavuzları",
                 "detaylar": yasam["detaylar"],
             },
-            "gelisimsel": {
-                "davranis_bozuklugu": ml_skorlar["davranis"],
-                "gelisim_gecikmesi": ml_skorlar["gelisim_gecikmesi"],
-            },
             "fiziksel_gelisim": {
                 "risk_puani": fiziksel["risk_puani"],
-                "agirlik": "20%",
+                "gelisim_gecikmesi": ml_skorlar["gelisim_gecikmesi"],
+                "agirlik": "30%",
                 "boy_zscore": fiziksel["boy_zscore"],
                 "kilo_zscore": fiziksel["kilo_zscore"],
                 "bmi_zscore": fiziksel["bmi_zscore"],

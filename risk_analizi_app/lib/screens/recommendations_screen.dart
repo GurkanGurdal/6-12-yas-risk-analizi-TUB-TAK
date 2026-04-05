@@ -206,14 +206,15 @@ class _GridCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: r.scale(20), horizontal: r.scale(14)),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: r.scale(52),
               height: r.scale(52),
-              decoration: BoxDecoration(
-                color: category.color.withOpacity(0.12),
-                borderRadius: BorderRadius.circular(r.scale(16)),
+              child: Neumorphic(
+                style: AppTheme.nConcave(radius: r.scale(16)),
+                child: Center(
+                  child: Icon(category.icon, color: category.color, size: r.scale(28)),
+                ),
               ),
-              child: Icon(category.icon, color: category.color, size: r.scale(28)),
             ),
             SizedBox(height: r.scale(12)),
             Text(
@@ -298,14 +299,15 @@ class _DetailPage extends StatelessWidget {
                       child: Neumorphic(
                         style: AppTheme.nConvex(radius: r.scale(20)),
                         padding: EdgeInsets.all(r.scale(22)),
-                        child: Container(
+                        child: SizedBox(
                           width: r.scale(64),
                           height: r.scale(64),
-                          decoration: BoxDecoration(
-                            color: category.color.withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(r.scale(20)),
+                          child: Neumorphic(
+                            style: AppTheme.nConcave(radius: r.scale(20)),
+                            child: Center(
+                              child: Icon(category.icon, color: category.color, size: r.scale(36)),
+                            ),
                           ),
-                          child: Icon(category.icon, color: category.color, size: r.scale(36)),
                         ),
                       ),
                     ),
@@ -321,20 +323,20 @@ class _DetailPage extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: r.scale(28),
                                 height: r.scale(28),
-                                decoration: BoxDecoration(
-                                  color: category.color.withOpacity(0.12),
-                                  borderRadius: BorderRadius.circular(r.scale(8)),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '${i + 1}',
-                                  style: TextStyle(
-                                    fontSize: r.scale(13),
-                                    fontWeight: FontWeight.w800,
-                                    color: category.color,
+                                child: Neumorphic(
+                                  style: AppTheme.nConcave(radius: r.scale(8)),
+                                  child: Center(
+                                    child: Text(
+                                      '${i + 1}',
+                                      style: TextStyle(
+                                        fontSize: r.scale(13),
+                                        fontWeight: FontWeight.w800,
+                                        color: category.color,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),

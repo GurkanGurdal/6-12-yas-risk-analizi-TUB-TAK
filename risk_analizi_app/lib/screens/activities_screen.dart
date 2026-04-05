@@ -16,6 +16,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Engel Parkuru',
           icon: Icons.sports_gymnastics,
+          image: 'lib/assets/aktivite_erkek/parkur.png',
           ageRange: '3–10 yaş',
           duration: '20–30 dk',
           benefit: 'Motor becerileri, denge, koordinasyon ve problem çözme yeteneğini geliştirir. Çocuk engelleri aşarken vücudunu nasıl kullanacağını öğrenir.',
@@ -30,6 +31,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Hayvan Taklidi Yürüyüşü',
           icon: Icons.pets,
+          image: 'lib/assets/aktivite_erkek/hayvan.png',
           ageRange: '2–7 yaş',
           duration: '10–15 dk',
           benefit: 'Kaba motor becerilerini, yaratıcılığı ve hayal gücünü destekler. Farklı hareket kalıpları kasları güçlendirir.',
@@ -44,6 +46,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Balon Voleybolu',
           icon: Icons.sports_volleyball,
+          image: 'lib/assets/aktivite_erkek/voleybol.png',
           ageRange: '3–12 yaş',
           duration: '15–20 dk',
           benefit: 'El-göz koordinasyonu, refleksler ve takım çalışması becerilerini geliştirir. Kapalı alanda güvenle oynanabilir.',
@@ -65,6 +68,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Duygu Maskeleri',
           icon: Icons.theater_comedy,
+          image: 'lib/assets/aktivite_erkek/maske.png',
           ageRange: '4–10 yaş',
           duration: '30–40 dk',
           benefit: 'Duygusal farkındalığı artırır, duyguları tanıma ve ifade etme becerisi kazandırır. İnce motor becerileri ve yaratıcılığı destekler.',
@@ -79,6 +83,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Doğa Kolajı',
           icon: Icons.eco,
+          image: 'lib/assets/aktivite_erkek/doga.png',
           ageRange: '3–9 yaş',
           duration: '30–45 dk',
           benefit: 'Doğa gözlem becerisini geliştirir, ince motor kaslarını çalıştırır. Çocuğun çevresindeki güzellikleri fark etmesini sağlar.',
@@ -93,6 +98,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Hikaye Küpleri',
           icon: Icons.auto_stories,
+          image: 'lib/assets/aktivite_erkek/kup.png',
           ageRange: '5–12 yaş',
           duration: '20–30 dk',
           benefit: 'Dil gelişimini, hayal gücünü ve hikaye anlatma becerisini güçlendirir. Sözcük dağarcığını zenginleştirir.',
@@ -114,6 +120,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Hazine Avı',
           icon: Icons.explore,
+          image: 'lib/assets/aktivite_erkek/hazine.png',
           ageRange: '4–10 yaş',
           duration: '20–30 dk',
           benefit: 'Problem çözme, yön bulma ve mantıksal düşünme yeteneklerini geliştirir. Okuma–yazma pratiği sağlar.',
@@ -128,6 +135,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Hafıza Kartları',
           icon: Icons.grid_view_rounded,
+          image: 'lib/assets/aktivite_erkek/hafiza.png',
           ageRange: '3–12 yaş',
           duration: '10–20 dk',
           benefit: 'Kısa süreli hafıza, konsantrasyon ve dikkat süresini güçlendirir. Eşleştirme becerisi kazandırır.',
@@ -142,6 +150,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Sayı ve Renk Avı',
           icon: Icons.colorize,
+          image: 'lib/assets/aktivite_erkek/sayi_renk.png',
           ageRange: '2–6 yaş',
           duration: '10–15 dk',
           benefit: 'Renk ve sayı tanıma, dikkat ve gözlem becerilerini geliştirir. Günlük yaşamı öğrenme fırsatına dönüştürür.',
@@ -163,6 +172,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Günün En Güzel 3 Anı',
           icon: Icons.auto_awesome,
+          image: 'lib/assets/aktivite_erkek/ani.png',
           ageRange: '4–12 yaş',
           duration: '5–10 dk',
           benefit: 'Olumlu düşünmeyi teşvik eder, ebeveyn–çocuk iletişimini güçlendirir. Çocuğun güne değer vermesini sağlar.',
@@ -177,6 +187,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Beraber Yemek Yapma',
           icon: Icons.restaurant,
+          image: 'lib/assets/aktivite_erkek/yemek.png',
           ageRange: '3–12 yaş',
           duration: '30–60 dk',
           benefit: 'İş birliği, sorumluluk duygusu ve matematik becerilerini (ölçme, sayma) geliştirir. Birlikte üretmenin mutluluğunu yaşatır.',
@@ -191,6 +202,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Duygu Günlüğü',
           icon: Icons.menu_book,
+          image: 'lib/assets/aktivite_erkek/duygu.png',
           ageRange: '5–12 yaş',
           duration: '10–15 dk',
           benefit: 'Duygusal zekayı geliştirir, kendini yazılı ifade etme becerisini güçlendirir. Stres ve kaygıyla başa çıkmayı öğretir.',
@@ -212,6 +224,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Nefes Egzersizi',
           icon: Icons.air,
+          image: 'lib/assets/aktivite_erkek/nefes.png',
           ageRange: '3–12 yaş',
           duration: '5 dk',
           benefit: 'Sinir sistemini sakinleştirir, uyku kalitesini artırır. Çocuğun stresle başa çıkma aracı geliştirmesini sağlar.',
@@ -226,6 +239,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Vücut Taraması',
           icon: Icons.self_improvement,
+          image: 'lib/assets/aktivite_erkek/vucut.png',
           ageRange: '5–12 yaş',
           duration: '5–10 dk',
           benefit: 'Vücut farkındalığı ve gevşeme becerisi kazandırır. Uyumadan önce zihni ve bedeni sakinleştirir.',
@@ -240,6 +254,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Hayal Yolculuğu',
           icon: Icons.cloud,
+          image: 'lib/assets/aktivite_erkek/hayal.png',
           ageRange: '4–10 yaş',
           duration: '10 dk',
           benefit: 'Hayal gücünü beslerken uykuya geçişi kolaylaştırır. Huzurlu bir uyku ortamı yaratır.',
@@ -261,6 +276,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Lego Meydan Okuması',
           icon: Icons.extension,
+          image: 'lib/assets/aktivite_erkek/lego.png',
           ageRange: '4–12 yaş',
           duration: '20–30 dk',
           benefit: 'Mekânsal düşünme, planlama ve ince motor becerilerini geliştirir. Ekran yerine üretken bir alternatif sunar.',
@@ -275,6 +291,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Karton Kutu Dünyası',
           icon: Icons.inventory_2,
+          image: 'lib/assets/aktivite_erkek/karton.png',
           ageRange: '3–8 yaş',
           duration: '30–60 dk',
           benefit: 'Yaratıcılık, problem çözme ve yeniden kullanım bilinci kazandırır. Basit malzemelerden büyük projeler çıkarmayı öğretir.',
@@ -289,6 +306,7 @@ class ActivitiesScreen extends StatelessWidget {
         _Activity(
           title: 'Bilim Deneyi: Volkan',
           icon: Icons.science,
+          image: 'lib/assets/aktivite_erkek/bilim.png',
           ageRange: '5–12 yaş',
           duration: '20–30 dk',
           benefit: 'Merak ve bilimsel düşünmeyi uyandırır. Neden–sonuç ilişkisini somut olarak deneyimletir.',
@@ -348,6 +366,7 @@ class ActivitiesScreen extends StatelessWidget {
 class _Activity {
   final String title;
   final IconData icon;
+  final String image;
   final String ageRange;
   final String duration;
   final String benefit;
@@ -356,6 +375,7 @@ class _Activity {
   const _Activity({
     required this.title,
     required this.icon,
+    required this.image,
     required this.ageRange,
     required this.duration,
     required this.benefit,
@@ -419,7 +439,7 @@ class _CategorySection extends StatelessWidget {
           SizedBox(height: r.scale(12)),
           // Aktivite kartları — yatay kaydırmalı
           SizedBox(
-            height: r.scale(150),
+            height: r.scale(195),
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               clipBehavior: Clip.none,
@@ -469,48 +489,50 @@ class _ActivityCard extends StatelessWidget {
         width: r.scale(150),
         child: Neumorphic(
           style: AppTheme.nConvex(radius: r.scale(16)),
-          padding: EdgeInsets.all(r.scale(14)),
+          padding: EdgeInsets.all(r.scale(8)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Icon(activity.icon, color: color, size: r.scale(22)),
-                  const Spacer(),
-                  Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.textGray.withOpacity(0.4), size: r.scale(12)),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                activity.title,
-                style: TextStyle(
-                  fontSize: r.scale(13),
-                  fontWeight: FontWeight.w700,
-                  color: AppTheme.textDark,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: r.scale(4)),
-              Row(
-                children: [
-                  Icon(Icons.schedule_rounded, size: r.scale(11), color: AppTheme.textGray),
-                  SizedBox(width: r.scale(4)),
-                  Text(
-                    activity.duration,
-                    style: TextStyle(fontSize: r.scale(10), color: AppTheme.textGray),
-                  ),
-                  SizedBox(width: r.scale(8)),
-                  Icon(Icons.child_care_rounded, size: r.scale(11), color: AppTheme.textGray),
-                  SizedBox(width: r.scale(4)),
-                  Flexible(
-                    child: Text(
-                      activity.ageRange,
-                      style: TextStyle(fontSize: r.scale(10), color: AppTheme.textGray),
-                      overflow: TextOverflow.ellipsis,
+              // Görsel — çöküntü efekti
+              Neumorphic(
+                style: AppTheme.nConcave(radius: r.scale(12)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(r.scale(12)),
+                  child: SizedBox(
+                    height: r.scale(85),
+                    width: double.infinity,
+                    child: Image.asset(
+                      activity.image,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
+                ),
+              ),
+              SizedBox(height: r.scale(6)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        activity.title,
+                        style: TextStyle(
+                          fontSize: r.scale(12),
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.textDark,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Expanded(child: _InfoChip(icon: Icons.schedule_rounded, label: activity.duration, small: true)),
+                          SizedBox(width: r.scale(4)),
+                          Expanded(child: _InfoChip(icon: Icons.child_care_rounded, label: activity.ageRange, small: true)),
+                        ],
+                      ),
+                    ],
+                  ),
               ),
             ],
           ),
@@ -571,27 +593,33 @@ class _ActivityDetailPage extends StatelessWidget {
                     // Bilgi kartı
                     Neumorphic(
                       style: AppTheme.nConvex(radius: r.scale(20)),
-                      padding: EdgeInsets.all(r.scale(20)),
+                      padding: EdgeInsets.all(r.scale(10)),
                       child: Column(
                         children: [
-                          SizedBox(
-                            width: r.scale(60),
-                            height: r.scale(60),
-                            child: Neumorphic(
-                              style: AppTheme.nCircle(depth: 7),
-                              child: Center(
-                                child: Icon(activity.icon, color: color, size: r.scale(28)),
+                          Neumorphic(
+                            style: AppTheme.nConcave(radius: r.scale(14)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(r.scale(14)),
+                              child: SizedBox(
+                                height: r.scale(180),
+                                width: double.infinity,
+                                child: Image.asset(
+                                  activity.image,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(height: r.scale(16)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _InfoChip(icon: Icons.schedule_rounded, label: activity.duration),
-                              SizedBox(width: r.scale(16)),
-                              _InfoChip(icon: Icons.child_care_rounded, label: activity.ageRange),
-                            ],
+                          Padding(
+                            padding: EdgeInsets.only(top: r.scale(12), bottom: r.scale(6)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _InfoChip(icon: Icons.schedule_rounded, label: activity.duration),
+                                SizedBox(width: r.scale(16)),
+                                _InfoChip(icon: Icons.child_care_rounded, label: activity.ageRange),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -713,23 +741,32 @@ class _ActivityDetailPage extends StatelessWidget {
 class _InfoChip extends StatelessWidget {
   final IconData icon;
   final String label;
+  final bool small;
 
-  const _InfoChip({required this.icon, required this.label});
+  const _InfoChip({required this.icon, required this.label, this.small = false});
 
   @override
   Widget build(BuildContext context) {
     final r = Responsive(context);
+    final iconSize = small ? r.scale(10) : r.scale(14);
+    final fontSize = small ? r.scale(9) : r.scale(12);
+    final hPad = small ? r.scale(6) : r.scale(12);
+    final vPad = small ? r.scale(4) : r.scale(6);
+    final gap = small ? r.scale(3) : r.scale(6);
     return Neumorphic(
       style: AppTheme.nConcave(radius: 999),
-      padding: EdgeInsets.symmetric(horizontal: r.scale(12), vertical: r.scale(6)),
+      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: r.scale(14), color: AppTheme.textGray),
-          SizedBox(width: r.scale(6)),
-          Text(
-            label,
-            style: TextStyle(fontSize: r.scale(12), fontWeight: FontWeight.w600, color: AppTheme.textDark),
+          Icon(icon, size: iconSize, color: AppTheme.textGray),
+          SizedBox(width: gap),
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600, color: AppTheme.textDark),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
