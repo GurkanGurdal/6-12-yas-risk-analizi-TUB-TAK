@@ -136,7 +136,7 @@ class _RiskHeroCard extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 CircularProgressIndicator(
-                  value: (risk / 100).clamp(0, 1),
+                  value: (risk / 300).clamp(0.0, 1.0),
                   strokeWidth: r.scale(8),
                   backgroundColor: AppTheme.nDark.withOpacity(0.3),
                   valueColor: AlwaysStoppedAnimation<Color>(riskColor),
@@ -144,7 +144,7 @@ class _RiskHeroCard extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    '%${risk.toStringAsFixed(0)}',
+                    '${risk.toStringAsFixed(0)}',
                     style: TextStyle(
                       color: AppTheme.textDark,
                       fontSize: r.scale(28),
@@ -187,9 +187,11 @@ class _RiskHeroCard extends StatelessWidget {
   }
 
   static String _riskLevelText(double risk) {
-    if (risk > 60) return 'Yüksek Risk';
-    if (risk > 30) return 'Orta Risk';
-    return 'Düşük Risk';
+    if (risk >= 100) return 'Çok Yüksek Risk';
+    if (risk >= 50) return 'Yüksek Risk';
+    if (risk >= 25) return 'Orta Risk';
+    if (risk >= 10) return 'Düşük Risk';
+    return 'Çok Düşük Risk';
   }
 }
 
@@ -411,13 +413,13 @@ List<String> _splitDetails(String raw) {
 
 Color _riskColor(String renk) {
   final r = renk.toLowerCase();
-  if (r.contains('ff4444') || r.contains('kirmizi') || r.contains('kırmızı') || r.contains('red')) {
+  if (r.contains('cc0000') || r.contains('ff4444') || r.contains('kirmizi') || r.contains('kırmızı') || r.contains('red')) {
     return AppTheme.riskRed;
   }
   if (r.contains('ffaa') || r.contains('sari') || r.contains('sarı') || r.contains('yellow')) {
     return AppTheme.riskYellow;
   }
-  if (r.contains('bb44') || r.contains('cc00') || r.contains('yesil') || r.contains('yeşil') || r.contains('green')) {
+  if (r.contains('bb44') || r.contains('00cc00') || r.contains('yesil') || r.contains('yeşil') || r.contains('green')) {
     return AppTheme.riskGreen;
   }
   return AppTheme.primaryBlue;

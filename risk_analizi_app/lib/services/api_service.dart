@@ -7,15 +7,15 @@ class ApiService {
   // Canlı sunucu URL'si (Railway)
   static const String _productionUrl = 'https://cocuk-gelisim-risk-api-production.up.railway.app';
   // Lokal geliştirme URL'si
-  static const String _localUrl = 'http://10.0.2.2:8000';
+  static const String _localUrl = 'http://10.0.2.2:8001';
 
   static String get baseUrl {
     if (kDebugMode) {
       // Debug modda: Web ise localhost, Android emülatör ise 10.0.2.2
-      if (kIsWeb) return 'http://localhost:8000';
+      if (kIsWeb) return 'http://localhost:8001';
       try {
-        if (Platform.isAndroid) return 'http://10.0.2.2:8000';
-        if (Platform.isIOS) return 'http://localhost:8000';
+        if (Platform.isAndroid) return 'http://10.0.2.2:8001';
+        if (Platform.isIOS) return 'http://localhost:8001';
       } catch (_) {}
       return _localUrl;
     }

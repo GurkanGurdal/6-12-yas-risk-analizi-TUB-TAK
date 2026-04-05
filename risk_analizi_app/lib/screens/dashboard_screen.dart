@@ -119,10 +119,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   double _riskPercentValue() {
     final raw = _riskResult?['genel_risk_puani'];
-    if (raw is num) return raw.toDouble().clamp(0, 100).toDouble();
+    if (raw is num) return raw.toDouble().clamp(0, 300).toDouble();
     if (raw is String) {
       final parsed = double.tryParse(raw.replaceAll(',', '.'));
-      if (parsed != null) return parsed.clamp(0, 100).toDouble();
+      if (parsed != null) return parsed.clamp(0, 300).toDouble();
     }
     return 0;
   }
@@ -131,19 +131,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final renk = _riskResult?['grafik_rengi'];
     if (renk is String) {
       final r = renk.toLowerCase();
-      if (r.contains('ff4444') || r.contains('kirmizi') || r.contains('kırmızı') || r.contains('red')) {
+      if (r.contains('cc0000') || r.contains('ff4444') || r.contains('kirmizi') || r.contains('kırmızı') || r.contains('red')) {
         return AppTheme.riskRed;
       }
       if (r.contains('ffaa') || r.contains('sari') || r.contains('sarı') || r.contains('yellow')) {
         return AppTheme.riskYellow;
       }
-      if (r.contains('bb44') || r.contains('cc00') || r.contains('yesil') || r.contains('yeşil') || r.contains('green')) {
+      if (r.contains('bb44') || r.contains('00cc00') || r.contains('yesil') || r.contains('yeşil') || r.contains('green')) {
         return AppTheme.riskGreen;
       }
     }
     final v = _riskPercentValue();
-    if (v > 60) return AppTheme.riskRed;
-    if (v > 30) return AppTheme.riskYellow;
+    if (v >= 50) return AppTheme.riskRed;
+    if (v >= 25) return AppTheme.riskYellow;
     return AppTheme.riskGreen;
   }
 
@@ -154,9 +154,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return sonuc;
     }
     final v = _riskPercentValue();
-    if (v > 60) return 'Yüksek Risk';
-    if (v > 30) return 'Orta Risk';
-    return 'Düşük Risk';
+    if (v >= 100) return 'Çok Yüksek Risk';
+    if (v >= 50) return 'Yüksek Risk';
+    if (v >= 25) return 'Orta Risk';
+    if (v >= 10) return 'Düşük Risk';
+    return 'Çok Düşük Risk';
   }
 
   @override
@@ -595,7 +597,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   fit: StackFit.expand,
                   children: [
                     CircularProgressIndicator(
-                      value: riskVal / 100,
+                      value: (riskVal / 300).clamp(0.0, 1.0),
                       strokeWidth: r.scale(8),
                       backgroundColor: color.withOpacity(0.10),
                       valueColor: AlwaysStoppedAnimation<Color>(color),
@@ -606,7 +608,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '%${riskVal.toInt()}',
+                            '${riskVal.toInt()}',
                             style: TextStyle(
                               color: AppTheme.textDark,
                               fontSize: r.scale(22),
