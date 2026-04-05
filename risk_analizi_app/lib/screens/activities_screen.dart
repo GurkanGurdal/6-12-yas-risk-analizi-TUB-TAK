@@ -327,35 +327,41 @@ class ActivitiesScreen extends StatelessWidget {
     final r = Responsive(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
+      body: ListView.builder(
         padding: r.pagePadding(horizontal: 20, top: 8, bottom: 120),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Başlık
-            Padding(
-              padding: EdgeInsets.only(bottom: r.scale(4)),
-              child: Text(
-                'Aktiviteler',
-                style: TextStyle(
-                  fontSize: r.scale(24),
-                  fontWeight: FontWeight.w800,
-                  color: AppTheme.textDark,
+        itemCount: _categories.length + 1, // +1 for header
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: true,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: r.scale(4)),
+                  child: Text(
+                    'Aktiviteler',
+                    style: TextStyle(
+                      fontSize: r.scale(24),
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.textDark,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Text(
-              'Çocuğunuzla birlikte yapabileceğiniz eğlenceli ve gelişimi destekleyen aktiviteler',
-              style: TextStyle(
-                fontSize: r.scale(13),
-                color: AppTheme.textGray,
-                height: 1.4,
-              ),
-            ),
-            SizedBox(height: r.scale(20)),
-            ..._categories.map((cat) => _CategorySection(category: cat)),
-          ],
-        ),
+                Text(
+                  'Çocuğunuzla birlikte yapabileceğiniz eğlenceli ve gelişimi destekleyen aktiviteler',
+                  style: TextStyle(
+                    fontSize: r.scale(13),
+                    color: AppTheme.textGray,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: r.scale(20)),
+              ],
+            );
+          }
+          return _CategorySection(category: _categories[index - 1]);
+        },
       ),
     );
   }
@@ -445,16 +451,20 @@ class _CategorySection extends StatelessWidget {
               clipBehavior: Clip.none,
               padding: EdgeInsets.symmetric(vertical: r.scale(8)),
               itemCount: category.activities.length,
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: true,
               separatorBuilder: (_, __) => SizedBox(width: r.scale(12)),
               itemBuilder: (context, index) {
                 final act = category.activities[index];
-                return _ActivityCard(
-                  activity: act,
-                  color: category.color,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => _ActivityDetailPage(activity: act, color: category.color),
+                return RepaintBoundary(
+                  child: _ActivityCard(
+                    activity: act,
+                    color: category.color,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => _ActivityDetailPage(activity: act, color: category.color),
+                      ),
                     ),
                   ),
                 );
@@ -504,6 +514,8 @@ class _ActivityCard extends StatelessWidget {
                     child: Image.asset(
                       activity.image,
                       fit: BoxFit.cover,
+                      cacheWidth: 300,
+                      cacheHeight: 200,
                     ),
                   ),
                 ),
