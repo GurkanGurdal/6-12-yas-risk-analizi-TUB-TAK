@@ -1,0 +1,8 @@
+risk_analizi_app/
+veri_seti/
+proje_formu/
+.venv/
+.venv-1/
+.venv-2/
+__pycache__/
+*.ipynb

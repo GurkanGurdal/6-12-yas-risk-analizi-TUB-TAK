@@ -19,6 +19,11 @@ app.add_middleware(
 risk_motoru = NSCHRiskMotoru()
 
 
+@app.get("/")
+def health_check():
+    return {"status": "ok", "service": "Çocuk Gelişim Risk Analiz API"}
+
+
 class KullaniciVerisi(BaseModel):
     yas: int
     cinsiyet: int                               # 0: Erkek, 1: Kadın
