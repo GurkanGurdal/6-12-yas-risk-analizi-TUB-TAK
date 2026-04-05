@@ -341,13 +341,13 @@ def birlesik_risk_hesapla(
     """
     Tüm riskleri birleştirip final skoru üretir.
     
-    Yapı (3 katman):
+    Yapı (3 katman — direkt toplam):
     - Psikolojik (anksiyete, depresyon, DEHB, davranış)
     - Yaşam Tarzı (AAP/CDC kılavuzları)
     - Fiziksel Gelişim (WHO Z-score + gelişim gecikmesi)
     
-    Yöntem: En yüksek katman %60, diğer ikisinin ortalaması %40.
-    Böylece tek alanda yüksek risk baskılanmaz, ölçek 0-100 kalır.
+    Yöntem: Katmanlar direkt toplanır, üst sınır yok.
+    Teorik max: ~300 (her katman 0-100).
     """
     def ek(ad):
         return ml_skorlar.get(ad, {}).get('ek_risk', 0)
@@ -365,16 +365,12 @@ def birlesik_risk_hesapla(
     gelisim_gec = ek('gelisim_gecikmesi')
     fiziksel_birlesik = fiziksel_risk * 0.6 + gelisim_gec * 0.4
 
-    # Baskın katman formülü: en yüksek × 0.6 + diğer ikisinin ort × 0.4
-    katmanlar = [psikolojik_ort, yasam_tarzi_risk, fiziksel_birlesik]
-    en_yuksek = max(katmanlar)
-    diger_toplam = sum(katmanlar) - en_yuksek
-    diger_ort = diger_toplam / 2
+    # Direkt toplam — üst sınır yok
+    final = max(0, psikolojik_ort + yasam_tarzi_risk + fiziksel_birlesik)
 
-    final = en_yuksek * 0.6 + diger_ort * 0.4
-    final = max(0, min(100, final))
-
-    if final >= 50:
+    if final >= 100:
+        durum, renk = "Çok Yüksek Risk / Kırmızı Bölge", "#CC0000"
+    elif final >= 50:
         durum, renk = "Yüksek Risk / Kırmızı Bölge", "#FF4444"
     elif final >= 25:
         durum, renk = "Orta Risk / Sarı Bölge", "#FFAA00"
