@@ -1,5 +1,7 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../core/responsive.dart';
 import '../core/theme.dart';
 import '../models/child_profile.dart';
@@ -30,6 +32,9 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
 
   /// Tüm kayıtlı günleri tutan harita (tarih string → DailyLog)
   Map<String, DailyLog> _loggedDates = {};
+
+  /// Grafik periyodu: 0=Günlük, 1=Haftalık, 2=Aylık
+  int _chartPeriod = 0;
 
   @override
   void initState() {
@@ -435,12 +440,405 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
                 ),
               ),
               SizedBox(height: r.scale(24)),
+
+              // ── Grafik Bölümü ──
+              if (_loggedDates.isNotEmpty) _buildChartSection(r),
+
+              SizedBox(height: r.scale(24)),
             ],
           ),
         ),
       ),
     );
   }
+
+  // ════════════════════════════════════════════════════════════════
+  //  GRAFİK BÖLÜMLERİ
+  // ════════════════════════════════════════════════════════════════
+
+  Widget _buildChartSection(Responsive r) {
+    return Neumorphic(
+      style: AppTheme.nConvex(radius: r.scale(20)),
+      padding: EdgeInsets.all(r.scale(18)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Başlık
+          Row(
+            children: [
+              SizedBox(
+                width: r.scale(40),
+                height: r.scale(40),
+                child: Neumorphic(
+                  style: AppTheme.nCircle(),
+                  child: Center(
+                    child: Icon(Icons.bar_chart_rounded, color: AppTheme.primaryBlue, size: r.scale(20)),
+                  ),
+                ),
+              ),
+              SizedBox(width: r.scale(12)),
+              Text(
+                'İstatistikler',
+                style: TextStyle(
+                  color: AppTheme.textDark,
+                  fontSize: r.scale(17),
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: r.scale(16)),
+
+          // Periyot seçici
+          Row(
+            children: List.generate(3, (i) {
+              final labels = ['Günlük', 'Haftalık', 'Aylık'];
+              final selected = _chartPeriod == i;
+              return Expanded(
+                child: GestureDetector(
+                  onTap: () => setState(() => _chartPeriod = i),
+                  child: Neumorphic(
+                    style: selected
+                        ? AppTheme.nConcave(radius: r.scale(12))
+                        : AppTheme.nConvex(radius: r.scale(12), depth: 3),
+                    margin: EdgeInsets.symmetric(horizontal: r.scale(4)),
+                    padding: EdgeInsets.symmetric(vertical: r.scale(10)),
+                    child: Center(
+                      child: Text(
+                        labels[i],
+                        style: TextStyle(
+                          color: selected ? AppTheme.primaryBlue : AppTheme.textGray,
+                          fontSize: r.scale(12),
+                          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+          SizedBox(height: r.scale(18)),
+
+          // Grafik
+          SizedBox(
+            height: r.scale(220),
+            child: _buildLineChart(r),
+          ),
+          SizedBox(height: r.scale(14)),
+
+          // Lejant
+          _buildChartLegend(r),
+        ],
+      ),
+    );
+  }
+
+  /// Periyoda göre verileri gruplayıp LineChart döndürür
+  Widget _buildLineChart(Responsive r) {
+    final data = _chartPeriod == 0
+        ? _buildDailyData()
+        : _chartPeriod == 1
+            ? _buildWeeklyData()
+            : _buildMonthlyData();
+
+    final screenSpots = data['screen']!;
+    final sleepSpots = data['sleep']!;
+    final activitySpots = data['activity']!;
+
+    final hasAny = screenSpots.any((s) => !s.y.isNaN) ||
+        sleepSpots.any((s) => !s.y.isNaN) ||
+        activitySpots.any((s) => !s.y.isNaN);
+
+    if (!hasAny) {
+      return Center(
+        child: Text(
+          'Henüz yeterli veri yok',
+          style: TextStyle(color: AppTheme.textGray, fontSize: r.scale(13)),
+        ),
+      );
+    }
+
+    final allY = [...screenSpots, ...sleepSpots, ...activitySpots]
+        .where((s) => !s.y.isNaN)
+        .map((s) => s.y);
+    final rawMax = allY.fold<double>(0, (a, b) => math.max(a, b));
+    final ceiledMax = ((rawMax / 2).ceil() * 2).toDouble().clamp(2.0, 20.0);
+
+    final bottomLabels = _chartPeriod == 0
+        ? _dailyLabels()
+        : _chartPeriod == 1
+            ? _weeklyLabels()
+            : _monthlyLabels();
+
+    LineChartBarData makeLine(List<FlSpot> spots, Color color) {
+      // Veri girilmemiş noktaları (null olan) filtrele — grafik atlamalı gitsin
+      final filtered = spots.where((s) => !s.y.isNaN).toList();
+      return LineChartBarData(
+        spots: filtered,
+        isCurved: false,
+        color: color,
+        barWidth: r.scale(2.5),
+        isStrokeCapRound: true,
+        dotData: FlDotData(
+          show: true,
+          getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+            radius: r.scale(3.5),
+            color: Colors.white,
+            strokeWidth: r.scale(2),
+            strokeColor: color,
+          ),
+        ),
+        belowBarData: BarAreaData(
+          show: true,
+          color: color.withOpacity(0.08),
+        ),
+      );
+    }
+
+    return LineChart(
+      LineChartData(
+        minY: 0,
+        maxY: ceiledMax,
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: false,
+          horizontalInterval: ceiledMax / 4,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: AppTheme.textGray.withOpacity(0.12),
+            strokeWidth: 1,
+          ),
+        ),
+        borderData: FlBorderData(show: false),
+        titlesData: FlTitlesData(
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: r.scale(32),
+              interval: ceiledMax / 4,
+              getTitlesWidget: (value, meta) {
+                if (value == ceiledMax) return const SizedBox.shrink();
+                return Text(
+                  value.toInt().toString(),
+                  style: TextStyle(fontSize: r.scale(10), color: AppTheme.textGray),
+                );
+              },
+            ),
+          ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: r.scale(28),
+              interval: 1,
+              getTitlesWidget: (value, meta) {
+                final idx = value.toInt();
+                if (idx < 0 || idx >= bottomLabels.length) return const SizedBox.shrink();
+                return Padding(
+                  padding: EdgeInsets.only(top: r.scale(6)),
+                  child: Text(
+                    bottomLabels[idx],
+                    style: TextStyle(fontSize: r.scale(10), color: AppTheme.textGray),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        lineBarsData: [
+          makeLine(screenSpots, AppTheme.riskRed),
+          makeLine(sleepSpots, AppTheme.riskGreen),
+          makeLine(activitySpots, AppTheme.accentPeach),
+        ],
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (_) => AppTheme.textDark.withOpacity(0.85),
+            getTooltipItems: (touchedSpots) {
+              final labels = [
+                ('Ekran', 'sa'),
+                ('Uyku', 'sa'),
+                ('Aktivite', ''),
+              ];
+              const actLevels = ['Düşük', 'Orta', 'Yüksek'];
+              return touchedSpots.map((spot) {
+                final i = spot.barIndex;
+                final name = labels[i].$1;
+                String val;
+                if (i == 2) {
+                  final level = spot.y.round().clamp(0, 2);
+                  val = actLevels[level];
+                } else {
+                  val = '${spot.y.toStringAsFixed(1)} ${labels[i].$2}';
+                }
+                return LineTooltipItem(
+                  '$name: $val',
+                  TextStyle(
+                    color: spot.bar.color ?? Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: r.scale(11),
+                  ),
+                );
+              }).toList();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── Günlük: son 7 gün ──
+
+  List<String> _dailyLabels() {
+    final labels = <String>[];
+    final now = DateTime.now();
+    for (int i = 6; i >= 0; i--) {
+      final d = now.subtract(Duration(days: i));
+      labels.add('${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}');
+    }
+    return labels;
+  }
+
+  Map<String, List<FlSpot>> _buildDailyData() {
+    final now = DateTime.now();
+    final screen = <FlSpot>[];
+    final sleep = <FlSpot>[];
+    final activity = <FlSpot>[];
+
+    for (int i = 6; i >= 0; i--) {
+      final d = now.subtract(Duration(days: i));
+      final key = "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
+      final log = _loggedDates[key];
+      final x = (6 - i).toDouble();
+      final hasData = log != null && (log.screenHours != null || log.sleepHours != null);
+      screen.add(FlSpot(x, hasData ? (log.screenHours ?? 0) : double.nan));
+      sleep.add(FlSpot(x, hasData ? (log.sleepHours ?? 0) : double.nan));
+      activity.add(FlSpot(x, hasData ? (log.activityLevel?.toDouble() ?? 0) : double.nan));
+    }
+    return {'screen': screen, 'sleep': sleep, 'activity': activity};
+  }
+
+  // ── Haftalık: son 4 hafta ortalamaları ──
+
+  List<String> _weeklyLabels() {
+    final labels = <String>[];
+    final now = DateTime.now();
+    for (int w = 3; w >= 0; w--) {
+      final weekStart = now.subtract(Duration(days: now.weekday - 1 + w * 7));
+      labels.add('${weekStart.day.toString().padLeft(2, '0')}/${weekStart.month.toString().padLeft(2, '0')}');
+    }
+    return labels;
+  }
+
+  Map<String, List<FlSpot>> _buildWeeklyData() {
+    final now = DateTime.now();
+    final screen = <FlSpot>[];
+    final sleep = <FlSpot>[];
+    final activity = <FlSpot>[];
+
+    for (int w = 3; w >= 0; w--) {
+      final weekStart = now.subtract(Duration(days: now.weekday - 1 + w * 7));
+      double screenSum = 0, sleepSum = 0, actSum = 0;
+      int count = 0;
+
+      for (int d = 0; d < 7; d++) {
+        final day = weekStart.add(Duration(days: d));
+        final key = "${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}";
+        final log = _loggedDates[key];
+        if (log != null && (log.screenHours != null || log.sleepHours != null)) {
+          screenSum += log.screenHours ?? 0;
+          sleepSum += log.sleepHours ?? 0;
+          actSum += log.activityLevel?.toDouble() ?? 0;
+          count++;
+        }
+      }
+
+      final x = (3 - w).toDouble();
+      screen.add(FlSpot(x, count > 0 ? screenSum / count : double.nan));
+      sleep.add(FlSpot(x, count > 0 ? sleepSum / count : double.nan));
+      activity.add(FlSpot(x, count > 0 ? actSum / count : double.nan));
+    }
+    return {'screen': screen, 'sleep': sleep, 'activity': activity};
+  }
+
+  // ── Aylık: son 3 ay ortalamaları ──
+
+  List<String> _monthlyLabels() {
+    const months = ['', 'Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+    final now = DateTime.now();
+    final labels = <String>[];
+    for (int i = 2; i >= 0; i--) {
+      final m = DateTime(now.year, now.month - i, 1);
+      labels.add(months[m.month]);
+    }
+    return labels;
+  }
+
+  Map<String, List<FlSpot>> _buildMonthlyData() {
+    final now = DateTime.now();
+    final screen = <FlSpot>[];
+    final sleep = <FlSpot>[];
+    final activity = <FlSpot>[];
+
+    for (int i = 2; i >= 0; i--) {
+      final m = DateTime(now.year, now.month - i, 1);
+      final monthStr = "${m.year}-${m.month.toString().padLeft(2, '0')}";
+      double screenSum = 0, sleepSum = 0, actSum = 0;
+      int count = 0;
+
+      for (final entry in _loggedDates.entries) {
+        if (entry.key.startsWith(monthStr)) {
+          final log = entry.value;
+          screenSum += log.screenHours ?? 0;
+          sleepSum += log.sleepHours ?? 0;
+          actSum += log.activityLevel?.toDouble() ?? 0;
+          count++;
+        }
+      }
+
+      final x = (2 - i).toDouble();
+      screen.add(FlSpot(x, count > 0 ? screenSum / count : double.nan));
+      sleep.add(FlSpot(x, count > 0 ? sleepSum / count : double.nan));
+      activity.add(FlSpot(x, count > 0 ? actSum / count : double.nan));
+    }
+    return {'screen': screen, 'sleep': sleep, 'activity': activity};
+  }
+
+  Widget _buildChartLegend(Responsive r) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _chartLegendItem(r, AppTheme.riskRed, 'Ekran (sa)'),
+        SizedBox(width: r.scale(16)),
+        _chartLegendItem(r, AppTheme.riskGreen, 'Uyku (sa)'),
+        SizedBox(width: r.scale(16)),
+        _chartLegendItem(r, AppTheme.accentPeach, 'Aktivite'),
+      ],
+    );
+  }
+
+  Widget _chartLegendItem(Responsive r, Color color, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: r.scale(10),
+          height: r.scale(10),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(r.scale(3)),
+          ),
+        ),
+        SizedBox(width: r.scale(5)),
+        Text(
+          label,
+          style: TextStyle(fontSize: r.scale(11), color: AppTheme.textGray, fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+
+  // ════════════════════════════════════════════════════════════════
 
   Widget _buildSliderCard(
     Responsive r, {
