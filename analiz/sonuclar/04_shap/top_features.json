@@ -1,0 +1,134 @@
+{
+  "anksiyete": [
+    {
+      "feature": "sc_age_years",
+      "mean_abs_shap": 0.65075
+    },
+    {
+      "feature": "physactiv",
+      "mean_abs_shap": 0.22965
+    },
+    {
+      "feature": "hareketsizlik",
+      "mean_abs_shap": 0.18084
+    },
+    {
+      "feature": "height",
+      "mean_abs_shap": 0.13508
+    },
+    {
+      "feature": "ekran_uyku_orani",
+      "mean_abs_shap": 0.12553
+    }
+  ],
+  "depresyon": [
+    {
+      "feature": "sc_age_years",
+      "mean_abs_shap": 1.52741
+    },
+    {
+      "feature": "hareketsizlik",
+      "mean_abs_shap": 0.30432
+    },
+    {
+      "feature": "ekran_uyku_orani",
+      "mean_abs_shap": 0.14509
+    },
+    {
+      "feature": "bedtime",
+      "mean_abs_shap": 0.14131
+    },
+    {
+      "feature": "weight",
+      "mean_abs_shap": 0.12033
+    }
+  ],
+  "dehb": [
+    {
+      "feature": "sc_age_years",
+      "mean_abs_shap": 0.86688
+    },
+    {
+      "feature": "sc_sex",
+      "mean_abs_shap": 0.33498
+    },
+    {
+      "feature": "physactiv",
+      "mean_abs_shap": 0.2408
+    },
+    {
+      "feature": "ekran_uyku_orani",
+      "mean_abs_shap": 0.13265
+    },
+    {
+      "feature": "hareketsizlik",
+      "mean_abs_shap": 0.13025
+    }
+  ],
+  "davranis": [
+    {
+      "feature": "sc_sex",
+      "mean_abs_shap": 0.44218
+    },
+    {
+      "feature": "sc_age_years",
+      "mean_abs_shap": 0.41825
+    },
+    {
+      "feature": "hareketsizlik",
+      "mean_abs_shap": 0.15639
+    },
+    {
+      "feature": "bedtime",
+      "mean_abs_shap": 0.11925
+    },
+    {
+      "feature": "height",
+      "mean_abs_shap": 0.11601
+    }
+  ],
+  "gelisim_gecikmesi": [
+    {
+      "feature": "sc_sex",
+      "mean_abs_shap": 0.36842
+    },
+    {
+      "feature": "height",
+      "mean_abs_shap": 0.14366
+    },
+    {
+      "feature": "physactiv",
+      "mean_abs_shap": 0.10347
+    },
+    {
+      "feature": "bmi",
+      "mean_abs_shap": 0.09225
+    },
+    {
+      "feature": "sc_age_years",
+      "mean_abs_shap": 0.08986
+    }
+  ],
+  "genel_risk": [
+    {
+      "feature": "sc_age_years",
+      "mean_abs_shap": 0.45276
+    },
+    {
+      "feature": "hareketsizlik",
+      "mean_abs_shap": 0.21756
+    },
+    {
+      "feature": "sc_sex",
+      "mean_abs_shap": 0.19148
+    },
+    {
+      "feature": "ekran_uyku_orani",
+      "mean_abs_shap": 0.08763
+    },
+    {
+      "feature": "bedtime",
+      "mean_abs_shap": 0.08165
+    }
+  ]
+}

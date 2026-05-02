@@ -1,0 +1,38 @@
+{
+  "anksiyete": {
+    "brier_ham": 0.18591,
+    "brier_kalibre": 0.09332,
+    "iyilesme_yuzde": 49.8,
+    "n_test": 54851
+  },
+  "depresyon": {
+    "brier_ham": 0.15166,
+    "brier_kalibre": 0.04302,
+    "iyilesme_yuzde": 71.63,
+    "n_test": 54921
+  },
+  "dehb": {
+    "brier_ham": 0.19535,
+    "brier_kalibre": 0.08422,
+    "iyilesme_yuzde": 56.89,
+    "n_test": 54749
+  },
+  "davranis": {
+    "brier_ham": 0.19649,
+    "brier_kalibre": 0.07047,
+    "iyilesme_yuzde": 64.13,
+    "n_test": 55052
+  },
+  "gelisim_gecikmesi": {
+    "brier_ham": 0.21733,
+    "brier_kalibre": 0.06864,
+    "iyilesme_yuzde": 68.42,
+    "n_test": 54906
+  },
+  "genel_risk": {
+    "brier_ham": 0.20516,
+    "brier_kalibre": 0.15883,
+    "iyilesme_yuzde": 22.58,
+    "n_test": 55162
+  }
+}

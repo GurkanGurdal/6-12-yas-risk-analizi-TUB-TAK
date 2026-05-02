@@ -1,0 +1,35 @@
+{
+  "n": 31448,
+  "spearman_rho": 0.267,
+  "rho_95ci_lower": 0.2561,
+  "rho_95ci_upper": 0.2772,
+  "p_value": 0.0,
+  "k2q01_bin_means": {
+    "1": {
+      "mean_birlesik_skor": 40.72,
+      "std": 25.33,
+      "n": 19866
+    },
+    "2": {
+      "mean_birlesik_skor": 52.99,
+      "std": 29.19,
+      "n": 8541
+    },
+    "3": {
+      "mean_birlesik_skor": 64.97,
+      "std": 32.42,
+      "n": 2588
+    },
+    "4": {
+      "mean_birlesik_skor": 72.51,
+      "std": 33.67,
+      "n": 408
+    },
+    "5": {
+      "mean_birlesik_skor": 79.13,
+      "std": 36.69,
+      "n": 45
+    }
+  },
+  "yorum": "Anlamli pozitif korelasyon (yuksek risk = kotu saglik)"
+}

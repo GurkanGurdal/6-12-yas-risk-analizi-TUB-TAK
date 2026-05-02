@@ -321,8 +321,10 @@ def yasam_tarzi_riski_hesapla(
         detaylar.append("Fiziksel aktivite yeterli")
 
     # Birleşik yaşam tarzı risk skoru
-    # Ekran süresi projenin odağı → %40, Uyku → %35, Aktivite → %25
-    toplam = ekran_risk * 0.40 + uyku_risk * 0.35 + aktivite_risk * 0.25
+    # Ağırlıklar veriden türetilmiştir (Analiz 7, NSCH 2022+2023, n=66464):
+    # standardize logistic regression risk komponentleri üzerinde,
+    # 7 outcome (k2q01 + 5 psikolojik tanı + any_psych) ortalaması.
+    toplam = ekran_risk * 0.30 + uyku_risk * 0.26 + aktivite_risk * 0.44
 
     return {
         "risk_puani": round(toplam, 2),
@@ -368,13 +370,17 @@ def birlesik_risk_hesapla(
     # Direkt toplam — üst sınır yok
     final = max(0, psikolojik_ort + yasam_tarzi_risk + fiziksel_birlesik)
 
-    if final >= 100:
+    # Eşikler popülasyon dağılımı (NSCH 2023, n=31448) ve k2q01 dış doğrulama
+    # ortalamalarıyla kalibre edildi (Analiz 6: Excellent=41, Very Good=53,
+    # Good=65, Fair=73, Poor=79). Gerçek popülasyon dağılımı:
+    # Çok Düşük %40, Düşük %19, Orta %16, Yüksek %12, Çok Yüksek %13.
+    if final >= 80:
         durum, renk = "Çok Yüksek Risk / Kırmızı Bölge", "#CC0000"
-    elif final >= 50:
+    elif final >= 65:
         durum, renk = "Yüksek Risk / Kırmızı Bölge", "#FF4444"
-    elif final >= 25:
+    elif final >= 50:
         durum, renk = "Orta Risk / Sarı Bölge", "#FFAA00"
-    elif final >= 10:
+    elif final >= 35:
         durum, renk = "Düşük Risk / Yeşil Bölge", "#44BB44"
     else:
         durum, renk = "Çok Düşük Risk / Yeşil Bölge", "#00CC00"

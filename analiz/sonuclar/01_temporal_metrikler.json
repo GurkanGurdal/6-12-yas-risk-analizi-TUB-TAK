@@ -1,0 +1,80 @@
+{
+  "anksiyete": {
+    "n_train_2022": 53825,
+    "n_test_2023": 54851,
+    "pozitif_oran_train": 0.1204,
+    "pozitif_oran_test": 0.1212,
+    "temporal_auc": 0.788,
+    "random_split_auc": 0.7857,
+    "auc_fark": 0.0023,
+    "optimal_threshold": 0.1729,
+    "f1": 0.3782,
+    "recall": 0.5734,
+    "precision": 0.2822
+  },
+  "depresyon": {
+    "n_train_2022": 53846,
+    "n_test_2023": 54921,
+    "pozitif_oran_train": 0.0576,
+    "pozitif_oran_test": 0.0527,
+    "temporal_auc": 0.8705,
+    "random_split_auc": 0.868,
+    "auc_fark": 0.0025,
+    "optimal_threshold": 0.183,
+    "f1": 0.3412,
+    "recall": 0.4772,
+    "precision": 0.2655
+  },
+  "dehb": {
+    "n_train_2022": 53739,
+    "n_test_2023": 54749,
+    "pozitif_oran_train": 0.1027,
+    "pozitif_oran_test": 0.1032,
+    "temporal_auc": 0.7744,
+    "random_split_auc": 0.7735,
+    "auc_fark": 0.0009,
+    "optimal_threshold": 0.1574,
+    "f1": 0.3263,
+    "recall": 0.5609,
+    "precision": 0.2301
+  },
+  "davranis": {
+    "n_train_2022": 53961,
+    "n_test_2023": 55052,
+    "pozitif_oran_train": 0.0804,
+    "pozitif_oran_test": 0.0822,
+    "temporal_auc": 0.7494,
+    "random_split_auc": 0.755,
+    "auc_fark": -0.0056,
+    "optimal_threshold": 0.1406,
+    "f1": 0.2802,
+    "recall": 0.4377,
+    "precision": 0.206
+  },
+  "gelisim_gecikmesi": {
+    "n_train_2022": 53845,
+    "n_test_2023": 54906,
+    "pozitif_oran_train": 0.076,
+    "pozitif_oran_test": 0.0772,
+    "temporal_auc": 0.6768,
+    "random_split_auc": 0.6694,
+    "auc_fark": 0.0074,
+    "optimal_threshold": 0.1111,
+    "f1": 0.2312,
+    "recall": 0.378,
+    "precision": 0.1665
+  },
+  "genel_risk": {
+    "n_train_2022": 54100,
+    "n_test_2023": 55162,
+    "pozitif_oran_train": 0.2344,
+    "pozitif_oran_test": 0.2365,
+    "temporal_auc": 0.7299,
+    "random_split_auc": 0.7359,
+    "auc_fark": -0.006,
+    "optimal_threshold": 0.2266,
+    "f1": 0.486,
+    "recall": 0.7217,
+    "precision": 0.3663
+  }
+}

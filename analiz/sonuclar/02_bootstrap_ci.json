@@ -1,0 +1,170 @@
+{
+  "anksiyete": {
+    "auc": {
+      "mean": 0.7879,
+      "lower": 0.7826,
+      "upper": 0.7934,
+      "n_iter": 1000
+    },
+    "f1": {
+      "mean": 0.3781,
+      "lower": 0.3688,
+      "upper": 0.3871,
+      "n_iter": 1000
+    },
+    "recall": {
+      "mean": 0.5732,
+      "lower": 0.5611,
+      "upper": 0.586,
+      "n_iter": 1000
+    },
+    "precision": {
+      "mean": 0.2821,
+      "lower": 0.2739,
+      "upper": 0.2901,
+      "n_iter": 1000
+    },
+    "n_test": 54851,
+    "threshold": 0.1729
+  },
+  "depresyon": {
+    "auc": {
+      "mean": 0.8704,
+      "lower": 0.8651,
+      "upper": 0.8756,
+      "n_iter": 1000
+    },
+    "f1": {
+      "mean": 0.3411,
+      "lower": 0.328,
+      "upper": 0.3536,
+      "n_iter": 1000
+    },
+    "recall": {
+      "mean": 0.477,
+      "lower": 0.4595,
+      "upper": 0.4942,
+      "n_iter": 1000
+    },
+    "precision": {
+      "mean": 0.2656,
+      "lower": 0.2541,
+      "upper": 0.2769,
+      "n_iter": 1000
+    },
+    "n_test": 54921,
+    "threshold": 0.183
+  },
+  "dehb": {
+    "auc": {
+      "mean": 0.7744,
+      "lower": 0.7691,
+      "upper": 0.7796,
+      "n_iter": 1000
+    },
+    "f1": {
+      "mean": 0.3263,
+      "lower": 0.3175,
+      "upper": 0.3344,
+      "n_iter": 1000
+    },
+    "recall": {
+      "mean": 0.5608,
+      "lower": 0.5473,
+      "upper": 0.5729,
+      "n_iter": 1000
+    },
+    "precision": {
+      "mean": 0.2301,
+      "lower": 0.2229,
+      "upper": 0.2368,
+      "n_iter": 1000
+    },
+    "n_test": 54749,
+    "threshold": 0.1574
+  },
+  "davranis": {
+    "auc": {
+      "mean": 0.7494,
+      "lower": 0.7426,
+      "upper": 0.7561,
+      "n_iter": 1000
+    },
+    "f1": {
+      "mean": 0.2801,
+      "lower": 0.2704,
+      "upper": 0.2899,
+      "n_iter": 1000
+    },
+    "recall": {
+      "mean": 0.4377,
+      "lower": 0.4236,
+      "upper": 0.4523,
+      "n_iter": 1000
+    },
+    "precision": {
+      "mean": 0.2059,
+      "lower": 0.1981,
+      "upper": 0.2143,
+      "n_iter": 1000
+    },
+    "n_test": 55052,
+    "threshold": 0.1406
+  },
+  "gelisim_gecikmesi": {
+    "auc": {
+      "mean": 0.6769,
+      "lower": 0.6678,
+      "upper": 0.6853,
+      "n_iter": 1000
+    },
+    "f1": {
+      "mean": 0.2311,
+      "lower": 0.2218,
+      "upper": 0.2404,
+      "n_iter": 1000
+    },
+    "recall": {
+      "mean": 0.3781,
+      "lower": 0.3637,
+      "upper": 0.3915,
+      "n_iter": 1000
+    },
+    "precision": {
+      "mean": 0.1664,
+      "lower": 0.1592,
+      "upper": 0.1738,
+      "n_iter": 1000
+    },
+    "n_test": 54906,
+    "threshold": 0.1111
+  },
+  "genel_risk": {
+    "auc": {
+      "mean": 0.7298,
+      "lower": 0.7249,
+      "upper": 0.7344,
+      "n_iter": 1000
+    },
+    "f1": {
+      "mean": 0.4858,
+      "lower": 0.4796,
+      "upper": 0.4919,
+      "n_iter": 1000
+    },
+    "recall": {
+      "mean": 0.7215,
+      "lower": 0.7137,
+      "upper": 0.729,
+      "n_iter": 1000
+    },
+    "precision": {
+      "mean": 0.3661,
+      "lower": 0.3603,
+      "upper": 0.3719,
+      "n_iter": 1000
+    },
+    "n_test": 55162,
+    "threshold": 0.2266
+  }
+}

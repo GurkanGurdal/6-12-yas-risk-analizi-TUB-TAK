@@ -1,0 +1,44 @@
+{
+  "orneklem": 32899,
+  "varyantlar": {
+    "ekrana_kayma": {
+      "agirliklar": [
+        0.4,
+        0.16,
+        0.44
+      ],
+      "spearman_rho": 0.9951,
+      "p_value": 0.0,
+      "kategori_degisim_yuzde": 8.06,
+      "ortalama_mutlak_skor_farki": 1.547
+    },
+    "uykuya_kayma": {
+      "agirliklar": [
+        0.2,
+        0.36,
+        0.44
+      ],
+      "spearman_rho": 0.9798,
+      "p_value": 0.0,
+      "kategori_degisim_yuzde": 1.1,
+      "ortalama_mutlak_skor_farki": 1.547
+    },
+    "aktiviteye_kayma": {
+      "agirliklar": [
+        0.2,
+        0.26,
+        0.54
+      ],
+      "spearman_rho": 0.9777,
+      "p_value": 0.0,
+      "kategori_degisim_yuzde": 0.94,
+      "ortalama_mutlak_skor_farki": 1.876
+    }
+  },
+  "orijinal_agirliklar": [
+    0.3,
+    0.26,
+    0.44
+  ],
+  "agirlik_kaynagi": "Veri-bazli (Analiz 7): NSCH 2022+2023 (n=66464) standardize logistic regression risk komponentleri uzerinde, 7 outcome ortalamasi"
+}

@@ -36,6 +36,11 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
   /// Grafik periyodu: 0=Günlük, 1=Haftalık, 2=Aylık
   int _chartPeriod = 0;
 
+  /// Grafikte hangi serilerin görüneceği
+  bool _showScreen = true;
+  bool _showSleep = true;
+  bool _showActivity = true;
+
   @override
   void initState() {
     super.initState();
@@ -489,20 +494,21 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
           ),
           SizedBox(height: r.scale(16)),
 
-          // Periyot seçici
+          // Periyot seçici (48dp touch target)
           Row(
             children: List.generate(3, (i) {
               final labels = ['Günlük', 'Haftalık', 'Aylık'];
               final selected = _chartPeriod == i;
               return Expanded(
                 child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () => setState(() => _chartPeriod = i),
                   child: Neumorphic(
                     style: selected
                         ? AppTheme.nConcave(radius: r.scale(12))
                         : AppTheme.nConvex(radius: r.scale(12), depth: 3),
                     margin: EdgeInsets.symmetric(horizontal: r.scale(4)),
-                    padding: EdgeInsets.symmetric(vertical: r.scale(10)),
+                    padding: EdgeInsets.symmetric(vertical: r.scale(14)),
                     child: Center(
                       child: Text(
                         labels[i],
@@ -518,17 +524,228 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
               );
             }),
           ),
-          SizedBox(height: r.scale(18)),
+          SizedBox(height: r.scale(14)),
 
-          // Grafik
-          SizedBox(
-            height: r.scale(220),
-            child: _buildLineChart(r),
+          // Dönem etiketi
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: r.scale(4)),
+            child: Row(
+              children: [
+                Icon(Icons.date_range_rounded, size: r.scale(14), color: AppTheme.textGray),
+                SizedBox(width: r.scale(6)),
+                Text(
+                  _periodSubtitle,
+                  style: TextStyle(
+                    color: AppTheme.textGray,
+                    fontSize: r.scale(11),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: r.scale(10)),
+
+          // Özet kartları (ortalamalar + trend)
+          _buildSummaryRow(r),
+          SizedBox(height: r.scale(16)),
+
+          // Grafik (içe basılı neumorphic kutu + yumuşak geçiş)
+          Neumorphic(
+            style: AppTheme.nConcave(radius: r.scale(16)),
+            padding: EdgeInsets.fromLTRB(
+              r.scale(6),
+              r.scale(14),
+              r.scale(12),
+              r.scale(8),
+            ),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 280),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              child: SizedBox(
+                key: ValueKey(_chartPeriod),
+                height: r.scale(220),
+                child: _buildLineChart(r),
+              ),
+            ),
           ),
           SizedBox(height: r.scale(14)),
 
           // Lejant
           _buildChartLegend(r),
+        ],
+      ),
+    );
+  }
+
+  String get _periodSubtitle {
+    switch (_chartPeriod) {
+      case 0:
+        return 'Son 7 gün';
+      case 1:
+        return 'Son 4 hafta';
+      default:
+        return 'Son 3 ay';
+    }
+  }
+
+  /// Mevcut periyot verilerinden ortalama + trend hesaplar.
+  /// improveDown=true → değer düştükçe iyidir (örn. ekran süresi).
+  ({double avg, double trend, bool hasData}) _seriesSummary(List<FlSpot> spots) {
+    final valid = spots.where((s) => !s.y.isNaN).map((s) => s.y).toList();
+    if (valid.isEmpty) return (avg: 0, trend: 0, hasData: false);
+    final avg = valid.reduce((a, b) => a + b) / valid.length;
+    double trend = 0;
+    if (valid.length >= 2) {
+      final mid = valid.length ~/ 2;
+      final first = valid.sublist(0, mid);
+      final second = valid.sublist(mid);
+      if (first.isNotEmpty && second.isNotEmpty) {
+        final a = first.reduce((x, y) => x + y) / first.length;
+        final b = second.reduce((x, y) => x + y) / second.length;
+        trend = b - a;
+      }
+    }
+    return (avg: avg, trend: trend, hasData: true);
+  }
+
+  Widget _buildSummaryRow(Responsive r) {
+    final data = _chartPeriod == 0
+        ? _buildDailyData()
+        : _chartPeriod == 1
+            ? _buildWeeklyData()
+            : _buildMonthlyData();
+
+    final screen = _seriesSummary(data['screen']!);
+    final sleep = _seriesSummary(data['sleep']!);
+    final act = _seriesSummary(data['activity']!);
+
+    return Row(
+      children: [
+        Expanded(
+          child: _summaryCard(
+            r,
+            icon: Icons.tv_rounded,
+            color: AppTheme.riskRed,
+            label: 'Ekran',
+            summary: screen,
+            unit: 'sa',
+            improveDown: true,
+          ),
+        ),
+        SizedBox(width: r.scale(8)),
+        Expanded(
+          child: _summaryCard(
+            r,
+            icon: Icons.nightlight_round,
+            color: AppTheme.riskGreen,
+            label: 'Uyku',
+            summary: sleep,
+            unit: 'sa',
+            improveDown: false,
+          ),
+        ),
+        SizedBox(width: r.scale(8)),
+        Expanded(
+          child: _summaryCard(
+            r,
+            icon: Icons.directions_run_rounded,
+            color: AppTheme.accentPeach,
+            label: 'Aktivite',
+            summary: act,
+            unit: '',
+            improveDown: false,
+            isActivity: true,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _summaryCard(
+    Responsive r, {
+    required IconData icon,
+    required Color color,
+    required String label,
+    required ({double avg, double trend, bool hasData}) summary,
+    required String unit,
+    required bool improveDown,
+    bool isActivity = false,
+  }) {
+    const actLevels = ['Düşük', 'Orta', 'Yüksek'];
+    String valueText;
+    if (!summary.hasData) {
+      valueText = '—';
+    } else if (isActivity) {
+      valueText = actLevels[summary.avg.round().clamp(0, 2)];
+    } else {
+      valueText = summary.avg.toStringAsFixed(1);
+    }
+
+    return Neumorphic(
+      style: AppTheme.nConcave(radius: r.scale(14)),
+      padding: EdgeInsets.symmetric(
+        horizontal: r.scale(10),
+        vertical: r.scale(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: color, size: r.scale(14)),
+              SizedBox(width: r.scale(5)),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: AppTheme.textGray,
+                    fontSize: r.scale(10),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: r.scale(8)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  valueText,
+                  style: TextStyle(
+                    color: AppTheme.textDark,
+                    fontSize: r.scale(isActivity ? 13 : 17),
+                    fontWeight: FontWeight.w800,
+                    height: 1,
+                  ),
+                ),
+                if (summary.hasData && !isActivity && unit.isNotEmpty) ...[
+                  SizedBox(width: r.scale(2)),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: r.scale(2)),
+                    child: Text(
+                      unit,
+                      style: TextStyle(
+                        color: AppTheme.textGray,
+                        fontSize: r.scale(10),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -546,24 +763,70 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
     final sleepSpots = data['sleep']!;
     final activitySpots = data['activity']!;
 
-    final hasAny = screenSpots.any((s) => !s.y.isNaN) ||
-        sleepSpots.any((s) => !s.y.isNaN) ||
-        activitySpots.any((s) => !s.y.isNaN);
+    final visibleSpots = <List<FlSpot>>[
+      if (_showScreen) screenSpots,
+      if (_showSleep) sleepSpots,
+      if (_showActivity) activitySpots,
+    ];
+
+    final hasAny = visibleSpots.any((list) => list.any((s) => !s.y.isNaN));
 
     if (!hasAny) {
+      final allHidden = !_showScreen && !_showSleep && !_showActivity;
       return Center(
-        child: Text(
-          'Henüz yeterli veri yok',
-          style: TextStyle(color: AppTheme.textGray, fontSize: r.scale(13)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              allHidden ? Icons.visibility_off_outlined : Icons.show_chart_rounded,
+              size: r.scale(36),
+              color: AppTheme.textGray.withOpacity(0.4),
+            ),
+            SizedBox(height: r.scale(8)),
+            Text(
+              allHidden ? 'En az bir seri seçin' : 'Henüz yeterli veri yok',
+              style: TextStyle(
+                color: AppTheme.textGray,
+                fontSize: r.scale(13),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            if (!allHidden) ...[
+              SizedBox(height: r.scale(4)),
+              Text(
+                'Günlük kayıt ekledikçe grafik oluşur',
+                style: TextStyle(
+                  color: AppTheme.textGray.withOpacity(0.7),
+                  fontSize: r.scale(11),
+                ),
+              ),
+            ],
+          ],
         ),
       );
     }
 
-    final allY = [...screenSpots, ...sleepSpots, ...activitySpots]
+    final allY = visibleSpots
+        .expand((list) => list)
         .where((s) => !s.y.isNaN)
         .map((s) => s.y);
     final rawMax = allY.fold<double>(0, (a, b) => math.max(a, b));
-    final ceiledMax = ((rawMax / 2).ceil() * 2).toDouble().clamp(2.0, 20.0);
+
+    // ~4 aralık verecek temiz bir adım seç
+    double step;
+    if (rawMax <= 4) {
+      step = 1;
+    } else if (rawMax <= 8) {
+      step = 2;
+    } else if (rawMax <= 12) {
+      step = 3;
+    } else if (rawMax <= 16) {
+      step = 4;
+    } else {
+      step = 5;
+    }
+    final ceiledMax =
+        math.max(step, ((rawMax / step).ceil() * step).toDouble());
 
     final bottomLabels = _chartPeriod == 0
         ? _dailyLabels()
@@ -603,10 +866,11 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
         gridData: FlGridData(
           show: true,
           drawVerticalLine: false,
-          horizontalInterval: ceiledMax / 4,
+          horizontalInterval: step,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: AppTheme.textGray.withOpacity(0.12),
+            color: AppTheme.textGray.withOpacity(0.10),
             strokeWidth: 1,
+            dashArray: const [4, 4],
           ),
         ),
         borderData: FlBorderData(show: false),
@@ -616,13 +880,22 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: r.scale(32),
-              interval: ceiledMax / 4,
+              reservedSize: r.scale(26),
+              interval: step,
               getTitlesWidget: (value, meta) {
-                if (value == ceiledMax) return const SizedBox.shrink();
-                return Text(
-                  value.toInt().toString(),
-                  style: TextStyle(fontSize: r.scale(10), color: AppTheme.textGray),
+                if (value < 0 || value > ceiledMax + 0.01) {
+                  return const SizedBox.shrink();
+                }
+                return Padding(
+                  padding: EdgeInsets.only(right: r.scale(6)),
+                  child: Text(
+                    value.toInt().toString(),
+                    style: TextStyle(
+                      fontSize: r.scale(10),
+                      color: AppTheme.textGray,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 );
               },
             ),
@@ -630,16 +903,21 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: r.scale(28),
+              reservedSize: r.scale(24),
               interval: 1,
               getTitlesWidget: (value, meta) {
                 final idx = value.toInt();
                 if (idx < 0 || idx >= bottomLabels.length) return const SizedBox.shrink();
                 return Padding(
-                  padding: EdgeInsets.only(top: r.scale(6)),
+                  padding: EdgeInsets.only(top: r.scale(8)),
                   child: Text(
                     bottomLabels[idx],
-                    style: TextStyle(fontSize: r.scale(10), color: AppTheme.textGray),
+                    style: TextStyle(
+                      fontSize: r.scale(10),
+                      color: AppTheme.textGray,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.3,
+                    ),
                   ),
                 );
               },
@@ -647,32 +925,42 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
           ),
         ),
         lineBarsData: [
-          makeLine(screenSpots, AppTheme.riskRed),
-          makeLine(sleepSpots, AppTheme.riskGreen),
-          makeLine(activitySpots, AppTheme.accentPeach),
+          if (_showScreen) makeLine(screenSpots, AppTheme.riskRed),
+          if (_showSleep) makeLine(sleepSpots, AppTheme.riskGreen),
+          if (_showActivity) makeLine(activitySpots, AppTheme.accentPeach),
         ],
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (_) => AppTheme.textDark.withOpacity(0.85),
+            getTooltipColor: (_) => AppTheme.textDark.withOpacity(0.9),
+            fitInsideHorizontally: true,
+            fitInsideVertically: true,
+            tooltipRoundedRadius: r.scale(8),
+            tooltipPadding: EdgeInsets.symmetric(
+              horizontal: r.scale(10),
+              vertical: r.scale(6),
+            ),
+            tooltipMargin: r.scale(8),
             getTooltipItems: (touchedSpots) {
-              final labels = [
-                ('Ekran', 'sa'),
-                ('Uyku', 'sa'),
-                ('Aktivite', ''),
+              final visibleLabels = <({String name, String unit, bool isActivity})>[
+                if (_showScreen) (name: 'Ekran', unit: 'sa', isActivity: false),
+                if (_showSleep) (name: 'Uyku', unit: 'sa', isActivity: false),
+                if (_showActivity) (name: 'Aktivite', unit: '', isActivity: true),
               ];
               const actLevels = ['Düşük', 'Orta', 'Yüksek'];
               return touchedSpots.map((spot) {
-                final i = spot.barIndex;
-                final name = labels[i].$1;
+                if (spot.barIndex >= visibleLabels.length) {
+                  return null;
+                }
+                final label = visibleLabels[spot.barIndex];
                 String val;
-                if (i == 2) {
+                if (label.isActivity) {
                   final level = spot.y.round().clamp(0, 2);
                   val = actLevels[level];
                 } else {
-                  val = '${spot.y.toStringAsFixed(1)} ${labels[i].$2}';
+                  val = '${spot.y.toStringAsFixed(1)} ${label.unit}';
                 }
                 return LineTooltipItem(
-                  '$name: $val',
+                  '${label.name}: $val',
                   TextStyle(
                     color: spot.bar.color ?? Colors.white,
                     fontWeight: FontWeight.w600,
@@ -690,11 +978,12 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
   // ── Günlük: son 7 gün ──
 
   List<String> _dailyLabels() {
+    const weekdays = ['', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
     final labels = <String>[];
     final now = DateTime.now();
     for (int i = 6; i >= 0; i--) {
       final d = now.subtract(Duration(days: i));
-      labels.add('${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}');
+      labels.add(weekdays[d.weekday]);
     }
     return labels;
   }
@@ -710,10 +999,9 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
       final key = "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
       final log = _loggedDates[key];
       final x = (6 - i).toDouble();
-      final hasData = log != null && (log.screenHours != null || log.sleepHours != null);
-      screen.add(FlSpot(x, hasData ? (log.screenHours ?? 0) : double.nan));
-      sleep.add(FlSpot(x, hasData ? (log.sleepHours ?? 0) : double.nan));
-      activity.add(FlSpot(x, hasData ? (log.activityLevel?.toDouble() ?? 0) : double.nan));
+      screen.add(FlSpot(x, log?.screenHours ?? double.nan));
+      sleep.add(FlSpot(x, log?.sleepHours ?? double.nan));
+      activity.add(FlSpot(x, log?.activityLevel?.toDouble() ?? double.nan));
     }
     return {'screen': screen, 'sleep': sleep, 'activity': activity};
   }
@@ -739,24 +1027,31 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
     for (int w = 3; w >= 0; w--) {
       final weekStart = now.subtract(Duration(days: now.weekday - 1 + w * 7));
       double screenSum = 0, sleepSum = 0, actSum = 0;
-      int count = 0;
+      int screenCount = 0, sleepCount = 0, actCount = 0;
 
       for (int d = 0; d < 7; d++) {
         final day = weekStart.add(Duration(days: d));
         final key = "${day.year}-${day.month.toString().padLeft(2, '0')}-${day.day.toString().padLeft(2, '0')}";
         final log = _loggedDates[key];
-        if (log != null && (log.screenHours != null || log.sleepHours != null)) {
-          screenSum += log.screenHours ?? 0;
-          sleepSum += log.sleepHours ?? 0;
-          actSum += log.activityLevel?.toDouble() ?? 0;
-          count++;
+        if (log == null) continue;
+        if (log.screenHours != null) {
+          screenSum += log.screenHours!;
+          screenCount++;
+        }
+        if (log.sleepHours != null) {
+          sleepSum += log.sleepHours!;
+          sleepCount++;
+        }
+        if (log.activityLevel != null) {
+          actSum += log.activityLevel!.toDouble();
+          actCount++;
         }
       }
 
       final x = (3 - w).toDouble();
-      screen.add(FlSpot(x, count > 0 ? screenSum / count : double.nan));
-      sleep.add(FlSpot(x, count > 0 ? sleepSum / count : double.nan));
-      activity.add(FlSpot(x, count > 0 ? actSum / count : double.nan));
+      screen.add(FlSpot(x, screenCount > 0 ? screenSum / screenCount : double.nan));
+      sleep.add(FlSpot(x, sleepCount > 0 ? sleepSum / sleepCount : double.nan));
+      activity.add(FlSpot(x, actCount > 0 ? actSum / actCount : double.nan));
     }
     return {'screen': screen, 'sleep': sleep, 'activity': activity};
   }
@@ -784,57 +1079,97 @@ class _DailyLogScreenState extends State<DailyLogScreen> {
       final m = DateTime(now.year, now.month - i, 1);
       final monthStr = "${m.year}-${m.month.toString().padLeft(2, '0')}";
       double screenSum = 0, sleepSum = 0, actSum = 0;
-      int count = 0;
+      int screenCount = 0, sleepCount = 0, actCount = 0;
 
       for (final entry in _loggedDates.entries) {
-        if (entry.key.startsWith(monthStr)) {
-          final log = entry.value;
-          screenSum += log.screenHours ?? 0;
-          sleepSum += log.sleepHours ?? 0;
-          actSum += log.activityLevel?.toDouble() ?? 0;
-          count++;
+        if (!entry.key.startsWith(monthStr)) continue;
+        final log = entry.value;
+        if (log.screenHours != null) {
+          screenSum += log.screenHours!;
+          screenCount++;
+        }
+        if (log.sleepHours != null) {
+          sleepSum += log.sleepHours!;
+          sleepCount++;
+        }
+        if (log.activityLevel != null) {
+          actSum += log.activityLevel!.toDouble();
+          actCount++;
         }
       }
 
       final x = (2 - i).toDouble();
-      screen.add(FlSpot(x, count > 0 ? screenSum / count : double.nan));
-      sleep.add(FlSpot(x, count > 0 ? sleepSum / count : double.nan));
-      activity.add(FlSpot(x, count > 0 ? actSum / count : double.nan));
+      screen.add(FlSpot(x, screenCount > 0 ? screenSum / screenCount : double.nan));
+      sleep.add(FlSpot(x, sleepCount > 0 ? sleepSum / sleepCount : double.nan));
+      activity.add(FlSpot(x, actCount > 0 ? actSum / actCount : double.nan));
     }
     return {'screen': screen, 'sleep': sleep, 'activity': activity};
   }
 
   Widget _buildChartLegend(Responsive r) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: r.scale(8),
+      runSpacing: r.scale(8),
       children: [
-        _chartLegendItem(r, AppTheme.riskRed, 'Ekran (sa)'),
-        SizedBox(width: r.scale(16)),
-        _chartLegendItem(r, AppTheme.riskGreen, 'Uyku (sa)'),
-        SizedBox(width: r.scale(16)),
-        _chartLegendItem(r, AppTheme.accentPeach, 'Aktivite'),
+        _chartLegendItem(
+          r,
+          AppTheme.riskRed,
+          'Ekran (sa)',
+          active: _showScreen,
+          onTap: () => setState(() => _showScreen = !_showScreen),
+        ),
+        _chartLegendItem(
+          r,
+          AppTheme.riskGreen,
+          'Uyku (sa)',
+          active: _showSleep,
+          onTap: () => setState(() => _showSleep = !_showSleep),
+        ),
+        _chartLegendItem(
+          r,
+          AppTheme.accentPeach,
+          'Aktivite',
+          active: _showActivity,
+          onTap: () => setState(() => _showActivity = !_showActivity),
+        ),
       ],
     );
   }
 
-  Widget _chartLegendItem(Responsive r, Color color, String label) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: r.scale(10),
-          height: r.scale(10),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(r.scale(3)),
-          ),
+  Widget _chartLegendItem(
+    Responsive r,
+    Color color,
+    String label, {
+    required bool active,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: r.scale(8), vertical: r.scale(10)),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              active ? Icons.visibility_rounded : Icons.visibility_off_rounded,
+              size: r.scale(17),
+              color: color.withOpacity(active ? 1.0 : 0.35),
+            ),
+            SizedBox(width: r.scale(6)),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: r.scale(12),
+                color: AppTheme.textDark.withOpacity(active ? 1.0 : 0.35),
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.2,
+              ),
+            ),
+          ],
         ),
-        SizedBox(width: r.scale(5)),
-        Text(
-          label,
-          style: TextStyle(fontSize: r.scale(11), color: AppTheme.textGray, fontWeight: FontWeight.w500),
-        ),
-      ],
+      ),
     );
   }
 

@@ -1,0 +1,352 @@
+{
+  "orijinal_agirliklar": {
+    "ekran": 0.4,
+    "uyku": 0.35,
+    "aktivite": 0.25
+  },
+  "yontem_a_ham_input": {
+    "aciklama": "Logistic regression on raw inputs (ekran_saat, uyku_saat, aktivite_gun)",
+    "sinirlama": "Lineer model uyku-saglik U-sekli iliskiyi yakalayamaz",
+    "ortalama_agirlik": {
+      "ekran": 0.3811,
+      "uyku": 0.1753,
+      "aktivite": 0.4436
+    },
+    "outcome_bazli": {
+      "k2q01_kotu": {
+        "aciklama": "Genel Saglik (k2q01 kotu)",
+        "n": 66308,
+        "pos_oran": 0.1004,
+        "ham_coef": {
+          "ekran": 0.2212,
+          "uyku": -0.227,
+          "aktivite": -0.4676,
+          "yas_kontrol": -0.0234,
+          "cinsiyet_kontrol": -0.0153
+        },
+        "mutlak_coef": {
+          "ekran": 0.2212,
+          "uyku": 0.227,
+          "aktivite": 0.4676
+        },
+        "agirlik": {
+          "ekran": 0.2415,
+          "uyku": 0.2479,
+          "aktivite": 0.5106
+        }
+      },
+      "anksiyete_outcome": {
+        "aciklama": "Anksiyete",
+        "n": 66105,
+        "pos_oran": 0.1844,
+        "ham_coef": {
+          "ekran": 0.2456,
+          "uyku": -0.0725,
+          "aktivite": -0.2094,
+          "yas_kontrol": 0.2835,
+          "cinsiyet_kontrol": 0.1984
+        },
+        "mutlak_coef": {
+          "ekran": 0.2456,
+          "uyku": 0.0725,
+          "aktivite": 0.2094
+        },
+        "agirlik": {
+          "ekran": 0.4656,
+          "uyku": 0.1374,
+          "aktivite": 0.397
+        }
+      },
+      "depresyon_outcome": {
+        "aciklama": "Depresyon",
+        "n": 66163,
+        "pos_oran": 0.088,
+        "ham_coef": {
+          "ekran": 0.344,
+          "uyku": -0.1699,
+          "aktivite": -0.3291,
+          "yas_kontrol": 0.7248,
+          "cinsiyet_kontrol": 0.2575
+        },
+        "mutlak_coef": {
+          "ekran": 0.344,
+          "uyku": 0.1699,
+          "aktivite": 0.3291
+        },
+        "agirlik": {
+          "ekran": 0.408,
+          "uyku": 0.2016,
+          "aktivite": 0.3904
+        }
+      },
+      "dehb_outcome": {
+        "aciklama": "DEHB",
+        "n": 65984,
+        "pos_oran": 0.157,
+        "ham_coef": {
+          "ekran": 0.1871,
+          "uyku": -0.0797,
+          "aktivite": -0.1896,
+          "yas_kontrol": 0.0608,
+          "cinsiyet_kontrol": -0.3482
+        },
+        "mutlak_coef": {
+          "ekran": 0.1871,
+          "uyku": 0.0797,
+          "aktivite": 0.1896
+        },
+        "agirlik": {
+          "ekran": 0.4099,
+          "uyku": 0.1747,
+          "aktivite": 0.4154
+        }
+      },
+      "davranis_outcome": {
+        "aciklama": "Davranis Bozuklugu",
+        "n": 66314,
+        "pos_oran": 0.1094,
+        "ham_coef": {
+          "ekran": 0.2558,
+          "uyku": -0.1126,
+          "aktivite": -0.266,
+          "yas_kontrol": -0.297,
+          "cinsiyet_kontrol": -0.4642
+        },
+        "mutlak_coef": {
+          "ekran": 0.2558,
+          "uyku": 0.1126,
+          "aktivite": 0.266
+        },
+        "agirlik": {
+          "ekran": 0.4033,
+          "uyku": 0.1775,
+          "aktivite": 0.4192
+        }
+      },
+      "gelisim_gecikmesi_outcome": {
+        "aciklama": "Gelisim Gecikmesi",
+        "n": 66167,
+        "pos_oran": 0.0794,
+        "ham_coef": {
+          "ekran": 0.1651,
+          "uyku": -0.0631,
+          "aktivite": -0.3127,
+          "yas_kontrol": -0.2771,
+          "cinsiyet_kontrol": -0.3441
+        },
+        "mutlak_coef": {
+          "ekran": 0.1651,
+          "uyku": 0.0631,
+          "aktivite": 0.3127
+        },
+        "agirlik": {
+          "ekran": 0.3052,
+          "uyku": 0.1167,
+          "aktivite": 0.5781
+        }
+      },
+      "any_psych": {
+        "aciklama": "Herhangi Psikolojik Tani",
+        "n": 66463,
+        "pos_oran": 0.297,
+        "ham_coef": {
+          "ekran": 0.2418,
+          "uyku": -0.0954,
+          "aktivite": -0.2198,
+          "yas_kontrol": 0.1537,
+          "cinsiyet_kontrol": -0.0774
+        },
+        "mutlak_coef": {
+          "ekran": 0.2418,
+          "uyku": 0.0954,
+          "aktivite": 0.2198
+        },
+        "agirlik": {
+          "ekran": 0.4341,
+          "uyku": 0.1714,
+          "aktivite": 0.3945
+        }
+      }
+    }
+  },
+  "yontem_b_risk_komponent": {
+    "aciklama": "Logistic regression on risk components (ekran_risk, uyku_risk, aktivite_risk)",
+    "avantaj": "Risk komponentleri MONOTON (kilavuzdan uzaklik) -> U-sekli problemi yok",
+    "ortalama_agirlik": {
+      "ekran": 0.3032,
+      "uyku": 0.2622,
+      "aktivite": 0.4346
+    },
+    "outcome_bazli": {
+      "k2q01_kotu": {
+        "aciklama": "Genel Saglik (k2q01 kotu)",
+        "n": 66308,
+        "pos_oran": 0.1004,
+        "ham_coef": {
+          "ekran": 0.1858,
+          "uyku": 0.2458,
+          "aktivite": 0.4266,
+          "yas_kontrol": 0.14,
+          "cinsiyet_kontrol": -0.015
+        },
+        "mutlak_coef": {
+          "ekran": 0.1858,
+          "uyku": 0.2458,
+          "aktivite": 0.4266
+        },
+        "agirlik": {
+          "ekran": 0.2165,
+          "uyku": 0.2864,
+          "aktivite": 0.4971
+        }
+      },
+      "anksiyete_outcome": {
+        "aciklama": "Anksiyete",
+        "n": 66105,
+        "pos_oran": 0.1844,
+        "ham_coef": {
+          "ekran": 0.1794,
+          "uyku": 0.1326,
+          "aktivite": 0.2083,
+          "yas_kontrol": 0.3947,
+          "cinsiyet_kontrol": 0.1954
+        },
+        "mutlak_coef": {
+          "ekran": 0.1794,
+          "uyku": 0.1326,
+          "aktivite": 0.2083
+        },
+        "agirlik": {
+          "ekran": 0.3449,
+          "uyku": 0.2548,
+          "aktivite": 0.4003
+        }
+      },
+      "depresyon_outcome": {
+        "aciklama": "Depresyon",
+        "n": 66163,
+        "pos_oran": 0.088,
+        "ham_coef": {
+          "ekran": 0.2534,
+          "uyku": 0.2255,
+          "aktivite": 0.3136,
+          "yas_kontrol": 0.9168,
+          "cinsiyet_kontrol": 0.2543
+        },
+        "mutlak_coef": {
+          "ekran": 0.2534,
+          "uyku": 0.2255,
+          "aktivite": 0.3136
+        },
+        "agirlik": {
+          "ekran": 0.3197,
+          "uyku": 0.2846,
+          "aktivite": 0.3957
+        }
+      },
+      "dehb_outcome": {
+        "aciklama": "DEHB",
+        "n": 65984,
+        "pos_oran": 0.157,
+        "ham_coef": {
+          "ekran": 0.1481,
+          "uyku": 0.1324,
+          "aktivite": 0.1866,
+          "yas_kontrol": 0.1537,
+          "cinsiyet_kontrol": -0.3512
+        },
+        "mutlak_coef": {
+          "ekran": 0.1481,
+          "uyku": 0.1324,
+          "aktivite": 0.1866
+        },
+        "agirlik": {
+          "ekran": 0.3171,
+          "uyku": 0.2834,
+          "aktivite": 0.3994
+        }
+      },
+      "davranis_outcome": {
+        "aciklama": "Davranis Bozuklugu",
+        "n": 66314,
+        "pos_oran": 0.1094,
+        "ham_coef": {
+          "ekran": 0.2052,
+          "uyku": 0.1719,
+          "aktivite": 0.264,
+          "yas_kontrol": -0.171,
+          "cinsiyet_kontrol": -0.4679
+        },
+        "mutlak_coef": {
+          "ekran": 0.2052,
+          "uyku": 0.1719,
+          "aktivite": 0.264
+        },
+        "agirlik": {
+          "ekran": 0.3201,
+          "uyku": 0.2681,
+          "aktivite": 0.4118
+        }
+      },
+      "gelisim_gecikmesi_outcome": {
+        "aciklama": "Gelisim Gecikmesi",
+        "n": 66167,
+        "pos_oran": 0.0794,
+        "ham_coef": {
+          "ekran": 0.1523,
+          "uyku": 0.1099,
+          "aktivite": 0.2955,
+          "yas_kontrol": -0.1994,
+          "cinsiyet_kontrol": -0.3437
+        },
+        "mutlak_coef": {
+          "ekran": 0.1523,
+          "uyku": 0.1099,
+          "aktivite": 0.2955
+        },
+        "agirlik": {
+          "ekran": 0.2731,
+          "uyku": 0.1971,
+          "aktivite": 0.5299
+        }
+      },
+      "any_psych": {
+        "aciklama": "Herhangi Psikolojik Tani",
+        "n": 66463,
+        "pos_oran": 0.297,
+        "ham_coef": {
+          "ekran": 0.1827,
+          "uyku": 0.1439,
+          "aktivite": 0.2252,
+          "yas_kontrol": 0.2696,
+          "cinsiyet_kontrol": -0.081
+        },
+        "mutlak_coef": {
+          "ekran": 0.1827,
+          "uyku": 0.1439,
+          "aktivite": 0.2252
+        },
+        "agirlik": {
+          "ekran": 0.3312,
+          "uyku": 0.2607,
+          "aktivite": 0.4081
+        }
+      }
+    }
+  },
+  "final_oneri": {
+    "kaynak": "Yontem B (risk komponent regression)",
+    "agirliklar": {
+      "ekran": 0.3032,
+      "uyku": 0.2622,
+      "aktivite": 0.4346
+    },
+    "fark_orijinalden": {
+      "ekran": -0.0968,
+      "uyku": -0.0878,
+      "aktivite": 0.1846
+    },
+    "max_mutlak_fark": 0.1846,
+    "yorum": "ONEMLI FARK: max fark 0.185. Agirliklar veri-bazli degerlere guncellenebilir."
+  }
+}
