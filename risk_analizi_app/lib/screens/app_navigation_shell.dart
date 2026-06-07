@@ -26,6 +26,7 @@ class AppNavigationShell extends StatefulWidget {
 class _AppNavigationShellState extends State<AppNavigationShell> {
   int _currentIndex = 0;
   int _refreshKey = 0;
+  int _analysisRefreshKey = 0;
   int _previousIndex = 0;
   late ChildProfile _activeProfile;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -42,6 +43,9 @@ class _AppNavigationShellState extends State<AppNavigationShell> {
         key: ValueKey('home_${_activeProfile.name}_${_activeProfile.age}_$_refreshKey'),
         profile: _activeProfile,
         onOpenAnalysisTab: () => setState(() => _currentIndex = 2),
+        // Dashboard yeni rapor kaydedince analiz sekmesini yenile (dashboard'i
+        // tetiklemeden, cunku home key'i _refreshKey'e bagli, bu degismiyor).
+        onAnalysisUpdated: () => setState(() => _analysisRefreshKey++),
       ),
       DailyLogScreen(
         key: ValueKey('log_${_activeProfile.name}_${_activeProfile.age}'),
@@ -52,7 +56,7 @@ class _AppNavigationShellState extends State<AppNavigationShell> {
         }),
       ),
       AnalysisReportScreen(
-        key: ValueKey('analysis_${_activeProfile.name}_${_activeProfile.age}_$_refreshKey'),
+        key: ValueKey('analysis_${_activeProfile.name}_${_activeProfile.age}_${_refreshKey}_$_analysisRefreshKey'),
         profile: _activeProfile,
       ),
       GrowthScreen(

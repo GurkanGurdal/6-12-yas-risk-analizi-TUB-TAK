@@ -14,11 +14,13 @@ import 'analysis_report_screen.dart';
 class DashboardScreen extends StatefulWidget {
   final ChildProfile profile;
   final VoidCallback? onOpenAnalysisTab;
+  final VoidCallback? onAnalysisUpdated;
 
   const DashboardScreen({
     super.key,
     required this.profile,
     this.onOpenAnalysisTab,
+    this.onAnalysisUpdated,
   });
 
   @override
@@ -115,6 +117,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _riskResult = result;
       _isAnalyzing = false;
     });
+
+    // Analiz sekmesi IndexedStack'te canli kaldigi icin, yeni rapor kaydedildikten
+    // sonra onu yenilemesi gerekiyor (yoksa eski kaydedilmis raporu gosterir).
+    if (result != null) {
+      widget.onAnalysisUpdated?.call();
+    }
   }
 
   double _riskPercentValue() {
@@ -142,8 +150,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
     }
     final v = _riskPercentValue();
-    if (v >= 50) return AppTheme.riskRed;
-    if (v >= 25) return AppTheme.riskYellow;
+    if (v >= 65) return AppTheme.riskRed;
+    if (v >= 50) return AppTheme.riskYellow;
     return AppTheme.riskGreen;
   }
 
@@ -154,10 +162,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return sonuc;
     }
     final v = _riskPercentValue();
-    if (v >= 100) return 'Çok Yüksek Risk';
-    if (v >= 50) return 'Yüksek Risk';
-    if (v >= 25) return 'Orta Risk';
-    if (v >= 10) return 'Düşük Risk';
+    if (v >= 80) return 'Çok Yüksek Risk';
+    if (v >= 65) return 'Yüksek Risk';
+    if (v >= 50) return 'Orta Risk';
+    if (v >= 35) return 'Düşük Risk';
     return 'Çok Düşük Risk';
   }
 
@@ -608,7 +616,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '${riskVal.toInt()}',
+                            '${riskVal.round()}',
                             style: TextStyle(
                               color: AppTheme.textDark,
                               fontSize: r.scale(22),
