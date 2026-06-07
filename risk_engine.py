@@ -345,7 +345,7 @@ def birlesik_risk_hesapla(
     
     Yapı (3 katman — direkt toplam):
     - Psikolojik (anksiyete, depresyon, DEHB, davranış)
-    - Yaşam Tarzı (AAP/CDC kılavuzları)
+    - Yaşam Tarzı (AAP/CDC kılavuz sınırları + veri-bazlı ağırlıklar)
     - Fiziksel Gelişim (WHO Z-score + gelişim gecikmesi)
     
     Yöntem: Katmanlar direkt toplanır, üst sınır yok.

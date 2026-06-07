@@ -104,21 +104,21 @@ def tahmin_et(veriler: KullaniciVerisi):
                      ml_skorlar["dehb"]["ek_risk"] +
                      ml_skorlar["davranis"]["ek_risk"]) / 4, 2
                 ),
-                "agirlik": "35%",
+                "katki": "doğrudan toplam",
             },
             "yasam_tarzi": {
                 "risk_puani": yasam["risk_puani"],
                 "ekran_risk": yasam["ekran_risk"],
                 "uyku_risk": yasam["uyku_risk"],
                 "aktivite_risk": yasam["aktivite_risk"],
-                "agirlik": "35%",
-                "kaynak": "AAP/CDC kılavuzları",
+                "katki": "doğrudan toplam",
+                "kaynak": "AAP/CDC kılavuz sınırları + veri-bazlı ağırlıklar (NSCH 2022-2023)",
                 "detaylar": yasam["detaylar"],
             },
             "fiziksel_gelisim": {
                 "risk_puani": fiziksel["risk_puani"],
                 "gelisim_gecikmesi": ml_skorlar["gelisim_gecikmesi"],
-                "agirlik": "30%",
+                "katki": "doğrudan toplam (fiziksel %60 + gelişim gecikmesi %40)",
                 "boy_zscore": fiziksel["boy_zscore"],
                 "kilo_zscore": fiziksel["kilo_zscore"],
                 "bmi_zscore": fiziksel["bmi_zscore"],
