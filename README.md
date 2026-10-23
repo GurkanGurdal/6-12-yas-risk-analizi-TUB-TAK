@@ -17,8 +17,9 @@
 
 </div>
 
-<!-- UYGULAMA EKRANLARI: Flutter uygulamasının ekran görüntüleri docs/screenshots/ klasörüne eklenince
-     buraya kapak görseli ve ekran galerisi gelecek. -->
+<p align="center">
+  <img src="docs/screenshots/cover.webp" alt="6–12 Yaş Gelişim Risk Analizi — mobil uygulama ekranları" width="100%">
+</p>
 
 ---
 
@@ -38,7 +39,26 @@ Ebeveynler çocuklarının uykusunu, ekran süresini ve hareketini her gün gör
 | 📊 **Risk raporu** | Genel risk ve 5 alt alan: anksiyete, depresyon, DEHB, davranış, gelişim gecikmesi |
 | 📈 **Büyüme takibi** | Boy ve kilo kayıtları; WHO/CDC büyüme normlarına göre z-skoru ile obezite, zayıflık ve boy kısalığı değerlendirmesi |
 | 🗓️ **Günlük kayıt** | Uyku, ekran süresi ve fiziksel aktiviteyi gün gün izleme |
-| 🎯 **Öneriler ve aktiviteler** | Sonuca göre kişiselleştirilmiş öneriler ve yaşa uygun aktivite kartları |
+| 🎯 **Öneriler ve aktiviteler** | Ekran, uyku, aktivite ve kilo için kategorili öneriler; Hareket ve Spor, Yaratıcılık ve Sanat, Zihinsel Gelişim başlıklarında yaşa uygun aktiviteler |
+
+## 📱 Uygulama Ekranları
+
+<table>
+  <tr>
+    <td width="25%"><img src="docs/screenshots/anasayfa.webp" alt="Ana sayfa: çocuğun özeti ve risk puanı"></td>
+    <td width="25%"><img src="docs/screenshots/analiz.webp" alt="Analiz raporu: genel risk ve dikkat gerektiren alanlar"></td>
+    <td width="25%"><img src="docs/screenshots/oneriler.webp" alt="Öneriler: ekran, uyku, aktivite ve kilo kategorileri"></td>
+    <td width="25%"><img src="docs/screenshots/aktiviteler.webp" alt="Aktiviteler: yaşa uygun, kategorili etkinlik kartları"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Ana sayfa</b><br>Çocuğun özeti ve risk puanı</sub></td>
+    <td align="center"><sub><b>Analiz</b><br>Genel risk ve dikkat gerektiren alanlar</sub></td>
+    <td align="center"><sub><b>Öneriler</b><br>6 kategoride sağlıklı yaşam önerileri</sub></td>
+    <td align="center"><sub><b>Aktiviteler</b><br>Yaşa uygun, süreli etkinlik kartları</sub></td>
+  </tr>
+</table>
+
+Arayüz yumuşak, nöromorfik bir tasarım diliyle hazırlandı; çocuk figürü ve aktivite illüstrasyonları uygulamaya sıcak bir karakter katıyor.
 
 ## 🧠 Yapay Zekâ: 4 Katmanlı Hibrit Risk Motoru
 
